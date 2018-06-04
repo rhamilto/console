@@ -32,31 +32,116 @@ const menuActions = [
 ];
 
 export const HorizontalPodAutoscalersDetails: React.SFC<HorizontalPodAutoscalersDetailsProps> = ({obj: hpa}) => {
-  return <div className="co-m-pane__body">
-    <div className="row">
-      <div className="col-sm-6">
-        <ResourceSummary resource={hpa} showPodSelector={false} showNodeSelector={false} />
+  let type, target;
+  const namespace = hpa.metadata.namespace;
+
+  const metrics = hpa.spec.metrics.map((metric, i) => {
+    switch (metric.type) {
+      case 'External':
+        type = metric.external.metricName;
+        target = metric.external.targetAverageValue || metric.external.targetValue;
+        break;
+      case 'Object':
+        type = [`${metric.object.metricName} on`, <ResourceLink kind={metric.object.target.kind} name={metric.object.target.name} namespace={namespace} title={metric.object.target.name} key={i} />];
+        target = metric.object.targetValue;
+        break;
+      case 'Pods':
+        type = `${metric.pods.metricName} on pods`;
+        target = metric.pods.targetAverageValue;
+        break;
+      case 'Resource':
+        type = `resource ${metric.resource.name} on pods`;
+        target = metric.resource.targetAverageUtilization || metric.resource.targetAverageValue;
+        if (metric.resource.targetAverageUtilization) {
+          type += ' (as a percentage of request)';
+          target += '%';
+        }
+        break;
+      default:
+        type = metric.type;
+    }
+    return <div className="row" key={i}>
+      <div className="col-xs-6">
+        {type}
       </div>
-      <div className="col-sm-6">
-        <dl className="co-m-pane__details">
-          <dt>Scale Target</dt>
-          <dd>
-            <ResourceLink kind={hpa.spec.scaleTargetRef.kind} name={hpa.spec.scaleTargetRef.name} namespace={hpa.metadata.namespace} title={hpa.spec.scaleTargetRef.name} />
-          </dd>
-          <dt>Min Pods</dt>
-          <dd>{hpa.spec.minReplicas}</dd>
-          <dt>Max Pods</dt>
-          <dd>{hpa.spec.maxReplicas}</dd>
-          <dt>Last Scale Time</dt>
-          <dd><Timestamp timestamp={hpa.status.lastScaleTime} /></dd>
-          <dt>Current Pods</dt>
-          <dd>{hpa.status.currentReplicas}</dd>
-          <dt>Desired Pods</dt>
-          <dd>{hpa.status.desiredReplicas}</dd>
-        </dl>
+      <div className="col-xs-3">
+        &nbsp;
+      </div>
+      <div className="col-xs-3">
+        {target}
+      </div>
+    </div>;
+  });
+
+  const conditions = hpa.status.conditions.map((condition, i) => <div className="row" key={i}>
+    <div className="col-xs-3 col-sm-2">
+      {condition.type}
+    </div>
+    <div className="col-xs-3 col-sm-2">
+      {condition.status}
+    </div>
+    <div className="col-xs-3 col-sm-3">
+      {condition.reason}
+    </div>
+    <div className="col-xs-3 col-sm-5">
+      {condition.message}
+    </div>
+  </div>);
+
+  return <React.Fragment>
+    <div className="co-m-pane__body">
+      <div className="row">
+        <div className="col-sm-6">
+          <ResourceSummary resource={hpa} showPodSelector={false} showNodeSelector={false} />
+        </div>
+        <div className="col-sm-6">
+          <dl className="co-m-pane__details">
+            <dt>Scale Target</dt>
+            <dd>
+              <ResourceLink kind={hpa.spec.scaleTargetRef.kind} name={hpa.spec.scaleTargetRef.name} namespace={hpa.metadata.namespace} title={hpa.spec.scaleTargetRef.name} />
+            </dd>
+            <dt>Min Pods</dt>
+            <dd>{hpa.spec.minReplicas}</dd>
+            <dt>Max Pods</dt>
+            <dd>{hpa.spec.maxReplicas}</dd>
+            <dt>Last Scale Time</dt>
+            <dd><Timestamp timestamp={hpa.status.lastScaleTime} /></dd>
+            <dt>Current Pods</dt>
+            <dd>{hpa.status.currentReplicas}</dd>
+            <dt>Desired Pods</dt>
+            <dd>{hpa.status.desiredReplicas}</dd>
+          </dl>
+        </div>
       </div>
     </div>
-  </div>;
+    <div className="co-m-pane__body">
+      <h1 className="co-section-title">Metrics</h1>
+      <div className="co-m-table-grid co-m-table-grid--bordered">
+        <div className="row co-m-table-grid__head">
+          <div className="col-xs-6">Type</div>
+          <div className="col-xs-3">Current</div>
+          <div className="col-xs-3">Target</div>
+        </div>
+        <div className="co-m-table-grid__body">
+          {metrics}
+        </div>
+      </div>
+    </div>
+    <div className="co-m-pane__body">
+      <h1 className="co-section-title">Conditions</h1>
+      <div className="co-m-table-grid co-m-table-grid--bordered">
+        <div className="row co-m-table-grid__head">
+          <div className="col-xs-3 col-sm-2">Type</div>
+          <div className="col-xs-3 col-sm-2">Status</div>
+          <div className="col-xs-3 col-sm-3">Reason</div>
+          <div className="col-xs-3 col-sm-5">Message</div>
+        </div>
+        <div className="co-m-table-grid__body">
+          {conditions}
+        </div>
+      </div>
+    </div>
+  </React.Fragment>;
 };
 
 const pages = [navFactory.details(HorizontalPodAutoscalersDetails), navFactory.editYaml()];
