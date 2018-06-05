@@ -32,29 +32,93 @@ const menuActions = [
 ];
 
 export const HorizontalPodAutoscalersDetails: React.SFC<HorizontalPodAutoscalersDetailsProps> = ({obj: hpa}) => {
-  let type, target;
+  let type, current, target;
   const namespace = hpa.metadata.namespace;
+
+  const mockCurrentMetrics = [
+    {
+      "type": "Object",
+      "object": {
+        "currentValue": "1k"
+      }
+    },
+    {
+      "type": "Pods",
+      "pods": {
+        "currentAverageValue": "100"
+      }
+    },
+    {
+      "type": "Resource",
+      "resource": {
+        "currentAverageUtilization": 5,
+        "currentAverageValue": "5",
+      }
+    },
+    {
+      "type": "Resource",
+      "resource": {
+        "currentAverageUtilization": 5,
+        "currentAverageValue": "5",
+      }
+    }
+  ];
+
+  // if (hpa.status.currentMetrics) {
+    // const currentMetrics = hpa.status.currentMetrics.map((currentMetric, i) => {
+    const currentMetrics = mockCurrentMetrics.map((currentMetric) => {
+      let currentMetricValue;
+      switch (currentMetric.type) {
+        case 'External':
+          currentMetricValue = [currentMetric.external.currentAverageValue, currentMetric.external.currentValue];
+          break;
+        case 'Object':
+          currentMetricValue = currentMetric.object.currentValue;
+          break;
+        case 'Pods':
+          currentMetricValue = currentMetric.pods.currentAverageValue;
+          break;
+        case 'Resource':
+          currentMetricValue = [currentMetric.resource.currentAverageUtilization + '%', currentMetric.resource.currentAverageValue];
+          break;
+        default:
+          currentMetricValue = null;
+      }
+      return currentMetricValue;
+    });
+  // };
 
   const metrics = hpa.spec.metrics.map((metric, i) => {
     switch (metric.type) {
       case 'External':
         type = metric.external.metricName;
-        target = metric.external.targetAverageValue || metric.external.targetValue;
+        if (metric.external.targetAverageValue) {
+          current = currentMetrics[i][0];
+          target = metric.external.targetAverageValue;
+        } else {
+          current = currentMetrics[i][1];
+          target = metric.external.targetValue;
+        }
         break;
       case 'Object':
         type = [`${metric.object.metricName} on`, <ResourceLink kind={metric.object.target.kind} name={metric.object.target.name} namespace={namespace} title={metric.object.target.name} key={i} />];
+        current = currentMetrics[i];
         target = metric.object.targetValue;
         break;
       case 'Pods':
         type = `${metric.pods.metricName} on pods`;
+        current = currentMetrics[i];
         target = metric.pods.targetAverageValue;
         break;
       case 'Resource':
         type = `resource ${metric.resource.name} on pods`;
-        target = metric.resource.targetAverageUtilization || metric.resource.targetAverageValue;
         if (metric.resource.targetAverageUtilization) {
           type += ' (as a percentage of request)';
-          target += '%';
+          current = currentMetrics[i][0];
+          target = metric.resource.targetAverageUtilization + '%';
+        } else {
+          current = currentMetrics[i][1];
+          target = metric.resource.targetAverageValue;
         }
         break;
       default:
@@ -65,7 +129,7 @@ export const HorizontalPodAutoscalersDetails: React.SFC<HorizontalPodAutoscalers
         {type}
       </div>
       <div className="col-xs-3">
-        &nbsp;
+        {current}
       </div>
       <div className="col-xs-3">
         {target}
