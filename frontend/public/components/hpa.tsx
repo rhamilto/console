@@ -32,41 +32,42 @@ const menuActions = [
 ];
 
 export const HorizontalPodAutoscalersDetails: React.SFC<HorizontalPodAutoscalersDetailsProps> = ({obj: hpa}) => {
-  let type, current, target;
+  let type, current, target, currentMetrics;
   const namespace = hpa.metadata.namespace;
 
-  const mockCurrentMetrics = [
-    {
-      "type": "Object",
-      "object": {
-        "currentValue": "1k"
-      }
-    },
-    {
-      "type": "Pods",
-      "pods": {
-        "currentAverageValue": "100"
-      }
-    },
-    {
-      "type": "Resource",
-      "resource": {
-        "currentAverageUtilization": 5,
-        "currentAverageValue": "5",
-      }
-    },
-    {
-      "type": "Resource",
-      "resource": {
-        "currentAverageUtilization": 5,
-        "currentAverageValue": "5",
-      }
-    }
-  ];
+  // const mockCurrentMetrics = [
+  //   {
+  //     "type": "Object",
+  //     "object": {
+  //       "currentValue": "1k"
+  //     }
+  //   },
+  //   {
+  //     "type": "Pods",
+  //     "pods": {
+  //       "currentAverageValue": "100"
+  //     }
+  //   },
+  //   {
+  //     "type": "Resource",
+  //     "resource": {
+  //       "currentAverageUtilization": 5,
+  //       "currentAverageValue": "5",
+  //     }
+  //   },
+  //   {
+  //     "type": "Resource",
+  //     "resource": {
+  //       "currentAverageValue": "5",
+  //     }
+  //   }
+  // ];
+  // const mockCurrentMetrics = null;
 
-  // if (hpa.status.currentMetrics) {
-    // const currentMetrics = hpa.status.currentMetrics.map((currentMetric, i) => {
-    const currentMetrics = mockCurrentMetrics.map((currentMetric) => {
+  // if (mockCurrentMetrics) {
+  if (hpa.status.currentMetrics) {
+    // currentMetrics = mockCurrentMetrics.map((currentMetric) => {
+    currentMetrics = hpa.status.currentMetrics.map((currentMetric, i) => {
       let currentMetricValue;
       switch (currentMetric.type) {
         case 'External':
@@ -79,45 +80,50 @@ export const HorizontalPodAutoscalersDetails: React.SFC<HorizontalPodAutoscalers
           currentMetricValue = currentMetric.pods.currentAverageValue;
           break;
         case 'Resource':
-          currentMetricValue = [currentMetric.resource.currentAverageUtilization + '%', currentMetric.resource.currentAverageValue];
+          if (currentMetric.resource.name === 'cpu') {
+            currentMetricValue = [currentMetric.resource.currentAverageUtilization + '%', currentMetric.resource.currentAverageValue];
+          } else {
+            currentMetricValue = currentMetric.resource.currentAverageValue;
+          }
           break;
         default:
           currentMetricValue = null;
       }
       return currentMetricValue;
     });
-  // };
+    console.log(currentMetrics);
+  }
 
   const metrics = hpa.spec.metrics.map((metric, i) => {
     switch (metric.type) {
       case 'External':
         type = metric.external.metricName;
         if (metric.external.targetAverageValue) {
-          current = currentMetrics[i][0];
+          // current = currentMetrics ? currentMetrics[i][0] : 'Not available';
           target = metric.external.targetAverageValue;
         } else {
-          current = currentMetrics[i][1];
+          // current = currentMetrics ? currentMetrics[i][1] : 'Not available';
           target = metric.external.targetValue;
         }
         break;
       case 'Object':
         type = [`${metric.object.metricName} on`, <ResourceLink kind={metric.object.target.kind} name={metric.object.target.name} namespace={namespace} title={metric.object.target.name} key={i} />];
-        current = currentMetrics[i];
+        // current = currentMetrics ? currentMetrics[i] : 'Not available';
         target = metric.object.targetValue;
         break;
       case 'Pods':
         type = `${metric.pods.metricName} on pods`;
-        current = currentMetrics[i];
+        // current = currentMetrics ? currentMetrics[i] : 'Not available';
         target = metric.pods.targetAverageValue;
         break;
       case 'Resource':
         type = `resource ${metric.resource.name} on pods`;
         if (metric.resource.targetAverageUtilization) {
           type += ' (as a percentage of request)';
-          current = currentMetrics[i][0];
+          // current = currentMetrics ? currentMetrics[i][0] : 'Not available';
           target = metric.resource.targetAverageUtilization + '%';
         } else {
-          current = currentMetrics[i][1];
+          // current = currentMetrics ? currentMetrics[i][1] : 'Not available';
           target = metric.resource.targetAverageValue;
         }
         break;
