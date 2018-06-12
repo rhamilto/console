@@ -6,7 +6,6 @@ import { K8sResourceKindReference } from '../module/k8s';
 import { Conditions } from './conditions';
 import { ColHead, DetailsPage, List, ListHeader, ListPage } from './factory';
 import { Cog, LabelList, navFactory, ResourceCog, ResourceLink, ResourceSummary, Timestamp } from './utils';
-import { humanizeMem, humanizeCPU } from './utils/units';
 import { registerTemplate } from '../yaml-templates';
 
 // Pushes to the HPA created by the HPA YAML template.
@@ -35,81 +34,77 @@ const menuActions = [
   ...common,
 ];
 
-const humanizeResourceValue = (value: string, type: string) => {
-  if (!value) {
-    return null;
+const MetricsRow: React.SFC<MetricsRowProps> = ({type, current, target}) => <div className="row">
+  <div className="col-xs-6">
+    {type}
+  </div>
+  <div className="col-xs-3">
+    {current || '-'}
+  </div>
+  <div className="col-xs-3">
+    {target || '-'}
+  </div>
+</div>;
+
+const externalRow = (metric, current, key) => {
+  const { external } = metric;
+  const type = external.metricName;
+
+  let currentValue, targetValue;
+  // TODO: show metric selector for external metrics?
+  if (external.targetAverageValue) {
+    currentValue = _.get(current, 'object.currentAverageValue');
+    targetValue = external.targetAverageValue;
+  } else if (external.targetValue) {
+    currentValue = _.get(current, 'object.currentValue');
+    targetValue = external.targetValue;
   }
 
-  switch (type) {
-    case 'cpu':
-      return humanizeCPU(value);
-    case 'memory':
-      return humanizeMem(value);
-    default:
-      return value;
+  return <MetricsRow key={key} type={type} current={currentValue} target={targetValue} />;
+};
+
+const objectRow = (metric, current, key, ns) => {
+  const { object } = metric;
+  const type = <React.Fragment>
+    {object.metricName} on
+    <ResourceLink kind={object.target.kind} name={object.target.name} namespace={ns} title={object.target.name} />
+  </React.Fragment>;
+  const currentValue = _.get(current, 'object.currentValue');
+  const targetValue = object.targetValue;
+
+  return <MetricsRow key={key} type={type} current={currentValue} target={targetValue} />;
+};
+
+const podRow = (metric, current, key) => {
+  const { pods } = metric;
+  const type = `${pods.metricName} on pods`;
+  const currentValue = _.get(current, 'pods.currentAverageValue');
+  const targetValue = pods.targetAverageValue;
+
+  return <MetricsRow key={key} type={type} current={currentValue} target={targetValue} />;
+};
+
+const resourceRow = (metric, current, key) => {
+  let currentValue, targetValue;
+  let type = <React.Fragment>resource {metric.resource.name}</React.Fragment>;
+  if (metric.resource.targetAverageUtilization) {
+    type = <React.Fragment>
+      {type}&nbsp;<span className="small text-muted">(as a percentage of request)</span>
+    </React.Fragment>;
+    const utilization = _.get(current, 'resource.currentAverageUtilization');
+    if (_.isNumber(utilization)) {
+      currentValue = `${utilization}%`;
+    }
+    targetValue = `${metric.resource.targetAverageUtilization}%`;
+  } else if (metric.resource.targetAverageValue) {
+    currentValue = _.get(current, 'resource.currentAverageValue');
+    targetValue = metric.resource.targetAverageValue;
   }
+
+  return <MetricsRow key={key} type={type} current={currentValue} target={targetValue} />;
 };
 
 const MetricsTable: React.SFC<MetricsTableProps> = ({obj: hpa}) => {
-  const namespace = hpa.metadata.namespace;
-  // https://github.com/kubernetes/api/blob/master/autoscaling/v2beta1/types.go
-  const metrics = hpa.spec.metrics.map((metric, i) => {
-    let typeLabel, targetValue, currentValue;
-    const currentMetrics = _.get(hpa, ['status', 'currentMetrics', i]);
-    switch (metric.type) {
-      case 'External':
-        typeLabel = metric.external.metricName;
-        // TODO: show metric selector for external metrics?
-        if (metric.external.targetAverageValue) {
-          currentValue = _.get(currentMetrics, 'object.currentAverageValue');
-          targetValue = metric.external.targetAverageValue;
-        } else if (metric.external.targetValue) {
-          currentValue = _.get(currentMetrics, 'object.currentValue');
-          targetValue = metric.external.targetValue;
-        }
-        break;
-      case 'Object':
-        typeLabel = [`${metric.object.metricName} on`, <ResourceLink kind={metric.object.target.kind} name={metric.object.target.name} namespace={namespace} title={metric.object.target.name} key={i} />];
-        targetValue = metric.object.targetValue;
-        currentValue = _.get(currentMetrics, 'object.currentValue');
-        break;
-      case 'Pods':
-        typeLabel = `${metric.pods.metricName} on pods`;
-        currentValue = _.get(currentMetrics, 'pods.currentAverageValue');
-        targetValue = metric.pods.targetAverageValue;
-        break;
-      case 'Resource':
-        typeLabel = `resource ${metric.resource.name}`;
-        if (metric.resource.targetAverageUtilization) {
-          typeLabel += ' (as a percentage of request)';
-          const utilization = _.get(currentMetrics, 'resource.currentAverageUtilization');
-          if (_.isNumber(utilization)) {
-            currentValue = `${utilization}%`;
-          }
-          targetValue = `${metric.resource.targetAverageUtilization}%`;
-        } else if (metric.resource.targetAverageValue) {
-          const currentValueRaw = _.get(currentMetrics, 'resource.currentAverageValue');
-          currentValue = humanizeResourceValue(currentValueRaw, metric.resource.name);
-          targetValue = humanizeResourceValue(metric.resource.targetAverageValue, metric.resource.name);
-        }
-        break;
-      default:
-        typeLabel = metric.type;
-    }
-
-    return <div className="row" key={i}>
-      <div className="col-xs-6">
-        {typeLabel}
-      </div>
-      <div className="col-xs-3">
-        {currentValue || '-'}
-      </div>
-      <div className="col-xs-3">
-        {targetValue || '-'}
-      </div>
-    </div>;
-  });
-
   return <React.Fragment>
     <h1 className="co-section-title">Metrics</h1>
     <div className="co-m-table-grid co-m-table-grid--bordered">
@@ -119,7 +114,26 @@ const MetricsTable: React.SFC<MetricsTableProps> = ({obj: hpa}) => {
         <div className="col-xs-3">Target</div>
       </div>
       <div className="co-m-table-grid__body">
-        {metrics}
+        {hpa.spec.metrics.map((metric, i) => {
+          // https://github.com/kubernetes/api/blob/master/autoscaling/v2beta1/types.go
+          const current = _.get(hpa, ['status', 'currentMetrics', i]);
+          switch (metric.type) {
+            case 'External':
+              return externalRow(metric, current, i);
+            case 'Object':
+              return objectRow(metric, current, i, hpa.metadata.namespace);
+            case 'Pods':
+              return podRow(metric, current, i);
+            case 'Resource':
+              return resourceRow(metric, current, i);
+            default:
+              return <div key={i} className="row">
+                <div className="col-xs-12">
+                  {metric.type} <span className="small text-muted">(unrecognized type)</span>
+                </div>
+              </div>;
+          }
+        })}
       </div>
     </div>
   </React.Fragment>;
@@ -233,5 +247,11 @@ export type HorizontalPodAutoscalersDetailsPageProps = {
 
 export type MetricsTableProps = {
   obj: any,
+};
+
+export type MetricsRowProps = {
+  type: any,
+  current: any,
+  target: any,
 };
 /* eslint-enable no-undef */
