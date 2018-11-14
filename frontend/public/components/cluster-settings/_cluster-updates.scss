@@ -65,7 +65,6 @@ $cluster-updates-width: 800px;
 }
 
 .co-cluster-updates__heading {
-  font-size: 13px;
   justify-content: space-between;
   line-height: 13px;
 }
@@ -161,14 +160,14 @@ $cluster-updates-width: 800px;
 .co-cluster-updates__operator-ts-error-msg {
   border-top: 1px solid $color-pf-red;
   color: $color-pf-red;
-  font-size: 11px;
+  font-size: ($font-size-base - 1);
   margin: 5px 0 0 $cluster-updates-operator-icon-width;
   padding-top: 5px;
 }
 
 .co-cluster-updates__operator-ts-error-msg-link {
   margin-left: $cluster-updates-operator-icon-width;
-  font-size: 12px;
+  font-size: ($font-size-base - 1);
 }
 
 .co-cluster-updates__operator-ts-component {
