@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as _ from 'lodash-es';
+import { connect } from 'react-redux';
+import { ArrowCircleUpIcon, QuestionCircleIcon } from '@patternfly/react-icons';
+import { Button, Dropdown, DropdownToggle, DropdownItem, KebabToggle, Toolbar, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
 
-import { FLAGS, connectToFlags, flagPending } from '../features';
+import { FLAGS, stateToProps as flagStateToProps, flagPending } from '../features';
 import { authSvc } from '../module/auth';
-import { coFetchJSON } from '../co-fetch';
 import { history } from './utils';
 import { openshiftHelpBase } from './utils/documentation';
-
-import { Button, Dropdown, DropdownToggle, DropdownItem, KebabToggle, Toolbar, ToolbarGroup, ToolbarItem } from '@patternfly/react-core';
-import { ArrowCircleUpIcon, QuestionCircleIcon } from '@patternfly/react-icons';
 import { AboutModal } from './about-modal';
 
 class MastheadToolbar_ extends React.Component {
@@ -39,25 +38,18 @@ class MastheadToolbar_ extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.flags !== prevProps.flags) {
+    if (this.props.flags[FLAGS.OPENSHIFT] !== prevProps.flags[FLAGS.OPENSHIFT]
+      || !_.isEqual(this.props.user, prevProps.user)) {
       this._updateUser();
     }
   }
 
   _updateUser() {
-    const { flags } = this.props;
-
-    if (flags[FLAGS.OPENSHIFT]) {
-      coFetchJSON('api/kubernetes/apis/user.openshift.io/v1/users/~')
-        .then(user => {
-          this.setState({ username: _.get(user, 'fullName') || user.metadata.name });
-        })
-        .catch(() => {
-          this.setState({ username: null });
-        });
-    } else {
-      this.setState({ username: authSvc.userID() ? authSvc.name() : null });
+    const { flags, user } = this.props;
+    if (!flags[FLAGS.OPENSHIFT]) {
+      this.setState({ username: authSvc.name() });
     }
+    this.setState({ username: _.get(user, 'fullName') || _.get(user, 'metadata.name', '') });
   }
 
   _onUserDropdownToggle(isUserDropdownOpen) {
@@ -116,8 +108,9 @@ class MastheadToolbar_ extends React.Component {
 
   _renderMenu(mobile) {
     const { flags } = this.props;
+    const { isUserDropdownOpen, isKebabDropdownOpen, username } = this.state;
 
-    if (flagPending(flags[FLAGS.OPENSHIFT]) || flagPending(flags[FLAGS.AUTH_ENABLED])) {
+    if (flagPending(flags[FLAGS.OPENSHIFT]) || flagPending(flags[FLAGS.AUTH_ENABLED]) || !username) {
       return null;
     }
 
@@ -138,26 +131,13 @@ class MastheadToolbar_ extends React.Component {
     }
 
     if (mobile) {
-      actions.push({
+      actions.push([{
         label: 'Documentation',
         callback: this._onDocumentation,
-      });
-      actions.push({
+      },{
         label: 'About',
         callback: this._onAboutModal,
-      });
-    }
-
-    const { isUserDropdownOpen, isKebabDropdownOpen, username } = this.state;
-
-    if (!username) {
-      return null;
-    }
-
-    if (mobile) {
-      if (_.isEmpty(actions)) {
-        return null; //do not render kebab if we have no actions
-      }
+      }]);
       return (
         <Dropdown
           isPlain
@@ -175,9 +155,11 @@ class MastheadToolbar_ extends React.Component {
         />
       );
     }
+
     if (_.isEmpty(actions)) {
       return <div className="co-username">{username}</div>;
     }
+
     return (
       <Dropdown
         isPlain
@@ -244,4 +226,11 @@ class MastheadToolbar_ extends React.Component {
   }
 }
 
-export const MastheadToolbar = connectToFlags(FLAGS.AUTH_ENABLED, FLAGS.OPENSHIFT, FLAGS.CLUSTER_UPDATES_AVAILABLE)(MastheadToolbar_);
+const mastheadToolbarStateToProps = state => {
+  const desiredFlags = [FLAGS.AUTH_ENABLED, FLAGS.OPENSHIFT, FLAGS.CLUSTER_UPDATES_AVAILABLE];
+  const flags = flagStateToProps(desiredFlags, state);
+  const user = state.UI.get('user');
+  return { flags, user };
+};
+
+export const MastheadToolbar = connect(mastheadToolbarStateToProps)(MastheadToolbar_);
