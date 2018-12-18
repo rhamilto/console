@@ -33,7 +33,8 @@ import {
   PageSection,
   PageSectionVariants,
 } from '@patternfly/react-core';
-import { global_breakpoint_md as breakpointMd } from '@patternfly/react-tokens';
+
+const breakpointMD = 768;
 
 // Edge lacks URLSearchParams
 import 'url-search-params-polyfill';
@@ -124,7 +125,7 @@ class App extends React.PureComponent {
   }
 
   _isDesktop() {
-    return window.innerWidth >= parseInt(breakpointMd.value, 10);
+    return window.innerWidth >= breakpointMD;
   }
 
   _onNavToggle() {
@@ -137,7 +138,7 @@ class App extends React.PureComponent {
 
   _onNavSelect() {
     //close nav on mobile nav selects
-    if (!this._isDesktop()){
+    if (!this._isDesktop()) {
       this.setState({isNavOpen: false});
     }
   }
