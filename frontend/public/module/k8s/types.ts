@@ -483,12 +483,17 @@ export type CRDVersion = {
   name: string;
   served: boolean;
   storage: boolean;
+  schema?: {
+    // NOTE: Actually a subset of JSONSchema, but using this type for convenience
+    openAPIV3Schema: JSONSchema6;
+  };
 };
 
 export type CustomResourceDefinitionKind = {
   spec: {
-    version: string;
     group: string;
+    version?: string;
+    versions: CRDVersion[];
     names: {
       kind: string;
       singular: string;
@@ -496,12 +501,11 @@ export type CustomResourceDefinitionKind = {
       listKind: string;
       shortNames?: string[];
     };
-    scope?: 'Namespaced';
+    scope: 'Cluster' | 'Namespaced';
     validation?: {
       // NOTE: Actually a subset of JSONSchema, but using this type for convenience
       openAPIV3Schema: JSONSchema6;
     };
-    versions?: CRDVersion[];
   };
   status?: {
     conditions?: K8sResourceCondition[];

@@ -1,7 +1,7 @@
 import { CRDVersion, CustomResourceDefinitionKind } from '../public/module/k8s';
 
 export const testCRD: CustomResourceDefinitionKind = {
-  apiVersion: 'apiextensions.k8s.io/v1beta1',
+  apiVersion: 'apiextensions.k8s.io/v1',
   kind: 'CustomResourceDefinition',
   metadata: {
     name: 'testresources.testapp.coreos.com',
@@ -16,15 +16,13 @@ export const testCRD: CustomResourceDefinitionKind = {
   spec: {
     group: 'testapp.coreos.com',
     version: 'v1alpha1',
-    validation: {
-      openAPIV3Schema: {},
-    },
     names: {
       kind: 'TestResource',
       plural: 'testresources',
       singular: 'testresource',
       listKind: 'TestResourceList',
     },
+    scope: 'Namespaced',
   },
 };
 
@@ -68,6 +66,9 @@ export const testCRDVersionV1: CRDVersion = {
   name: 'v1',
   storage: true,
   served: true,
+  schema: {
+    openAPIV3Schema: {},
+  },
 };
 
 export const testCRDInvalidVersion: CRDVersion = {
@@ -83,7 +84,7 @@ export const testCRDInvalidVersionTwo: CRDVersion = {
 };
 
 export const testForValidVersionsCRD: CustomResourceDefinitionKind = {
-  apiVersion: 'apiextensions.k8s.io/v1beta1',
+  apiVersion: 'apiextensions.k8s.io/v1',
   kind: 'CustomResourceDefinition',
   metadata: {
     name: 'testresources.testapp.coreos.com',
@@ -106,11 +107,12 @@ export const testForValidVersionsCRD: CustomResourceDefinitionKind = {
       singular: 'testresource',
       listKind: 'TestResourceList',
     },
+    scope: 'Namespaced',
   },
 };
 
 export const testForUnservedVersionsCRD: CustomResourceDefinitionKind = {
-  apiVersion: 'apiextensions.k8s.io/v1beta1',
+  apiVersion: 'apiextensions.k8s.io/v1',
   kind: 'CustomResourceDefinition',
   metadata: {
     name: 'testresources.testapp.coreos.com',
@@ -125,11 +127,12 @@ export const testForUnservedVersionsCRD: CustomResourceDefinitionKind = {
       singular: 'testresource',
       listKind: 'TestResourceList',
     },
+    scope: 'Namespaced',
   },
 };
 
 export const testForInvalidVersionsCRD: CustomResourceDefinitionKind = {
-  apiVersion: 'apiextensions.k8s.io/v1beta1',
+  apiVersion: 'apiextensions.k8s.io/v1',
   kind: 'CustomResourceDefinition',
   metadata: {
     name: 'testresources.testapp.coreos.com',
@@ -144,11 +147,12 @@ export const testForInvalidVersionsCRD: CustomResourceDefinitionKind = {
       singular: 'testresource',
       listKind: 'TestResourceList',
     },
+    scope: 'Namespaced',
   },
 };
 
 export const testForNoVersionsCRD: CustomResourceDefinitionKind = {
-  apiVersion: 'apiextensions.k8s.io/v1beta1',
+  apiVersion: 'apiextensions.k8s.io/v1',
   kind: 'CustomResourceDefinition',
   metadata: {
     name: 'testresources.testapp.coreos.com',
@@ -156,11 +160,13 @@ export const testForNoVersionsCRD: CustomResourceDefinitionKind = {
   spec: {
     group: 'testapp.coreos.com',
     version: 'correct-version',
+    versions: [],
     names: {
       kind: 'TestResource',
       plural: 'testresources',
       singular: 'testresource',
       listKind: 'TestResourceList',
     },
+    scope: 'Namespaced',
   },
 };
