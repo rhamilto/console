@@ -4,7 +4,7 @@ import { Link, match as RouterMatch } from 'react-router-dom';
 import * as classNames from 'classnames';
 import { sortable, wrappable } from '@patternfly/react-table';
 import { Helmet } from 'react-helmet';
-import { AddCircleOIcon } from '@patternfly/react-icons';
+import { AddCircleOIcon, PencilAltIcon } from '@patternfly/react-icons';
 import {
   Alert,
   Button,
@@ -40,6 +40,7 @@ import {
   k8sPatch,
   k8sGet,
   K8sResourceCommon,
+  K8sResourceKind,
 } from '@console/internal/module/k8s';
 import { ResourceEventStream } from '@console/internal/components/events';
 import { Conditions } from '@console/internal/components/conditions';
@@ -65,8 +66,12 @@ import {
   KebabAction,
   openshiftHelpBase,
 } from '@console/internal/components/utils';
-import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
+import {
+  useK8sWatchResource,
+  WatchK8sResource,
+} from '@console/internal/components/utils/k8s-watch-hook';
 import { useAccessReview } from '@console/internal/components/utils/rbac';
+
 import {
   ClusterServiceVersionModel,
   SubscriptionModel,
@@ -103,6 +108,9 @@ import { CreateInitializationResourceButton } from './operator-install-page';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useActiveNamespace } from '@console/shared/src/hooks/redux-selectors';
+import { ConsoleModel } from '../../../../public/models';
+import { getClusterServiceVersionPlugins, getPluginIsEnabled } from '../utils';
+import { consolePluginModal } from './modals/console-plugin-modal';
 
 const isSubscription = (obj) => referenceFor(obj) === referenceForModel(SubscriptionModel);
 const isCSV = (obj) => referenceFor(obj) === referenceForModel(ClusterServiceVersionModel);
@@ -821,6 +829,54 @@ const InitializationResourceAlert: React.FC<InitializationResourceAlertProps> = 
   return null;
 };
 
+const ConsolePlugins: React.FC<ConsolePluginProps> = ({ csvPlugins, subscription }) => {
+  const consoleOperatorName = 'cluster';
+  const console: WatchK8sResource = {
+    kind: referenceForModel(ConsoleModel),
+    isList: false,
+    name: consoleOperatorName,
+  };
+  const [consoleOperator] = useK8sWatchResource<K8sResourceKind>(console);
+  const { t } = useTranslation();
+  const canPatchConsoleOperator = useAccessReview({
+    group: ConsoleModel.apiGroup,
+    resource: ConsoleModel.plural,
+    verb: 'patch',
+    name: consoleOperatorName,
+  });
+
+  return (
+    <>
+      {consoleOperator && canPatchConsoleOperator && (
+        <dl className="co-clusterserviceversion-details__field">
+          <dt>{t('olm~Console UI extension', { count: csvPlugins.length })}</dt>
+          {csvPlugins.map((plugin) => (
+            <dd key={plugin} className="co-clusterserviceversion-details__field-description">
+              {csvPlugins.length > 1 && <>{plugin} </>}
+              <Button
+                data-test="edit-console-plugin"
+                type="button"
+                isInline
+                onClick={() =>
+                  consolePluginModal({
+                    console: consoleOperator,
+                    plugin,
+                    subscription,
+                  })
+                }
+                variant="link"
+              >
+                {getPluginIsEnabled(consoleOperator, plugin) ? t('olm~Enabled') : t('olm~Disabled')}
+                <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
+              </Button>
+            </dd>
+          ))}
+        </dl>
+      )}
+    </>
+  );
+};
+
 export const ClusterServiceVersionDetails: React.FC<ClusterServiceVersionDetailsProps> = (
   props,
 ) => {
@@ -858,6 +914,9 @@ export const ClusterServiceVersionDetails: React.FC<ClusterServiceVersionDetails
     }
     return null;
   }, [marketplaceSupportWorkflow]);
+
+  const csvPlugins = getClusterServiceVersionPlugins(metadata?.annotations);
+  const subscription = subscriptionForCSV(props.subscriptions, props.obj);
 
   return (
     <>
@@ -907,6 +966,9 @@ export const ClusterServiceVersionDetails: React.FC<ClusterServiceVersionDetails
                   <Timestamp timestamp={metadata.creationTimestamp} />
                 </dd>
               </dl>
+              {csvPlugins.length > 0 && subscription && (
+                <ConsolePlugins csvPlugins={csvPlugins} subscription={subscription} />
+              )}
               <dl className="co-clusterserviceversion-details__field">
                 <dt>{t('olm~Links')}</dt>
                 {spec.links && spec.links.length > 0 ? (
@@ -1210,6 +1272,12 @@ export type ClusterServiceVersionsDetailsPageProps = {
 
 export type ClusterServiceVersionDetailsProps = {
   obj: ClusterServiceVersionKind;
+  subscriptions: SubscriptionKind[];
+};
+
+export type ConsolePluginProps = {
+  csvPlugins: string[];
+  subscription: SubscriptionKind;
 };
 
 type InstalledOperatorTableRowProps = {
