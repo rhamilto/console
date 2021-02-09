@@ -259,34 +259,6 @@ const ManagedNamespaces: React.FC<ManagedNamespacesProps> = ({ obj }) => {
   }
 };
 
-const ConsolePluginButton: React.FC<ConsolePluginButtonProps> = ({
-  console,
-  plugin,
-  subscription,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <Button
-      data-test="edit-console-plugin"
-      type="button"
-      isInline
-      onClick={() =>
-        consolePluginModal({
-          console,
-          plugin,
-          subscription,
-        })
-      }
-      variant="link"
-    >
-      <>
-        {getPluginIsEnabled(console, plugin) ? t('olm~Enabled') : t('olm~Disabled')}{' '}
-        <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
-      </>
-    </Button>
-  );
-};
-
 const ConsolePlugins: React.FC<ConsolePluginsProps> = ({ csvPlugins, subscription }) => {
   const consoleOperatorName = 'cluster';
   const console: WatchK8sResource = {
@@ -312,11 +284,26 @@ const ConsolePlugins: React.FC<ConsolePluginsProps> = ({ csvPlugins, subscriptio
           {csvPlugins.map((plugin) => (
             <dd key={plugin} className="co-clusterserviceversion-details__field-description">
               {csvPluginsCount > 1 && <>{plugin} </>}
-              <ConsolePluginButton
-                console={consoleOperator}
-                plugin={plugin}
-                subscription={subscription}
-              />
+              <Button
+                data-test="edit-console-plugin"
+                type="button"
+                isInline
+                onClick={() =>
+                  consolePluginModal({
+                    console: consoleOperator,
+                    plugin,
+                    subscription,
+                  })
+                }
+                variant="link"
+              >
+                <>
+                  {getPluginIsEnabled(consoleOperator, plugin)
+                    ? t('olm~Enabled')
+                    : t('olm~Disabled')}{' '}
+                  <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
+                </>
+              </Button>
             </dd>
           ))}
         </dl>
@@ -325,7 +312,7 @@ const ConsolePlugins: React.FC<ConsolePluginsProps> = ({ csvPlugins, subscriptio
   );
 };
 
-const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csvPlugins, subscription }) => {
+const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csv, csvPlugins }) => {
   const consoleOperatorName = 'cluster';
   const console: WatchK8sResource = {
     kind: referenceForModel(ConsoleModel),
@@ -340,25 +327,15 @@ const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csvPlugins, s
     verb: 'patch',
     name: consoleOperatorName,
   });
+  const aPluginIsDisabled =
+    consoleOperator?.spec?.plugins === undefined ||
+    csvPlugins.some((plugin) => getPluginIsEnabled(consoleOperator, plugin) === false);
 
   return (
     consoleOperator &&
-    canPatchConsoleOperator && (
-      <>
-        {csvPlugins.map((plugin) => (
-          <div>
-            {t('olm~UI extension {{pluginName}} ', {
-              pluginName: csvPlugins.length > 1 ? plugin : null,
-            })}
-            <ConsolePluginButton
-              console={consoleOperator}
-              plugin={plugin}
-              subscription={subscription}
-              key={plugin}
-            />
-          </div>
-        ))}
-      </>
+    canPatchConsoleOperator &&
+    aPluginIsDisabled && (
+      <Link to={resourceObjPath(csv, referenceFor(csv))}>{t('olm~UI extension available')}</Link>
     )
   );
 };
@@ -418,11 +395,7 @@ export const ClusterServiceVersionTableRow = withFallback<ClusterServiceVersionT
               </>
             )}
           </div>
-          {csvPlugins.length > 0 && subscription && (
-            <div>
-              <ConsolePluginStatus csvPlugins={csvPlugins} subscription={subscription} />
-            </div>
-          )}
+          {csvPlugins.length > 0 && <ConsolePluginStatus csv={obj} csvPlugins={csvPlugins} />}
         </TableData>
 
         {/* Last Updated */}
@@ -1340,20 +1313,14 @@ export type ClusterServiceVersionDetailsProps = {
   subscriptions: SubscriptionKind[];
 };
 
-type ConsolePluginButtonProps = {
-  console: K8sResourceKind;
-  plugin: string;
-  subscription: SubscriptionKind;
-};
-
 type ConsolePluginsProps = {
   csvPlugins: string[];
   subscription: SubscriptionKind;
 };
 
 type ConsolePluginStatusProps = {
+  csv: ClusterServiceVersionKind;
   csvPlugins: string[];
-  subscription: SubscriptionKind;
 };
 
 type InstalledOperatorTableRowProps = {

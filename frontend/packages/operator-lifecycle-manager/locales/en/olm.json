@@ -31,7 +31,7 @@
   "Enabled": "Enabled",
   "Console UI extension": "Console UI extension",
   "Console UI extension_plural": "Console UI extensions",
-  "UI extension {{pluginName}} ": "UI extension {{pluginName}} ",
+  "UI extension available": "UI extension available",
   "None": "None",
   "No Operators found": "No Operators found",
   "No Operators are availalble for project {{project}}.": "No Operators are availalble for project {{project}}.",
