@@ -259,6 +259,114 @@ const ManagedNamespaces: React.FC<ManagedNamespacesProps> = ({ obj }) => {
   }
 };
 
+const ConsolePluginButton: React.FC<ConsolePluginButtonProps> = ({
+  children,
+  console,
+  plugin,
+  subscription,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Button
+      data-test="edit-console-plugin"
+      type="button"
+      isInline
+      onClick={() =>
+        consolePluginModal({
+          console,
+          plugin,
+          subscription,
+        })
+      }
+      variant="link"
+    >
+      {children || (
+        <>
+          {getPluginIsEnabled(console, plugin) ? t('olm~Enabled') : t('olm~Disabled')}{' '}
+          <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
+        </>
+      )}
+    </Button>
+  );
+};
+
+const ConsolePlugins: React.FC<ConsolePluginsProps> = ({ csvPlugins, subscription }) => {
+  const consoleOperatorName = 'cluster';
+  const console: WatchK8sResource = {
+    kind: referenceForModel(ConsoleModel),
+    isList: false,
+    name: consoleOperatorName,
+  };
+  const [consoleOperator] = useK8sWatchResource<K8sResourceKind>(console);
+  const { t } = useTranslation();
+  const canPatchConsoleOperator = useAccessReview({
+    group: ConsoleModel.apiGroup,
+    resource: ConsoleModel.plural,
+    verb: 'patch',
+    name: consoleOperatorName,
+  });
+  const csvPluginsCount = csvPlugins.length;
+
+  return (
+    <>
+      {consoleOperator && canPatchConsoleOperator && (
+        <dl className="co-clusterserviceversion-details__field">
+          <dt>{t('olm~Console UI extension', { count: csvPluginsCount })}</dt>
+          {csvPlugins.map((plugin) => (
+            <dd key={plugin} className="co-clusterserviceversion-details__field-description">
+              {csvPluginsCount > 1 && <>{plugin} </>}
+              <ConsolePluginButton
+                console={consoleOperator}
+                plugin={plugin}
+                subscription={subscription}
+              />
+            </dd>
+          ))}
+        </dl>
+      )}
+    </>
+  );
+};
+
+const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csvPlugins, subscription }) => {
+  const consoleOperatorName = 'cluster';
+  const console: WatchK8sResource = {
+    kind: referenceForModel(ConsoleModel),
+    isList: false,
+    name: consoleOperatorName,
+  };
+  const [consoleOperator] = useK8sWatchResource<K8sResourceKind>(console);
+  const { t } = useTranslation();
+  const canPatchConsoleOperator = useAccessReview({
+    group: ConsoleModel.apiGroup,
+    resource: ConsoleModel.plural,
+    verb: 'patch',
+    name: consoleOperatorName,
+  });
+
+  return (
+    consoleOperator &&
+    canPatchConsoleOperator && (
+      <>
+        {csvPlugins.map((plugin) => (
+          <ConsolePluginButton
+            console={consoleOperator}
+            plugin={plugin}
+            subscription={subscription}
+            key={plugin}
+          >
+            <>
+              {t('olm~UI extension {{pluginName}} available', {
+                pluginName: csvPlugins.length > 1 ? plugin : null,
+              })}
+            </>
+          </ConsolePluginButton>
+        ))}
+      </>
+    )
+  );
+};
+
 export const ClusterServiceVersionTableRow = withFallback<ClusterServiceVersionTableRowProps>(
   ({ activeNamespace, obj, rowKey, subscription, catalogSourceMissing, index, style }) => {
     const { displayName, provider, version } = obj.spec ?? {};
@@ -267,6 +375,8 @@ export const ClusterServiceVersionTableRow = withFallback<ClusterServiceVersionT
     const route = resourceObjPath(obj, referenceFor(obj));
     const uid = getUID(obj);
     const providedAPIs = providedAPIsForCSV(obj);
+    const csvPlugins = getClusterServiceVersionPlugins(obj?.metadata?.annotations);
+
     return (
       <TableRow id={uid} trKey={rowKey} index={index} style={style}>
         {/* Name */}
@@ -307,7 +417,12 @@ export const ClusterServiceVersionTableRow = withFallback<ClusterServiceVersionT
             {catalogSourceMissing ? (
               <SourceMissingStatus />
             ) : (
-              <ClusterServiceVersionStatus obj={obj} subscription={subscription} />
+              <>
+                <ClusterServiceVersionStatus obj={obj} subscription={subscription} />
+                {csvPlugins.length > 0 && subscription && (
+                  <ConsolePluginStatus csvPlugins={csvPlugins} subscription={subscription} />
+                )}
+              </>
             )}
           </div>
         </TableData>
@@ -829,54 +944,6 @@ const InitializationResourceAlert: React.FC<InitializationResourceAlertProps> = 
   return null;
 };
 
-const ConsolePlugins: React.FC<ConsolePluginProps> = ({ csvPlugins, subscription }) => {
-  const consoleOperatorName = 'cluster';
-  const console: WatchK8sResource = {
-    kind: referenceForModel(ConsoleModel),
-    isList: false,
-    name: consoleOperatorName,
-  };
-  const [consoleOperator] = useK8sWatchResource<K8sResourceKind>(console);
-  const { t } = useTranslation();
-  const canPatchConsoleOperator = useAccessReview({
-    group: ConsoleModel.apiGroup,
-    resource: ConsoleModel.plural,
-    verb: 'patch',
-    name: consoleOperatorName,
-  });
-
-  return (
-    <>
-      {consoleOperator && canPatchConsoleOperator && (
-        <dl className="co-clusterserviceversion-details__field">
-          <dt>{t('olm~Console UI extension', { count: csvPlugins.length })}</dt>
-          {csvPlugins.map((plugin) => (
-            <dd key={plugin} className="co-clusterserviceversion-details__field-description">
-              {csvPlugins.length > 1 && <>{plugin} </>}
-              <Button
-                data-test="edit-console-plugin"
-                type="button"
-                isInline
-                onClick={() =>
-                  consolePluginModal({
-                    console: consoleOperator,
-                    plugin,
-                    subscription,
-                  })
-                }
-                variant="link"
-              >
-                {getPluginIsEnabled(consoleOperator, plugin) ? t('olm~Enabled') : t('olm~Disabled')}
-                <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
-              </Button>
-            </dd>
-          ))}
-        </dl>
-      )}
-    </>
-  );
-};
-
 export const ClusterServiceVersionDetails: React.FC<ClusterServiceVersionDetailsProps> = (
   props,
 ) => {
@@ -1275,7 +1342,19 @@ export type ClusterServiceVersionDetailsProps = {
   subscriptions: SubscriptionKind[];
 };
 
-export type ConsolePluginProps = {
+type ConsolePluginButtonProps = {
+  children?: React.ReactNode;
+  console: K8sResourceKind;
+  plugin: string;
+  subscription: SubscriptionKind;
+};
+
+type ConsolePluginsProps = {
+  csvPlugins: string[];
+  subscription: SubscriptionKind;
+};
+
+type ConsolePluginStatusProps = {
   csvPlugins: string[];
   subscription: SubscriptionKind;
 };
