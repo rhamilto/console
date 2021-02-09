@@ -260,7 +260,6 @@ const ManagedNamespaces: React.FC<ManagedNamespacesProps> = ({ obj }) => {
 };
 
 const ConsolePluginButton: React.FC<ConsolePluginButtonProps> = ({
-  children,
   console,
   plugin,
   subscription,
@@ -280,12 +279,10 @@ const ConsolePluginButton: React.FC<ConsolePluginButtonProps> = ({
       }
       variant="link"
     >
-      {children || (
-        <>
-          {getPluginIsEnabled(console, plugin) ? t('olm~Enabled') : t('olm~Disabled')}{' '}
-          <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
-        </>
-      )}
+      <>
+        {getPluginIsEnabled(console, plugin) ? t('olm~Enabled') : t('olm~Disabled')}{' '}
+        <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
+      </>
     </Button>
   );
 };
@@ -349,18 +346,17 @@ const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csvPlugins, s
     canPatchConsoleOperator && (
       <>
         {csvPlugins.map((plugin) => (
-          <ConsolePluginButton
-            console={consoleOperator}
-            plugin={plugin}
-            subscription={subscription}
-            key={plugin}
-          >
-            <>
-              {t('olm~UI extension {{pluginName}} available', {
-                pluginName: csvPlugins.length > 1 ? plugin : null,
-              })}
-            </>
-          </ConsolePluginButton>
+          <div>
+            {t('olm~UI extension {{pluginName}} ', {
+              pluginName: csvPlugins.length > 1 ? plugin : null,
+            })}
+            <ConsolePluginButton
+              console={consoleOperator}
+              plugin={plugin}
+              subscription={subscription}
+              key={plugin}
+            />
+          </div>
         ))}
       </>
     )
@@ -419,12 +415,14 @@ export const ClusterServiceVersionTableRow = withFallback<ClusterServiceVersionT
             ) : (
               <>
                 <ClusterServiceVersionStatus obj={obj} subscription={subscription} />
-                {csvPlugins.length > 0 && subscription && (
-                  <ConsolePluginStatus csvPlugins={csvPlugins} subscription={subscription} />
-                )}
               </>
             )}
           </div>
+          {csvPlugins.length > 0 && subscription && (
+            <div>
+              <ConsolePluginStatus csvPlugins={csvPlugins} subscription={subscription} />
+            </div>
+          )}
         </TableData>
 
         {/* Last Updated */}
@@ -1343,7 +1341,6 @@ export type ClusterServiceVersionDetailsProps = {
 };
 
 type ConsolePluginButtonProps = {
-  children?: React.ReactNode;
   console: K8sResourceKind;
   plugin: string;
   subscription: SubscriptionKind;
