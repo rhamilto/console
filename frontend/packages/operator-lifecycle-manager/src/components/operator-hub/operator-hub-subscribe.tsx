@@ -72,6 +72,7 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
   ] = React.useState(true);
   const [enableMonitoring, setEnableMonitoring] = React.useState(false);
   const [error, setError] = React.useState('');
+  // const [enabledPlugins, setEnabledPlugins] = React.useState<string[]>([]);
   const { t } = useTranslation();
 
   const { name: pkgName } = props.packageManifest.data[0].metadata;
@@ -763,22 +764,6 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
                       </h5>
                     </Popover>
                     {csvPlugins.map((plugin) => (
-                      /* TODO:  move to component and add consoleOperator watch and pluginStatus */
-                      // <fieldset key={plugin}>
-                      //   <div>
-                      //     {csvPluginsCount > 1 && (
-                      //       <legend className="co-legend co-legend--nested">{plugin}</legend>
-                      //     )}
-                      //     <ConsolePluginRadioInputs pluginStatus="Enabled" setPluginStatus={} />
-                      //     <ConsolePluginWarning
-                      //       operatorIsTrusted={catalogSource === 'redhat-operators'}
-                      //       /* TODO:  check console operator for plugin */
-                      //       pluginIsEnabled={false}
-                      //       /* TODO: get value from state */
-                      //       pluginStatus="Enabled"
-                      //     />
-                      //   </div>
-                      // </fieldset>
                       <ConsolePluginForm
                         csvPluginsCount={csvPluginsCount}
                         operatorIsTrusted={catalogSource === 'redhat-operators'}
