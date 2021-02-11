@@ -108,7 +108,7 @@ import { CreateInitializationResourceButton } from './operator-install-page';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useActiveNamespace } from '@console/shared/src/hooks/redux-selectors';
-import { ConsoleModel } from '../../../../public/models';
+import { ConsoleModel } from '@console/internal/models';
 import { getClusterServiceVersionPlugins, getPluginIsEnabled } from '../utils';
 import { consolePluginModal } from './modals/console-plugin-modal';
 
@@ -290,7 +290,7 @@ const ConsolePlugins: React.FC<ConsolePluginsProps> = ({ csvPlugins, subscriptio
                 isInline
                 onClick={() =>
                   consolePluginModal({
-                    console: consoleOperator,
+                    consoleOperator,
                     plugin,
                     subscription,
                   })
@@ -335,7 +335,25 @@ const ConsolePluginStatus: React.FC<ConsolePluginStatusProps> = ({ csv, csvPlugi
     consoleOperator &&
     canPatchConsoleOperator &&
     aPluginIsDisabled && (
-      <Link to={resourceObjPath(csv, referenceFor(csv))}>{t('olm~UI extension available')}</Link>
+      <Popover
+        headerContent={<div>{t('olm~Console UI extension available')}</div>}
+        bodyContent={
+          <div>
+            <p>
+              {t(
+                'olm~To let this operator provide a custom interface and run its own code in your console, enable its UI extension in the operator details.',
+              )}
+            </p>
+            <Link to={resourceObjPath(csv, referenceFor(csv))}>
+              {t('olm~View operator details')}
+            </Link>
+          </div>
+        }
+      >
+        <Button variant="link" isInline>
+          {t('olm~UI extension available')}
+        </Button>
+      </Popover>
     )
   );
 };

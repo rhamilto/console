@@ -1,55 +1,38 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 
-import { k8sPatch, K8sResourceKind, Patch } from '../../../../../public/module/k8s';
+import { k8sPatch, K8sResourceKind } from '@console/internal/module/k8s';
 import { SubscriptionKind } from '../../types';
-import { ConsoleModel } from '../../../../../public/models';
+import { ConsoleModel } from '@console/internal/models';
 import {
   createModalLauncher,
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
-} from '../../../../../public/components/factory/modal';
-import { withHandlePromise, HandlePromiseProps } from '../../../../../public/components/utils';
-import { RadioInput } from '../../../../../public/components/radio';
-import { getPluginIsEnabled } from '../../utils';
+} from '@console/internal/components/factory/modal';
+import { withHandlePromise, HandlePromiseProps } from '@console/internal/components/utils';
+import { getPluginIsEnabled, getPluginPatch } from '../../utils';
 import { ConsolePluginWarning } from '../../utils/consolePluginWarning';
+import { ConsolePluginRadioInputs } from '../../utils/consolePluginRadioInputs';
 
 export const ConsolePluginModal = withHandlePromise((props: ConsolePluginModalProps) => {
   const {
     cancel,
     close,
-    console,
+    consoleOperator,
     errorMessage,
     handlePromise,
     inProgress,
     plugin,
     subscription,
   } = props;
-  const pluginIsEnabled = getPluginIsEnabled(console, plugin);
+  const pluginIsEnabled = getPluginIsEnabled(consoleOperator, plugin);
   const { t } = useTranslation();
   const [pluginStatus, setPluginStatus] = React.useState(pluginIsEnabled ? 'Enabled' : 'Disabled');
   const submit = (event) => {
     event.preventDefault();
-    // Create the array if it doesn't exist. Append to the array otherwise.
-    const patch: Patch = _.isEmpty(console.spec.plugins)
-      ? {
-          path: '/spec/plugins',
-          value: [plugin],
-          op: 'add',
-        }
-      : {
-          path: '/spec/plugins/-',
-          value: plugin,
-          op: 'add',
-        };
-    if (pluginStatus === 'Disabled') {
-      patch.path = '/spec/plugins';
-      patch.value = console.spec.plugins.filter((p) => p !== plugin);
-      patch.op = 'replace';
-    }
-    const promise = k8sPatch(ConsoleModel, console, [patch]);
+    const patch = getPluginPatch(consoleOperator, plugin, pluginStatus);
+    const promise = k8sPatch(ConsoleModel, consoleOperator, [patch]);
     handlePromise(promise, close);
   };
 
@@ -62,30 +45,15 @@ export const ConsolePluginModal = withHandlePromise((props: ConsolePluginModalPr
             'olm~This operator provides a custom interface you can include in your console.  Make sure you trust this opeartor before enabling its interface.',
           )}
         </p>
-        <RadioInput
-          name="Enabled"
-          onChange={(e) => {
-            setPluginStatus(e.target.value);
-          }}
-          value="Enabled"
-          checked={pluginStatus === 'Enabled'}
-          title={t('olm~Enabled')}
-          autoFocus={pluginStatus === 'Enabled'}
-        />
-        <RadioInput
-          name="Disabled"
-          onChange={(e) => {
-            setPluginStatus(e.target.value);
-          }}
-          value="Disabled"
-          checked={pluginStatus === 'Disabled'}
-          title={t('olm~Disabled')}
-          autoFocus={pluginStatus === 'Disabled'}
+        <ConsolePluginRadioInputs
+          autofocus
+          pluginStatus={pluginStatus}
+          setPluginStatus={setPluginStatus}
         />
         <ConsolePluginWarning
           pluginIsEnabled={pluginIsEnabled}
           pluginStatus={pluginStatus}
-          subscription={subscription}
+          operatorIsTrusted={subscription?.spec?.source === 'redhat-operators'}
         />
       </ModalBody>
       <ModalSubmitFooter
@@ -101,7 +69,7 @@ export const ConsolePluginModal = withHandlePromise((props: ConsolePluginModalPr
 export const consolePluginModal = createModalLauncher(ConsolePluginModal);
 
 export type ConsolePluginModalProps = {
-  console: K8sResourceKind;
+  consoleOperator: K8sResourceKind;
   plugin: string;
   subscription: SubscriptionKind;
   handlePromise: <T>(promise: Promise<T>) => Promise<T>;

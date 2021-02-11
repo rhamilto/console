@@ -2,19 +2,16 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from '@patternfly/react-core';
 
-import { SubscriptionKind } from '../types';
-import { getOperatorIsTrusted } from '../utils';
-
 export const ConsolePluginWarning: React.FC<ConsolePluginWarningProps> = ({
+  operatorIsTrusted,
   pluginIsEnabled,
   pluginStatus,
-  subscription,
 }) => {
   const { t } = useTranslation();
   return (
     !pluginIsEnabled &&
     pluginStatus === 'Enabled' &&
-    !getOperatorIsTrusted(subscription) && (
+    !operatorIsTrusted && (
       <Alert variant="warning" isInline title={t('olm~Enabling console UI extension')}>
         <p>
           {t(
@@ -27,7 +24,7 @@ export const ConsolePluginWarning: React.FC<ConsolePluginWarningProps> = ({
 };
 
 type ConsolePluginWarningProps = {
+  operatorIsTrusted: boolean;
   pluginIsEnabled: boolean;
   pluginStatus: string;
-  subscription: SubscriptionKind;
 };

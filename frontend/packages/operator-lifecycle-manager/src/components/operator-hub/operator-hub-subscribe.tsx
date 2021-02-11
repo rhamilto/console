@@ -53,6 +53,10 @@ import { installedFor, supports, providedAPIsForOperatorGroup, isGlobal } from '
 import { CRDCard } from '../clusterserviceversion';
 import { OperatorInstallStatusPage } from '../operator-install-page';
 import { parseJSONAnnotation } from '@console/shared/src/utils/annotations';
+import { getClusterServiceVersionPlugins } from '../../utils';
+// import { ConsolePluginWarning } from '../../utils/consolePluginWarning';
+// import { ConsolePluginRadioInputs } from '../../utils/consolePluginRadioInputs';
+import { ConsolePluginForm } from '../../utils/consolePluginForm';
 
 export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> = (props) => {
   const [targetNamespace, setTargetNamespace] = React.useState(null);
@@ -109,6 +113,8 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
     // eslint-disable-next-line no-console
     () => console.error('Operator Hub Subscribe: Could not get initialization resource.'),
   );
+  const csvPlugins = getClusterServiceVersionPlugins(currentCSVDesc.annotations);
+  const csvPluginsCount = csvPlugins.length;
 
   const initializationResourceReference = React.useMemo(
     () => (initializationResource ? referenceFor(initializationResource) : null),
@@ -334,6 +340,7 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
         await k8sCreate(OperatorGroupModel, operatorGroup);
       }
       await k8sCreate(SubscriptionModel, subscription);
+      // TODO:  new await here
       setShowInstallStatusPage(true);
     } catch (err) {
       setError(err.message || t('olm~Could not create Operator Subscription.'));
@@ -734,6 +741,53 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
                   )}
                 </fieldset>
               </div>
+              {csvPluginsCount > 0 && (
+                <div className="form-group">
+                  <fieldset>
+                    <Popover
+                      headerContent={
+                        <div>{t('olm~Console UI extension', { count: csvPluginsCount })}</div>
+                      }
+                      bodyContent={
+                        <div>
+                          {t(
+                            'olm~This operator provides a custom interface you can include in your console. Make sure you trust this operator before enabling its interface.',
+                          )}
+                        </div>
+                      }
+                    >
+                      <h5 className="co-required co-form-heading__popover">
+                        <Button variant="plain" className="co-form-heading__popover-button">
+                          {t('olm~Console UI extension', { count: csvPluginsCount })}
+                        </Button>
+                      </h5>
+                    </Popover>
+                    {csvPlugins.map((plugin) => (
+                      /* TODO:  move to component and add consoleOperator watch and pluginStatus */
+                      // <fieldset key={plugin}>
+                      //   <div>
+                      //     {csvPluginsCount > 1 && (
+                      //       <legend className="co-legend co-legend--nested">{plugin}</legend>
+                      //     )}
+                      //     <ConsolePluginRadioInputs pluginStatus="Enabled" setPluginStatus={} />
+                      //     <ConsolePluginWarning
+                      //       operatorIsTrusted={catalogSource === 'redhat-operators'}
+                      //       /* TODO:  check console operator for plugin */
+                      //       pluginIsEnabled={false}
+                      //       /* TODO: get value from state */
+                      //       pluginStatus="Enabled"
+                      //     />
+                      //   </div>
+                      // </fieldset>
+                      <ConsolePluginForm
+                        csvPluginsCount={csvPluginsCount}
+                        operatorIsTrusted={catalogSource === 'redhat-operators'}
+                        plugin={plugin}
+                      />
+                    ))}
+                  </fieldset>
+                </div>
+              )}
             </>
             <div className="co-form-section__separator" />
             {formError()}
