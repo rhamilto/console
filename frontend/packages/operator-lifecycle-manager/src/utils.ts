@@ -10,16 +10,24 @@ export const getClusterServiceVersionPlugins = (
 export const getInternalObjects = (annotations: ObjectMetadata['annotations']): string[] =>
   parseJSONAnnotation(annotations, INTERNAL_OBJECTS_ANNOTATION) ?? [];
 
-export const getPluginIsEnabled = (console: K8sResourceKind, plugin: string) =>
-  console?.spec?.plugins?.includes(plugin);
+export const getPluginIsEnabled = (console: K8sResourceKind, plugin: string): boolean =>
+  !!console?.spec?.plugins?.includes(plugin);
 
 export const getPluginPatch = (
   console: K8sResourceKind,
   plugin: string,
-  pluginStatus: string,
+  enabled: boolean,
 ): Patch => {
+  if (!enabled) {
+    return {
+      path: '/spec/plugins',
+      value: console.spec.plugins.filter((p: string) => p !== plugin),
+      op: 'replace',
+    };
+  }
+
   // Create the array if it doesn't exist. Append to the array otherwise.
-  const patch: Patch = _.isEmpty(console.spec.plugins)
+  return _.isEmpty(console.spec.plugins)
     ? {
         path: '/spec/plugins',
         value: [plugin],
@@ -30,11 +38,4 @@ export const getPluginPatch = (
         value: plugin,
         op: 'add',
       };
-  if (pluginStatus === 'Disabled') {
-    patch.path = '/spec/plugins';
-    patch.value = console.spec.plugins.filter((p) => p !== plugin);
-    patch.op = 'replace';
-  }
-
-  return patch;
 };

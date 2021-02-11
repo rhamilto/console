@@ -55,8 +55,7 @@ import { OperatorInstallStatusPage } from '../operator-install-page';
 import { parseJSONAnnotation } from '@console/shared/src/utils/annotations';
 import { getClusterServiceVersionPlugins } from '../../utils';
 // import { ConsolePluginWarning } from '../../utils/consolePluginWarning';
-// import { ConsolePluginRadioInputs } from '../../utils/consolePluginRadioInputs';
-import { ConsolePluginForm } from '../../utils/consolePluginForm';
+import { ConsolePluginRadioInputs } from '../../utils/consolePluginRadioInputs';
 
 export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> = (props) => {
   const [targetNamespace, setTargetNamespace] = React.useState(null);
@@ -72,8 +71,16 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
   ] = React.useState(true);
   const [enableMonitoring, setEnableMonitoring] = React.useState(false);
   const [error, setError] = React.useState('');
-  // const [enabledPlugins, setEnabledPlugins] = React.useState<string[]>([]);
+  const [enabledPlugins, setEnabledPlugins] = React.useState<string[]>([]);
   const { t } = useTranslation();
+
+  const setPluginEnabled = (plugin: string, enabled: boolean) => {
+    if (enabled) {
+      setEnabledPlugins([...enabledPlugins, plugin]);
+    } else {
+      setEnabledPlugins(enabledPlugins.filter((p: string) => p !== plugin));
+    }
+  };
 
   const { name: pkgName } = props.packageManifest.data[0].metadata;
   const {
@@ -764,11 +771,14 @@ export const OperatorHubSubscribeForm: React.FC<OperatorHubSubscribeFormProps> =
                       </h5>
                     </Popover>
                     {csvPlugins.map((plugin) => (
-                      <ConsolePluginForm
-                        csvPluginsCount={csvPluginsCount}
-                        operatorIsTrusted={catalogSource === 'redhat-operators'}
-                        plugin={plugin}
-                      />
+                      <React.Fragment key={plugin}>
+                        {csvPlugins.length > 1 && <div>{plugin}</div>}
+                        <ConsolePluginRadioInputs
+                          name={plugin}
+                          enabled={enabledPlugins.includes(plugin)}
+                          onChange={(enabled: boolean) => setPluginEnabled(plugin, enabled)}
+                        />
+                      </React.Fragment>
                     ))}
                   </fieldset>
                 </div>

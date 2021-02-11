@@ -4,32 +4,31 @@ import { useTranslation } from 'react-i18next';
 import { RadioInput } from '@console/internal/components/radio';
 
 export const ConsolePluginRadioInputs: React.FC<ConsolePluginRadioInputsProps> = ({
-  autofocus = false,
-  pluginStatus,
-  setPluginStatus,
+  autofocus,
+  enabled,
+  onChange: setEnabled,
+  name,
 }) => {
   const { t } = useTranslation();
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEnabled(e.currentTarget.value === 'enabled');
   return (
     <>
       <RadioInput
-        name="Enabled"
-        onChange={(e) => {
-          setPluginStatus(e.target.value);
-        }}
-        value="Enabled"
-        checked={pluginStatus === 'Enabled'}
+        name={name}
+        onChange={onChange}
+        value="enabled"
+        checked={enabled}
         title={t('olm~Enabled')}
-        autoFocus={autofocus ? pluginStatus === 'Enabled' : null}
+        autoFocus={autofocus && enabled}
       />
       <RadioInput
-        name="Disabled"
-        onChange={(e) => {
-          setPluginStatus(e.target.value);
-        }}
-        value="Disabled"
-        checked={pluginStatus === 'Disabled'}
+        name={name}
+        onChange={onChange}
+        value="disabled"
+        checked={!enabled}
         title={t('olm~Disabled')}
-        autoFocus={autofocus ? pluginStatus === 'Disabled' : null}
+        autoFocus={autofocus && !enabled}
       />
     </>
   );
@@ -37,6 +36,7 @@ export const ConsolePluginRadioInputs: React.FC<ConsolePluginRadioInputsProps> =
 
 type ConsolePluginRadioInputsProps = {
   autofocus?: boolean;
-  pluginStatus: string;
-  setPluginStatus: (value: string) => void;
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
+  name: string;
 };

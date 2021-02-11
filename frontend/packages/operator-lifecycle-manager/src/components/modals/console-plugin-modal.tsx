@@ -26,12 +26,12 @@ export const ConsolePluginModal = withHandlePromise((props: ConsolePluginModalPr
     plugin,
     subscription,
   } = props;
-  const pluginIsEnabled = getPluginIsEnabled(consoleOperator, plugin);
+  const previouslyEnabled = getPluginIsEnabled(consoleOperator, plugin);
   const { t } = useTranslation();
-  const [pluginStatus, setPluginStatus] = React.useState(pluginIsEnabled ? 'Enabled' : 'Disabled');
+  const [enabled, setEnabled] = React.useState(previouslyEnabled);
   const submit = (event) => {
     event.preventDefault();
-    const patch = getPluginPatch(consoleOperator, plugin, pluginStatus);
+    const patch = getPluginPatch(consoleOperator, plugin, enabled);
     const promise = k8sPatch(ConsoleModel, consoleOperator, [patch]);
     handlePromise(promise, close);
   };
@@ -45,15 +45,11 @@ export const ConsolePluginModal = withHandlePromise((props: ConsolePluginModalPr
             'olm~This operator provides a custom interface you can include in your console.  Make sure you trust this opeartor before enabling its interface.',
           )}
         </p>
-        <ConsolePluginRadioInputs
-          autofocus
-          pluginStatus={pluginStatus}
-          setPluginStatus={setPluginStatus}
-        />
+        <ConsolePluginRadioInputs autofocus name={plugin} enabled={enabled} onChange={setEnabled} />
         <ConsolePluginWarning
-          pluginIsEnabled={pluginIsEnabled}
-          pluginStatus={pluginStatus}
-          operatorIsTrusted={subscription?.spec?.source === 'redhat-operators'}
+          previouslyEnabled={previouslyEnabled}
+          enabled={enabled}
+          trusted={subscription?.spec?.source === 'redhat-operators'}
         />
       </ModalBody>
       <ModalSubmitFooter
