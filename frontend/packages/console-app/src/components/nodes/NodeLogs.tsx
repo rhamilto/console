@@ -21,6 +21,8 @@ import {
   setQueryArgument,
 } from '@console/internal/components/utils';
 import { modelFor, NodeKind, resourceURL } from '@console/internal/module/k8s';
+import { useUserSettings } from '@console/shared';
+import { USERSETTINGS_PREFIX } from '@console/shared/src/constants';
 import NodeLogsFilterUnit from './NodeLogsUnitFilter';
 import './node-logs.scss';
 
@@ -55,7 +57,11 @@ const NodeLogs: React.FC<NodeLogsProps> = ({ obj: node }) => {
   const [isPathOpen, setPathOpen] = React.useState(false);
   const [isFilenameOpen, setFilenameOpen] = React.useState(false);
   const [content, setContent] = React.useState('');
-  const [isWrapLines, setWrapLines] = React.useState(false);
+  const [isWrapLines, setWrapLines] = useUserSettings<boolean>(
+    `${USERSETTINGS_PREFIX}.log.wrapLines`,
+    false,
+    true,
+  );
   const { t } = useTranslation();
 
   const isJournal = path === 'journal';
@@ -84,14 +90,17 @@ const NodeLogs: React.FC<NodeLogsProps> = ({ obj: node }) => {
   const getLogURL = React.useCallback(
     (ext?: string, unitText?: string) => {
       const baseURL = `proxy/logs/${path}`;
+      let extendedURL;
+      if (ext) {
+        extendedURL = `${baseURL}${ext}`;
+      }
+      if (unitText) {
+        extendedURL = `${baseURL}?${getUnitQueryParams(unitText)}`;
+      }
       return resourceURL(modelFor(kind), {
         name,
         ns,
-        path: ext
-          ? `${baseURL}${ext}`
-          : unitText
-          ? `${baseURL}?${getUnitQueryParams(unitText)}`
-          : baseURL,
+        path: extendedURL || baseURL,
       });
     },
     [kind, name, ns, path],
@@ -111,18 +120,17 @@ const NodeLogs: React.FC<NodeLogsProps> = ({ obj: node }) => {
       coFetch(getLogURL())
         .then((response) => response.text())
         .then((responseText) => {
-          const el = document.createElement('html');
-          el.innerHTML = responseText;
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(responseText, 'text/html');
           const links = !isWindows
-            ? el.querySelectorAll('a[href^="audit"]')
-            : el.querySelectorAll('a');
+            ? doc.querySelectorAll('a[href^="audit"]')
+            : doc.querySelectorAll('a');
           const filenames = [];
           for (const link of links) {
-            filenames.push(link.innerHTML);
+            filenames.push(link.textContent);
           }
           setLogFilenames(filenames);
           setLoadingFilenames(false);
-          setError('');
         })
         .catch((e) => {
           setLoadingLog(false);
@@ -166,8 +174,8 @@ const NodeLogs: React.FC<NodeLogsProps> = ({ obj: node }) => {
     setLogFilename(newFilename);
     setLoadingLog(true);
     setQueryArgument(logQueryArgument, newFilename);
-    fetchLog(getLogURL(`/${newFilename}`));
     setLogURL(getLogURL(`/${newFilename}`));
+    fetchLog(getLogURL(`/${newFilename}`));
     trimmedContent = '';
   };
   const onToggleFilename = () => setFilenameOpen(!isFilenameOpen);

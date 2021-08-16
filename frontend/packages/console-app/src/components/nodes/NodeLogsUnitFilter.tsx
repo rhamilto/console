@@ -13,7 +13,7 @@ const NodeLogsUnitFilter: React.FC<NodeLogsUnitFilterProps> = ({ onChangeUnit })
   const unitQueryParam = getQueryArgument(unitQueryArgument);
 
   const [value, setValue] = React.useState('');
-  const [values, setValues] = React.useState(
+  const [values, setValues] = React.useState<string[]>(
     unitQueryParam?.length > 0 ? unitQueryParam.split(',') : [],
   );
   const { t } = useTranslation();
@@ -37,7 +37,7 @@ const NodeLogsUnitFilter: React.FC<NodeLogsUnitFilterProps> = ({ onChangeUnit })
 
   const onChange = (newValue: string) => setValue(newValue);
   const deleteValue = (id: string) => {
-    const copyOfValues = values;
+    const copyOfValues = [...values];
     const index = copyOfValues.indexOf(id);
     if (index !== -1) {
       copyOfValues.splice(index, 1);
