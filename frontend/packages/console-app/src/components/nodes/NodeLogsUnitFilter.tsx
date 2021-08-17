@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Chip, ChipGroup, TextInput } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { getQueryArgument, setQueryArgument } from '@console/internal/components/utils';
+import { getQueryArgument } from '@console/internal/components/utils';
 
 type NodeLogsUnitFilterProps = {
   onChangeUnit: (value: string) => void;
@@ -12,45 +12,51 @@ const NodeLogsUnitFilter: React.FC<NodeLogsUnitFilterProps> = ({ onChangeUnit })
   const unitQueryArgument = 'unit';
   const unitQueryParam = getQueryArgument(unitQueryArgument);
 
-  const [value, setValue] = React.useState('');
-  const [values, setValues] = React.useState<string[]>(
-    unitQueryParam?.length > 0 ? unitQueryParam.split(',') : [],
-  );
+  const firstRender = React.useRef(true);
+  const inputRef = React.useRef<HTMLInputElement>();
+  const [values, setValues] = React.useState<string[]>(unitQueryParam?.split(',') || []);
   const { t } = useTranslation();
 
-  const getValuesString = (valuesString: string[]) => valuesString.join(',');
-
   React.useEffect(() => {
+    const input = inputRef.current;
     const listener = (event) => {
+      const { value } = event.currentTarget;
       if ((event.code === 'Enter' || event.code === 'NumpadEnter') && value !== '') {
         event.preventDefault();
-        values.push(value);
-        onChangeUnit(getValuesString(values));
-        setValue('');
+        setValues((prevValues) => [...prevValues, value]);
+        event.currentTarget.value = '';
       }
     };
-    document.addEventListener('keydown', listener);
+    input.addEventListener('keydown', listener);
     return () => {
-      document.removeEventListener('keydown', listener);
+      input.removeEventListener('keydown', listener);
     };
-  }, [onChangeUnit, value, values]);
+  }, [onChangeUnit]);
 
-  const onChange = (newValue: string) => setValue(newValue);
   const deleteValue = (id: string) => {
-    const copyOfValues = [...values];
-    const index = copyOfValues.indexOf(id);
+    const index = values.indexOf(id);
     if (index !== -1) {
-      copyOfValues.splice(index, 1);
-      setValues(copyOfValues);
-      const valuesString = getValuesString(copyOfValues);
-      setQueryArgument(unitQueryArgument, valuesString);
-      onChangeUnit(valuesString);
+      setValues((prevValues) => {
+        const newValues = [...prevValues];
+        newValues.splice(index, 1);
+        return newValues;
+      });
     }
   };
+
   const deleteCategory = () => {
     setValues([]);
-    onChangeUnit('');
   };
+
+  const valuesString = values.join(',');
+  React.useEffect(() => {
+    if (!firstRender.current) {
+      onChangeUnit(valuesString);
+    } else {
+      firstRender.current = false;
+    }
+  }, [valuesString, onChangeUnit]);
+
   const label = t('public~Filter by unit');
 
   return (
@@ -61,8 +67,7 @@ const NodeLogsUnitFilter: React.FC<NodeLogsUnitFilterProps> = ({ onChangeUnit })
           id="log-unit"
           name="log-unit"
           aria-label={label}
-          value={value}
-          onChange={onChange}
+          ref={inputRef}
           placeholder={label}
         />
       </div>
