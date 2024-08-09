@@ -5,16 +5,25 @@ import { Map as ImmutableMap, Set as ImmutableSet } from 'immutable';
 import * as classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { ResourceIcon } from './utils';
-import { K8sKind, K8sResourceKindReference, modelFor, referenceForModel } from '../module/k8s';
+import { K8sKind, K8sResourceKindReference, referenceForModel } from '../module/k8s';
 import { DiscoveryResources } from '@console/dynamic-plugin-sdk/src/api/common-types';
-import {
-  Select as SelectDeprecated,
-  SelectGroup as SelectGroupDeprecated,
-  SelectOption as SelectOptionDeprecated,
-  SelectVariant as SelectVariantDeprecated,
-} from '@patternfly/react-core/deprecated';
 import { useUserSettings } from '@console/shared/src';
-import { Divider, Tooltip } from '@patternfly/react-core';
+import {
+  Button,
+  Divider,
+  MenuToggle,
+  MenuToggleElement,
+  Select,
+  SelectGroup,
+  SelectList,
+  SelectOption,
+  SelectOptionProps,
+  TextInputGroup,
+  TextInputGroupMain,
+  TextInputGroupUtilities,
+  Tooltip,
+} from '@patternfly/react-core';
+import { TimesIcon } from '@patternfly/react-icons';
 import CloseButton from '@console/shared/src/components/close-button';
 
 const RECENT_SEARCH_ITEMS = 5;
@@ -31,19 +40,74 @@ const blacklistResources = ImmutableSet([
 ]);
 
 const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
-  const { selected, onChange, recentList, allModels, groupToVersionMap, className } = props;
+  const {
+    selected: selectedProp,
+    onChange,
+    recentList,
+    allModels,
+    groupToVersionMap,
+    className,
+  } = props;
   const { t } = useTranslation();
 
-  const [isOpen, setOpen] = React.useState(false);
-  const [clearItems, setClearItems] = React.useState(false);
+  const initialSelectOptions: SelectOptionProps[] = [];
+  const placeholderText = t('public~Resources');
 
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState<string>('');
+  const [selected, setSelected] = React.useState<string[]>(selectedProp);
+  const [selectOptions, setSelectOptions] = React.useState<SelectOptionProps[]>([]);
+  const [focusedItemIndex, setFocusedItemIndex] = React.useState<number | null>(null);
+  const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
+  const [placeholder, setPlaceholder] = React.useState(placeholderText);
+  const textInputRef = React.useRef<HTMLInputElement>();
+
+  const [clearItems, setClearItems] = React.useState(false);
   const [recentSelected, setRecentSelected] = useUserSettings<string>(
     'console.search.recentlySearched',
     '[]',
     true,
   );
+  // console.log('==> recentSelected', recentSelected);
 
-  const [selectedOptions, setSelectedOptions] = React.useState(selected);
+  const NO_RESULTS = 'no results';
+
+  React.useEffect(() => {
+    let newSelectOptions: SelectOptionProps[] = initialSelectOptions;
+
+    // Filter menu items based on the text input value when one exists
+    if (inputValue) {
+      newSelectOptions = initialSelectOptions.filter((menuItem) =>
+        String(menuItem.children).toLowerCase().includes(inputValue.toLowerCase()),
+      );
+
+      // When no options are found after filtering, display 'No results found'
+      if (!newSelectOptions.length) {
+        newSelectOptions = [
+          {
+            isAriaDisabled: true,
+            children: `No results found for "${inputValue}"`,
+            value: NO_RESULTS,
+            hasCheckbox: false,
+          },
+        ];
+      }
+
+      // Open the menu when the input value changes and the new value is not empty
+      if (!isOpen) {
+        setIsOpen(true);
+      }
+    }
+
+    setSelectOptions(newSelectOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
+
+  React.useEffect(() => {
+    setPlaceholder(
+      selected.length > 0 ? `${placeholderText} (${selected.length})` : placeholderText,
+    );
+  }, [placeholderText, selected]);
 
   const filterGroupVersionKind = (resourceList: string[]): string[] => {
     return resourceList.filter((resource) => {
@@ -94,32 +158,34 @@ const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
   const isDup = (kind) => kinds.get(kind).size > 1;
 
   React.useEffect(() => {
-    setSelectedOptions(selected);
-    !_.isEmpty(selected) &&
+    setSelected(selectedProp);
+    !_.isEmpty(selectedProp) &&
       setRecentSelected(
         JSON.stringify(
           _.union(
-            !clearItems ? filterGroupVersionKind(selected.reverse()) : [],
+            !clearItems ? filterGroupVersionKind(selectedProp.reverse()) : [],
             recentSelectedList(recentSelected),
           ),
         ),
       );
     setClearItems(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected, setRecentSelected]);
+  }, [selectedProp, setRecentSelected]);
 
   const onClear = () => {
-    setSelectedOptions([]);
+    setSelected([]);
     setClearItems(true);
     setRecentSelected(JSON.stringify([]));
   };
 
   const items = resources
     .map((model: K8sKind) => (
-      <SelectOptionDeprecated
+      <SelectOption
         key={referenceForModel(model)}
         value={referenceForModel(model)}
         data-filter-text={`${model.abbr}${model.labelKey ? t(model.labelKey) : model.kind}`}
+        hasCheckbox
+        isSelected={selected.includes(referenceForModel(model))}
       >
         <span className="co-resource-item">
           <span className="co-resource-icon--fixed-width">
@@ -141,7 +207,7 @@ const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
             )}
           </span>
         </span>
-      </SelectOptionDeprecated>
+      </SelectOption>
     ))
     .toArray();
 
@@ -153,10 +219,12 @@ const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
         const model: K8sKind = resources.find((m) => referenceForModel(m) === modelRef);
         if (model) {
           return (
-            <SelectOptionDeprecated
+            <SelectOption
               key={modelRef}
               value={modelRef}
               data-filter-text={`${model.abbr}${model.labelKey ? t(model.labelKey) : model.kind}`}
+              hasCheckbox
+              isSelected={selected.includes(modelRef)}
             >
               <span className="co-resource-item">
                 <span className="co-resource-icon--fixed-width">
@@ -178,7 +246,7 @@ const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
                   )}
                 </span>
               </span>
-            </SelectOptionDeprecated>
+            </SelectOption>
           );
         }
         return null;
@@ -198,58 +266,222 @@ const ResourceListDropdown_: React.SFC<ResourceListDropdownProps> = (props) => {
         </Tooltip>,
       );
       options.push(
-        <SelectGroupDeprecated
+        <SelectGroup
           label={t('public~Recently used')}
           className="co-select-group-dismissible"
+          key="recently-used-resources"
         >
           {recentSearches}
-        </SelectGroupDeprecated>,
+        </SelectGroup>,
       );
       options.push(<Divider key={3} className="co-select-group-divider" />);
     }
-    options.push(<SelectGroupDeprecated>{items}</SelectGroupDeprecated>);
+    options.push(<SelectGroup key="resources">{items}</SelectGroup>);
     return options;
   };
 
-  const onCustomFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filterText = event?.target.value.toLocaleLowerCase();
-    if (filterText === null || filterText === '' || filterText === undefined) {
-      if (!_.isEmpty(recentSelectedList(recentSelected)) && !!recentList) {
-        return renderedOptions();
-      }
-      return items;
+  // const onCustomFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const filterText = event?.target.value.toLocaleLowerCase();
+  //   if (filterText === null || filterText === '' || filterText === undefined) {
+  //     if (!_.isEmpty(recentSelectedList(recentSelected)) && !!recentList) {
+  //       return renderedOptions();
+  //     }
+  //     return items;
+  //   }
+  //   return items.filter((item) => {
+  //     return item.props['data-filter-text'].toLowerCase().includes(filterText);
+  //   });
+  // };
+
+  // const handleSelected = (event: React.MouseEvent | React.ChangeEvent, value: string) => {
+  //   onChange(referenceForModel(modelFor(value)));
+  // };
+
+  const createItemId = (value: any) => `select-typeahead-${value.replace(' ', '-')}`;
+
+  const setActiveAndFocusedItem = (itemIndex: number) => {
+    setFocusedItemIndex(itemIndex);
+    const focusedItem = selectOptions[itemIndex];
+    setActiveItemId(createItemId(focusedItem.value));
+  };
+
+  const resetActiveAndFocusedItem = () => {
+    setFocusedItemIndex(null);
+    setActiveItemId(null);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+    resetActiveAndFocusedItem();
+  };
+
+  const onInputClick = () => {
+    if (!isOpen) {
+      setIsOpen(true);
+    } else if (!inputValue) {
+      closeMenu();
     }
-    return items.filter((item) => {
-      return item.props['data-filter-text'].toLowerCase().includes(filterText);
-    });
   };
 
-  const handleSelected = (event: React.MouseEvent | React.ChangeEvent, value: string) => {
-    onChange(referenceForModel(modelFor(value)));
+  const onTextInputChange = (_event: React.FormEvent<HTMLInputElement>, value: string) => {
+    setInputValue(value);
+    resetActiveAndFocusedItem();
   };
 
-  const onToggle = (_event, newOpenState: boolean) => {
-    setOpen(newOpenState);
+  const onSelect = (value: string) => {
+    if (value && value !== NO_RESULTS) {
+      setSelected(
+        selected.includes(value)
+          ? selected.filter((selection) => selection !== value)
+          : [...selected, value],
+      );
+      console.log('==> value', value);
+      onChange(value); // TODO:  FIGURE OUT WHAT SHOULD BE PASSED
+      console.log('==> onSelect selected', selected);
+    }
+
+    textInputRef.current?.focus();
   };
+
+  const handleMenuArrowKeys = (key: string) => {
+    let indexToFocus = 0;
+
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+
+    if (selectOptions.every((option) => option.isDisabled)) {
+      return;
+    }
+
+    if (key === 'ArrowUp') {
+      // When no index is set or at the first index, focus to the last, otherwise decrement focus index
+      if (focusedItemIndex === null || focusedItemIndex === 0) {
+        indexToFocus = selectOptions.length - 1;
+      } else {
+        indexToFocus = focusedItemIndex - 1;
+      }
+
+      // Skip disabled options
+      while (selectOptions[indexToFocus].isDisabled) {
+        indexToFocus--;
+        if (indexToFocus === -1) {
+          indexToFocus = selectOptions.length - 1;
+        }
+      }
+    }
+
+    if (key === 'ArrowDown') {
+      // When no index is set or at the last index, focus to the first, otherwise increment focus index
+      if (focusedItemIndex === null || focusedItemIndex === selectOptions.length - 1) {
+        indexToFocus = 0;
+      } else {
+        indexToFocus = focusedItemIndex + 1;
+      }
+
+      // Skip disabled options
+      while (selectOptions[indexToFocus].isDisabled) {
+        indexToFocus++;
+        if (indexToFocus === selectOptions.length) {
+          indexToFocus = 0;
+        }
+      }
+    }
+
+    setActiveAndFocusedItem(indexToFocus);
+  };
+
+  const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const focusedItem = focusedItemIndex !== null ? selectOptions[focusedItemIndex] : null;
+
+    // eslint-disable-next-line default-case
+    switch (event.key) {
+      case 'Enter':
+        if (
+          isOpen &&
+          focusedItem &&
+          focusedItem.value !== NO_RESULTS &&
+          !focusedItem.isAriaDisabled
+        ) {
+          onSelect(focusedItem.value);
+        }
+
+        if (!isOpen) {
+          setIsOpen(true);
+        }
+
+        break;
+      case 'ArrowUp':
+      case 'ArrowDown':
+        event.preventDefault();
+        handleMenuArrowKeys(event.key);
+        break;
+    }
+  };
+
+  const onToggleClick = () => {
+    setIsOpen(!isOpen);
+    textInputRef?.current?.focus();
+  };
+
+  const onClearButtonClick = () => {
+    setSelected([]);
+    setInputValue('');
+    resetActiveAndFocusedItem();
+    textInputRef?.current?.focus();
+  };
+
+  const toggle = (toggleRef: React.Ref<MenuToggleElement>) => (
+    <MenuToggle ref={toggleRef} variant="typeahead" onClick={onToggleClick} isExpanded={isOpen}>
+      <TextInputGroup isPlain>
+        <TextInputGroupMain
+          value={inputValue}
+          onClick={onInputClick}
+          onChange={onTextInputChange}
+          onKeyDown={onInputKeyDown}
+          id="typeahead-select-input"
+          autoComplete="off"
+          innerRef={textInputRef}
+          placeholder={placeholder}
+          {...(activeItemId && { 'aria-activedescendant': activeItemId })}
+          role="combobox"
+          isExpanded={isOpen}
+          aria-controls="select-typeahead-listbox"
+        />
+
+        <TextInputGroupUtilities {...(!inputValue ? { style: { display: 'none' } } : {})}>
+          <Button variant="plain" onClick={onClearButtonClick} aria-label="Clear input value">
+            <TimesIcon aria-hidden />
+          </Button>
+        </TextInputGroupUtilities>
+      </TextInputGroup>
+    </MenuToggle>
+  );
 
   return (
-    <SelectDeprecated
-      variant={SelectVariantDeprecated.checkbox}
-      onToggle={onToggle}
-      onSelect={handleSelected}
-      selections={selectedOptions}
-      isOpen={isOpen}
-      placeholderText={t('public~Resources')}
-      inlineFilterPlaceholderText={t('public~Select Resource')}
-      onFilter={onCustomFilter}
-      hasInlineFilter
-      customBadgeText={selected.length}
-      className={classNames('co-type-selector', className)}
-      maxHeight="60vh"
-      isGrouped
-    >
-      {renderedOptions()}
-    </SelectDeprecated>
+    <div className={className}>
+      <Select
+        toggle={toggle}
+        onSelect={(_event, selection) => onSelect(selection as string)}
+        selected={selected}
+        isOpen={isOpen}
+        onOpenChange={(open) => {
+          !open && closeMenu();
+        }}
+        maxMenuHeight="60vh"
+        isScrollable
+        role="menu"
+        className={classNames(className)}
+        // inlineFilterPlaceholderText={t('public~Select Resource')}
+        // onFilter={onCustomFilter}
+        // hasInlineFilter
+        // customBadgeText={selected.length}
+      >
+        <SelectList isAriaMultiselectable id="select-multi-typeahead-checkbox-listbox">
+          {renderedOptions()}
+        </SelectList>
+      </Select>
+    </div>
   );
 };
 
