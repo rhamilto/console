@@ -5,7 +5,6 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateVariant,
-  EmptyStateHeader,
   EmptyStateFooter,
   Truncate,
 } from '@patternfly/react-core';
@@ -549,8 +548,12 @@ export const OperatorHubTileView: React.FC<OperatorHubTileViewProps> = (props) =
   if (_.isEmpty(filteredItems)) {
     return (
       <>
-        <EmptyState variant={EmptyStateVariant.full} className="co-status-card__alerts-msg">
-          <EmptyStateHeader titleText={<>{t('olm~No Operators available')}</>} headingLevel="h5" />
+        <EmptyState
+          headingLevel="h5"
+          titleText={<>{t('olm~No Operators available')}</>}
+          variant={EmptyStateVariant.full}
+          className="co-status-card__alerts-msg"
+        >
           <EmptyStateFooter>
             {window.SERVER_FLAGS.GOOS && window.SERVER_FLAGS.GOARCH && (
               <EmptyStateBody>

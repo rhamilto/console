@@ -50,12 +50,12 @@ export const PullSecretCredentialsForm: React.FC<PullSecretCredentialsFormProps>
           {entries.length > 1 && (
             <div className="co-add-remove-form__link--remove-entry">
               <Button
+                icon={<MinusCircleIcon className="co-icon-space-r" />}
                 onClick={() => removeEntry(index)}
                 type="button"
                 variant="link"
                 data-test="remove-entry-button"
               >
-                <MinusCircleIcon className="co-icon-space-r" />
                 {t('public~Remove credentials')}
               </Button>
             </div>
@@ -71,13 +71,13 @@ export const PullSecretCredentialsForm: React.FC<PullSecretCredentialsFormProps>
         </div>
       ))}
       <Button
+        icon={<PlusCircleIcon className="co-icon-space-r" />}
         className="co-create-secret-form__link--add-entry pf-m-link--align-left"
         onClick={addEntry}
         type="button"
         variant="link"
         data-test="add-credentials-button"
       >
-        <PlusCircleIcon className="co-icon-space-r" />
         {t('public~Add credentials')}
       </Button>
     </>
