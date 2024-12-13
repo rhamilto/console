@@ -93,8 +93,8 @@ const filterByArchAndOS = (items: OperatorHubItem[]): OperatorHubItem[] => {
 };
 
 const Badge = ({ text }) => (
-  <span key={text} className="pf-v5-c-badge pf-m-read">
-    <Truncate className="pf-v5-c-truncate--no-min-width" content={text} />
+  <span key={text} className="pf-v6-c-badge pf-m-read">
+    <Truncate className="pf-v6-c-truncate--no-min-width" content={text} />
   </span>
 );
 
@@ -375,7 +375,7 @@ const OperatorHubTile: React.FC<OperatorHubTileProps> = ({ item, onClick }) => {
       {item?.obj?.status?.deprecation && (
         <div>
           <DeprecatedOperatorWarningBadge
-            className="pf-v5-u-mt-xs"
+            className="pf-v6-u-mt-xs"
             deprecation={item.obj.status.deprecation}
           />
         </div>
@@ -586,7 +586,7 @@ export const OperatorHubTileView: React.FC<OperatorHubTileViewProps> = (props) =
       {detailsItem.name}
       {detailsItem?.obj?.status?.deprecation && (
         <DeprecatedOperatorWarningBadge
-          className="pf-v5-u-ml-sm"
+          className="pf-v6-u-ml-sm"
           deprecation={detailsItem.obj.status.deprecation}
         />
       )}
@@ -631,7 +631,7 @@ export const OperatorHubTileView: React.FC<OperatorHubTileViewProps> = (props) =
               <div className="co-catalog-page__overlay-actions">
                 {remoteWorkflowUrl && (
                   <ExternalLink
-                    additionalClassName="pf-v5-c-button pf-m-primary co-catalog-page__overlay-action"
+                    additionalClassName="pf-v6-c-button pf-m-primary co-catalog-page__overlay-action"
                     href={remoteWorkflowUrl}
                     text={
                       <>
@@ -646,7 +646,7 @@ export const OperatorHubTileView: React.FC<OperatorHubTileViewProps> = (props) =
                 {!detailsItem.installed ? (
                   <Link
                     className={classNames(
-                      'pf-v5-c-button',
+                      'pf-v6-c-button',
                       {
                         'pf-m-secondary': remoteWorkflowUrl,
                       },
