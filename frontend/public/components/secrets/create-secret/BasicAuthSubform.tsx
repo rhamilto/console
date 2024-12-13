@@ -34,7 +34,7 @@ class BasicAuthSubformWithTranslation extends React.Component<
           </label>
           <div>
             <input
-              className="pf-v5-c-form-control"
+              className="pf-v6-c-form-control"
               id="username"
               data-test="secret-username"
               aria-describedby="username-help"
@@ -54,7 +54,7 @@ class BasicAuthSubformWithTranslation extends React.Component<
           </label>
           <div>
             <input
-              className="pf-v5-c-form-control"
+              className="pf-v6-c-form-control"
               id="password"
               data-test="secret-password"
               aria-describedby="password-help"
