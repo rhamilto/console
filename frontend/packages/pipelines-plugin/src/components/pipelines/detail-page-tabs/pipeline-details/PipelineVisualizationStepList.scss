@@ -19,14 +19,14 @@
   }
 
   &__task-type {
-    line-height: var(--pf-v6-global--spacer--xs);
+    line-height: var(--pf-t-global--spacer--xs);
     max-height: var(--pf-v6-global--spacer--2xl);
     margin: 0 auto 10px auto;
   }
 
   &__step {
     display: flex;
-    margin-bottom: var(--pf-v6-global--spacer--xs);
+    margin-bottom: var(--pf-t-global--spacer--xs);
 
     &--task-run {
       margin-bottom: var(--pf-v6-global--spacer--sm);

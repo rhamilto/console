@@ -127,7 +127,7 @@ $catalog-tile-width: $co-m-catalog-tile-width;
 
   &__btn-group__group-by {
     display: inline;
-    margin-left: var(--pf-v6-global--spacer--md);
+    margin-left: var(--pf-t-global--spacer--md);
   }
 
   &__content {
@@ -158,7 +158,7 @@ $catalog-tile-width: $co-m-catalog-tile-width;
   }
 
   &__grouped-items {
-    margin-bottom: var(--pf-v6-global--spacer--md);
+    margin-bottom: var(--pf-t-global--spacer--md);
   }
 
   &__group-title {
@@ -179,7 +179,7 @@ $catalog-tile-width: $co-m-catalog-tile-width;
   }
 
   &__hint {
-    margin: 0 0 var(--pf-v6-global--spacer--md) 0;
+    margin: 0 0 var(--pf-t-global--spacer--md) 0;
   }
 
   &__input {
@@ -195,7 +195,7 @@ $catalog-tile-width: $co-m-catalog-tile-width;
 
   &__sort {
     display: inline;
-    margin-left: var(--pf-v6-global--spacer--md);
+    margin-left: var(--pf-t-global--spacer--md);
   }
 
   &__num-items {
@@ -263,17 +263,17 @@ $catalog-tile-width: $co-m-catalog-tile-width;
   &__overlay-actions {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: var(--pf-v6-global--spacer--md);
+    margin-bottom: var(--pf-t-global--spacer--md);
     white-space: normal;
   }
 
   &__overlay-header {
-    margin-bottom: var(--pf-v6-global--spacer--md);
+    margin-bottom: var(--pf-t-global--spacer--md);
   }
 
   &__overlay-body {
     margin: 0;
-    padding-top: var(--pf-v6-global--spacer--md);
+    padding-top: var(--pf-t-global--spacer--md);
     @media (min-width: $screen-sm-min) {
       display: flex;
     }

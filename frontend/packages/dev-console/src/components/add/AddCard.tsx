@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, SimpleList, Title } from '@patternfly/react-core';
+import { Card, CardHeader, CardBody, SimpleList, Title } from '@patternfly/react-core';
 import { ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
 import { CodeRef } from '@console/dynamic-plugin-sdk/src/types';
 import { getImageForIconClass } from '@console/internal/components/catalog/catalog-item-icon';
@@ -40,16 +40,20 @@ const AddCard: React.FC<AddCardProps> = ({ id, title, items, namespace, icon }) 
   return items?.length > 0 ? (
     <Card key={title} className="odc-add-card" data-test={`card ${id}`}>
       {!isTitleFromItem && (
-        <Title size="lg" headingLevel="h2" className="odc-add-card__title" data-test="title">
-          {actionIcon()}
-          {title}
-        </Title>
+        <CardHeader>
+          <Title size="lg" headingLevel="h2" className="odc-add-card__title" data-test="title">
+            {actionIcon()}
+            {title}
+          </Title>
+        </CardHeader>
       )}
-      <SimpleList>
-        {items.map((item) => (
-          <AddCardItem key={item.properties.id} namespace={namespace} action={item} />
-        ))}
-      </SimpleList>
+      <CardBody>
+        <SimpleList>
+          {items.map((item) => (
+            <AddCardItem key={item.properties.id} namespace={namespace} action={item} />
+          ))}
+        </SimpleList>
+      </CardBody>
     </Card>
   ) : null;
 };

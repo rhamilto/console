@@ -10,7 +10,7 @@
   }
 
   &__icon {
-    margin-right: var(--pf-v6-global--spacer--xs);
+    margin-right: var(--pf-t-global--spacer--xs);
   }
 
   &__divider {
@@ -38,7 +38,7 @@
   }
   &__taskName {
     background-color: var(--pf-v6-global--BackgroundColor--dark-300);
-    padding: var(--pf-v6-global--spacer--sm) var(--pf-v6-global--spacer--md);
+    padding: var(--pf-v6-global--spacer--sm) var(--pf-t-global--spacer--md);
     color: var(--pf-v6-global--Color--light-100);
   }
   &__taskName__loading-indicator {

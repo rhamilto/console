@@ -58,7 +58,7 @@
   }
 
   &__group-resource-count {
-    margin-right: var(--pf-v6-global--spacer--md);
+    margin-right: var(--pf-t-global--spacer--md);
     .co-m-resource-icon {
       margin-left: var(--pf-v6-global--spacer--sm);
     }
@@ -75,8 +75,8 @@
     align-items: start;
   }
   &__alert-button {
-    padding: 2px var(--pf-v6-global--spacer--xs);
-    margin-left: var(--pf-v6-global--spacer--xs);
+    padding: 2px var(--pf-t-global--spacer--xs);
+    margin-left: var(--pf-t-global--spacer--xs);
   }
   &__resource-icon-cell.pf-v6-c-data-list__cell {
     margin-right: var(--pf-v6-global--spacer--sm);
@@ -94,7 +94,7 @@
     border: solid 1px var(--pf-v6-global--BorderColor--300);
     border-radius: 12px;
     box-shadow: 2px 2px 3px var(--pf-v6-global--BorderColor--100);
-    margin-left: var(--pf-v6-global--spacer--xs);
+    margin-left: var(--pf-t-global--spacer--xs);
     padding: 0 3px 1px;
   }
   &__type-icon {
@@ -152,10 +152,10 @@
     }
     .odc-topology-list-view__group-children {
       .odc-topology-list-view__item-row {
-        padding-left: var(--pf-v6-global--spacer--3xl);
+        padding-left: var(--pf-t-global--spacer--3xl);
       }
       .odc-topology-list-view__group-children .odc-topology-list-view__item-row {
-        padding-left: var(--pf-v6-global--spacer--4xl);
+        padding-left: var(--pf-t-global--spacer--4xl);
       }
     }
   }
@@ -220,11 +220,11 @@
     }
   }
   .pf-v6-c-data-list__item-content {
-    --pf-v6-c-data-list__item-content--md--PaddingBottom: var(--pf-v6-global--spacer--md);
+    --pf-v6-c-data-list__item-content--md--PaddingBottom: var(--pf-t-global--spacer--md);
   }
   .pf-v6-c-data-list__cell,
   .pf-v6-c-data-list__cell.pf-m-icon + .pf-v6-c-data-list__cell {
-    padding-top: var(--pf-v6-global--spacer--md);
+    padding-top: var(--pf-t-global--spacer--md);
   }
 
   .pf-v6-c-data-list__expandable-content {

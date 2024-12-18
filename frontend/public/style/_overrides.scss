@@ -90,7 +90,7 @@ form.pf-v6-c-form {
   margin-left: -$pf-v6-global-gutter;
   margin-right: -$pf-v6-global-gutter;
   --pf-v6-c-toolbar--PaddingTop: 0;
-  --pf-v6-c-toolbar--RowGap: var(--pf-v6-global--spacer--md);
+  --pf-v6-c-toolbar--RowGap: var(--pf-t-global--spacer--md);
 }
 
 // fix bug where monaco-aria-container is visible in Firefox but shouldn't be
@@ -130,7 +130,7 @@ form.pf-v6-c-form {
 
 .pf-v6-c-about-modal-box__content {
   background-color: var(--pf-v6-global--palette--black-1000);
-  padding: var(--pf-v6-global--spacer--2xl) var(--pf-v6-global--spacer--3xl);
+  padding: var(--pf-v6-global--spacer--2xl) var(--pf-t-global--spacer--3xl);
   --pf-v6-c-about-modal-box__content--MarginBottom: 0;
   --pf-v6-c-about-modal-box__content--MarginLeft: 0;
   --pf-v6-c-about-modal-box__content--MarginRight: 0;
@@ -302,17 +302,17 @@ form.pf-v6-c-form {
 
   .pf-v6-c-nav {
     --pf-v6-c-nav__list-link--PaddingRight: var(--pf-v6-global--spacer--sm);
-    --pf-v6-c-nav__list-link--PaddinLeft: var(--pf-v6-global--spacer--md);
-    --pf-v6-c-nav__list-link--after--Left: var(--pf-v6-global--spacer--md);
+    --pf-v6-c-nav__list-link--PaddinLeft: var(--pf-t-global--spacer--md);
+    --pf-v6-c-nav__list-link--after--Left: var(--pf-t-global--spacer--md);
     --pf-v6-c-nav__link--FontSize: #{$co-side-nav-section-font-size};
     --pf-v6-c-nav__subnav__link--FontSize: #{$co-side-nav-font-size};
 
     @media screen and (min-width: $pf-v6-global--breakpoint--xl) {
-      --pf-v6-c-nav__list-link--PaddingRight: var(--pf-v6-global--spacer--md);
+      --pf-v6-c-nav__list-link--PaddingRight: var(--pf-t-global--spacer--md);
       --pf-v6-c-nav__list-link--PaddinLeft: var(--pf-v6-global--spacer--lg);
       --pf-v6-c-nav__list-link--after--Left: var(--pf-v6-global--spacer--lg);
-      --pf-v6-c-nav__simple-list--nested__separator--MarginLeft: var(--pf-v6-global--spacer--xl);
-      --pf-v6-c-nav__simple-list-link--nested--PaddingLeft: var(--pf-v6-global--spacer--xl);
+      --pf-v6-c-nav__simple-list--nested__separator--MarginLeft: var(--pf-t-global--spacer--xl);
+      --pf-v6-c-nav__simple-list-link--nested--PaddingLeft: var(--pf-t-global--spacer--xl);
     }
 
     .pf-v6-c-nav__link {

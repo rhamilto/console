@@ -24,7 +24,7 @@ $co-affinity-row-margin: 15px;
 }
 
 .co-clusterserviceversion-table-header__icon {
-  margin-left: var(--pf-v6-global--spacer--xs);
+  margin-left: var(--pf-t-global--spacer--xs);
 }
 
 .co-clusterserviceversion-link {
@@ -265,9 +265,9 @@ $co-affinity-row-margin: 15px;
 
 .co-clusterserviceversion__box {
   border: 1px solid var(--pf-v6-global--BorderColor--300);
-  margin: var(--pf-v6-global--spacer--md) 0;
-  padding: var(--pf-v6-global--spacer--md) var(--pf-v6-global--spacer--md)
-    var(--pf-v6-global--spacer--xs);
+  margin: var(--pf-t-global--spacer--md) 0;
+  padding: var(--pf-t-global--spacer--md) var(--pf-t-global--spacer--md)
+    var(--pf-t-global--spacer--xs);
 }
 
 .co-operator-install-page__indicator {
@@ -325,7 +325,7 @@ $co-affinity-row-margin: 15px;
 
 .co-operator-details__toggle-value {
   flex-grow: 1;
-  margin-right: var(--pf-v6-global--spacer--xl);
+  margin-right: var(--pf-t-global--spacer--xl);
 }
 
 .co-operator-details__toggle-value .radio-inline input[type='radio'] {

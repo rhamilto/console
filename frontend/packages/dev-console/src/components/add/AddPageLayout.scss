@@ -9,7 +9,7 @@
 
   // Drop padding below the hint to add this gap between hint and actions below.
   .ocs-page-layout__hint {
-    padding-bottom: 0; /* override var(--pf-v6-global--spacer--md) */
+    padding-bottom: 0; /* override var(--pf-t-global--spacer--md) */
     padding-right: 0;
   }
 
@@ -22,7 +22,7 @@
     &__text {
       flex: auto;
       margin-right: var(--pf-v6-global--spacer--lg);
-      margin-bottom: var(--pf-v6-global--spacer--md);
+      margin-bottom: var(--pf-t-global--spacer--md);
     }
 
     &__actions {
@@ -32,7 +32,7 @@
 
       > * {
         margin-right: var(--pf-v6-global--spacer--lg);
-        margin-bottom: var(--pf-v6-global--spacer--md);
+        margin-bottom: var(--pf-t-global--spacer--md);
       }
     }
 
@@ -50,10 +50,10 @@
   }
 
   &__additional-hint-block {
-    padding-bottom: var(--pf-v6-global--spacer--md);
+    padding-bottom: var(--pf-t-global--spacer--md);
   }
 
   &__resource-quota-message-block {
-    margin-right: var(--pf-v6-global--spacer--xl);
+    margin-right: var(--pf-t-global--spacer--xl);
   }
 }

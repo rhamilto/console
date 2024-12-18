@@ -10,7 +10,7 @@
 }
 
 .co-utilization-card-popover__consumer-name {
-  flex: 0 0 calc(70% - var(--pf-v6-global--spacer--md));
+  flex: 0 0 calc(70% - var(--pf-t-global--spacer--md));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -53,7 +53,7 @@
 .skeleton-consumer {
   animation: $skeleton-animation;
   background: $skeleton-color;
-  height: var(--pf-v6-global--spacer--md);
+  height: var(--pf-t-global--spacer--md);
   opacity: 0;
   margin-top: var(--pf-v6-global--spacer--sm);
   margin-bottom: var(--pf-v6-global--spacer--sm);

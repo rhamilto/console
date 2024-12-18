@@ -5,7 +5,7 @@
 }
 
 .co-alert-manager {
-  margin-bottom: var(--pf-v6-global--spacer--md);
+  margin-bottom: var(--pf-t-global--spacer--md);
 }
 
 .co-alert-manager-config__edit-alert-routing-btn {
@@ -60,8 +60,8 @@
 
 .horizontal-scroll {
   overflow-x: auto;
-  padding-left: var(--pf-v6-global--spacer--md);
-  padding-right: var(--pf-v6-global--spacer--md);
+  padding-left: var(--pf-t-global--spacer--md);
+  padding-right: var(--pf-t-global--spacer--md);
 
   &:before,
   &:after {
@@ -70,7 +70,7 @@
     pointer-events: none;
     position: absolute;
     top: 0;
-    width: var(--pf-v6-global--spacer--md);
+    width: var(--pf-t-global--spacer--md);
     z-index: 1;
   }
   &:before {
@@ -429,7 +429,7 @@ $monitoring-line-height: 18px;
   width: 100%;
 
   .pf-v6-c-form__helper-text {
-    margin-top: var(--pf-v6-global--spacer--xs);
+    margin-top: var(--pf-t-global--spacer--xs);
   }
 }
 
@@ -516,7 +516,7 @@ $monitoring-line-height: 18px;
 }
 
 .query-browser__table-wrapper .query-browser__series-select-all-btn {
-  margin-top: var(--pf-v6-global--spacer--md);
+  margin-top: var(--pf-t-global--spacer--md);
 }
 
 .query-browser__table-message {
@@ -527,7 +527,7 @@ $monitoring-line-height: 18px;
 .query-browser__toggle-graph-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--pf-v6-global--spacer--xs);
+  margin-bottom: var(--pf-t-global--spacer--xs);
 }
 
 .query-browser__tooltip {

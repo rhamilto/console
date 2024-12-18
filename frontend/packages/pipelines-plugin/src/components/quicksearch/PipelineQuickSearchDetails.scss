@@ -1,9 +1,9 @@
 .opp-quick-search-details {
-  padding-top: var(--pf-v6-global--spacer--md);
+  padding-top: var(--pf-t-global--spacer--md);
 
   &__form-button,
   &__version-dropdown {
-    margin: var(--pf-v6-global--spacer--md) 0px !important;
+    margin: var(--pf-t-global--spacer--md) 0px !important;
     width: max-content;
   }
 
@@ -27,7 +27,7 @@
   }
 
   &__badges-section {
-    margin: var(--pf-v6-global--spacer--md) 0;
+    margin: var(--pf-t-global--spacer--md) 0;
     --pf-v6-l-stack--m-gutter--MarginBottom: var(--pf-v6-global--spacer--sm) !important;
   }
 }

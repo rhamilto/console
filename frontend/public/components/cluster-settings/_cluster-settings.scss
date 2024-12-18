@@ -65,7 +65,7 @@ $co-channel-height: 60px;
   font-size: ($font-size-small - 1) !important;
   font-weight: bold !important;
   justify-content: center;
-  padding: var(--pf-v6-global--spacer--xs) var(--pf-v6-global--spacer--sm) !important;
+  padding: var(--pf-t-global--spacer--xs) var(--pf-v6-global--spacer--sm) !important;
   position: absolute !important;
 
   &::after {
@@ -271,7 +271,7 @@ $co-channel-height: 60px;
   }
 
   &__updates-type {
-    margin: 0 0 var(--pf-v6-global--spacer--xs) 0;
+    margin: 0 0 var(--pf-t-global--spacer--xs) 0;
   }
 }
 

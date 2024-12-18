@@ -11,7 +11,7 @@
   &__icon {
     height: var(--pf-v6-global--FontSize--lg);
     max-width: var(--pf-v6-global--spacer--lg);
-    min-width: var(--pf-v6-global--spacer--md);
+    min-width: var(--pf-t-global--spacer--md);
     color: var(--pf-v6-global--Color--100) !important;
     // temporary fix since --pf-v6-global--FontSize--md is being computed to 14px instead of 16px
     font-size: var(--pf-v6-global--FontSize--md);
@@ -27,7 +27,7 @@
     vertical-align: middle;
     margin-left: var(--pf-v6-global--spacer--sm);
     // temporary fix since --pf-v6-global--FontSize--md is being computed to 14px instead of 16px
-    font-size: var(--pf-v6-global--spacer--md) !important;
+    font-size: var(--pf-t-global--spacer--md) !important;
   }
 
   &__description {

@@ -85,11 +85,11 @@
 }
 
 .lightspeed__welcome-logo {
-  --logo-size: var(--pf-v6-global--spacer--4xl);
+  --logo-size: var(--pf-t-global--spacer--4xl);
 
   background-image: url('logo.svg');
   height: var(--logo-size);
-  margin: 0 0 var(--pf-v6-global--spacer--xl);
+  margin: 0 0 var(--pf-t-global--spacer--xl);
   width: var(--logo-size);
 
   .pf-v6-theme-dark & {

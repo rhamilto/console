@@ -7,7 +7,7 @@
   --pf-v6-c-code-block--BackgroundColor: var(--pf-v6-global--BackgroundColor--200);
   --pf-v6-c-code-block__pre--FontFamily: var(--pf-v6-global--FontFamily--monospace);
   --pf-v6-c-code-block__pre--FontSize: var(--pf-v6-global--FontSize--sm);
-  --pf-v6-c-content--MarginBottom: var(--pf-v6-global--spacer--md);
+  --pf-v6-c-content--MarginBottom: var(--pf-t-global--spacer--md);
 }
 :where(:not([class*='pf-v6-c-'])) {
   @at-root h1#{&} {
@@ -156,19 +156,19 @@
   --pf-v6-c-form-control--m-success--after--BorderBottomColor: var(
     --pf-v6-global--success-color--100
   );
-  --pf-v6-c-form-control--m-success--PaddingRight: var(--pf-v6-global--spacer--xl);
+  --pf-v6-c-form-control--m-success--PaddingRight: var(--pf-t-global--spacer--xl);
 
   // warning
   --pf-v6-c-form-control--m-warning--after--BorderBottomWidth: var(--pf-v6-global--BorderWidth--md);
   --pf-v6-c-form-control--m-warning--after--BorderBottomColor: var(
     --pf-v6-global--warning-color--100
   );
-  --pf-v6-c-form-control--m-warning--PaddingRight: var(--pf-v6-global--spacer--xl);
+  --pf-v6-c-form-control--m-warning--PaddingRight: var(--pf-t-global--spacer--xl);
 
   // error
   --pf-v6-c-form-control--m-error--after--BorderBottomWidth: var(--pf-v6-global--BorderWidth--md);
   --pf-v6-c-form-control--m-error--after--BorderBottomColor: var(--pf-v6-global--danger-color--100);
-  --pf-v6-c-form-control--m-error--PaddingRight: var(--pf-v6-global--spacer--xl);
+  --pf-v6-c-form-control--m-error--PaddingRight: var(--pf-t-global--spacer--xl);
   --pf-v6-c-form-control--m-error--icon--width: var(--pf-v6-c-form-control--FontSize);
 
   // custom icon
@@ -189,16 +189,16 @@
 
   // Select success
   --pf-v6-c-form-control__select--m-success--m-status--PaddingRight: var(
-    --pf-v6-global--spacer--3xl
+    --pf-t-global--spacer--3xl
   );
 
   // Select warning
   --pf-v6-c-form-control__select--m-warning--m-status--PaddingRight: var(
-    --pf-v6-global--spacer--3xl
+    --pf-t-global--spacer--3xl
   );
 
   // Select invalid
-  --pf-v6-c-form-control__select--m-error--m-status--PaddingRight: var(--pf-v6-global--spacer--3xl);
+  --pf-v6-c-form-control__select--m-error--m-status--PaddingRight: var(--pf-t-global--spacer--3xl);
 
   // Textarea
   --pf-v6-c-form-control--textarea--Width: var(--pf-v6-c-form-control--Width);

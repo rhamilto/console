@@ -2,7 +2,7 @@
   display: flex;
   flex: 1;
   width: 100%;
-  padding: var(--pf-v6-global--spacer--xl) 0;
+  padding: var(--pf-t-global--spacer--xl) 0;
   &__nav {
     padding-top: 0;
     list-style-type: none;
@@ -19,14 +19,14 @@
   }
   &__log {
     height: 100%;
-    padding-top: var(--pf-v6-global--spacer--md);
+    padding-top: var(--pf-t-global--spacer--md);
   }
   &__logtext {
     position: relative;
     background: var(--pf-v6-global--palette--black-1000); // pod log background color
     color: var(--pf-v6-global--palette--black-100);
     height: 100%;
-    padding: var(--pf-v6-global--spacer--sm) var(--pf-v6-global--spacer--md);
+    padding: var(--pf-v6-global--spacer--sm) var(--pf-t-global--spacer--md);
   }
   &__logsnippet {
     margin-top: var(--pf-v6-global--spacer--sm);
@@ -38,7 +38,7 @@
   }
   &__container {
     flex: 1;
-    padding-right: var(--pf-v6-global--spacer--xl);
+    padding-right: var(--pf-t-global--spacer--xl);
   }
   &__container .co-m-pane__body {
     padding: 0px;
