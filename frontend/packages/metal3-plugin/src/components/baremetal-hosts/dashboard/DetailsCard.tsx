@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { OverviewDetailItem } from '@openshift-console/plugin-shared/src';
-import { Card, CardBody, CardHeader, CardTitle } from '@patternfly/react-core';
+import { Card, CardBody, CardHeader, CardTitle, DescriptionList } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
 import { resourcePathFromModel } from '@console/internal/components/utils';
@@ -45,15 +45,17 @@ const DetailsCard: React.FC<DetailsCardProps> = () => {
       </CardHeader>
       <CardBody>
         <DetailsBody>
-          <OverviewDetailItem title={t('metal3-plugin~Host name')} isLoading={false}>
-            {hostName}
-          </OverviewDetailItem>
-          <OverviewDetailItem title={t('metal3-plugin~Role')} isLoading={false}>
-            {hostRole}
-          </OverviewDetailItem>
-          <OverviewDetailItem title={t('metal3-plugin~Node')} isLoading={false}>
-            {nodeCell}
-          </OverviewDetailItem>
+          <DescriptionList>
+            <OverviewDetailItem title={t('metal3-plugin~Host name')} isLoading={false}>
+              {hostName}
+            </OverviewDetailItem>
+            <OverviewDetailItem title={t('metal3-plugin~Role')} isLoading={false}>
+              {hostRole}
+            </OverviewDetailItem>
+            <OverviewDetailItem title={t('metal3-plugin~Node')} isLoading={false}>
+              {nodeCell}
+            </OverviewDetailItem>
+          </DescriptionList>
         </DetailsBody>
       </CardBody>
     </Card>

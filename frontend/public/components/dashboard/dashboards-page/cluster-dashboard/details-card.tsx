@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardBody, CardHeader, CardTitle } from '@patternfly/react-core';
+import { Card, CardBody, CardHeader, CardTitle, DescriptionList } from '@patternfly/react-core';
 import { InProgressIcon } from '@patternfly/react-icons/dist/esm/icons/in-progress-icon';
 import {
   BlueArrowCircleUpIcon,
@@ -167,7 +167,7 @@ export const DetailsCard = withDashboardResources(
           ) : (
             <DetailsBody>
               {openshiftFlag ? (
-                <>
+                <DescriptionList>
                   <OverviewDetailItem
                     title={t('public~Cluster API address')}
                     isLoading={!infrastructureLoaded}
@@ -285,21 +285,23 @@ export const DetailsCard = withDashboardResources(
                       </ErrorBoundaryInline>
                     );
                   })}
-                </>
+                </DescriptionList>
               ) : (
-                <OverviewDetailItem
-                  key="kubernetes"
-                  title={t('public~Kubernetes version')}
-                  error={
-                    !!k8sVersionError || (k8sVersion && !k8sGitVersion)
-                      ? t('public~Not available')
-                      : undefined
-                  }
-                  isLoading={!k8sVersion}
-                  valueClassName="co-select-to-copy"
-                >
-                  {k8sGitVersion}
-                </OverviewDetailItem>
+                <DescriptionList>
+                  <OverviewDetailItem
+                    key="kubernetes"
+                    title={t('public~Kubernetes version')}
+                    error={
+                      !!k8sVersionError || (k8sVersion && !k8sGitVersion)
+                        ? t('public~Not available')
+                        : undefined
+                    }
+                    isLoading={!k8sVersion}
+                    valueClassName="co-select-to-copy"
+                  >
+                    {k8sGitVersion}
+                  </OverviewDetailItem>
+                </DescriptionList>
               )}
             </DetailsBody>
           )}

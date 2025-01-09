@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { OverviewDetailItem } from '@openshift-console/plugin-shared/src';
-import { Card, CardBody, CardHeader, CardTitle } from '@patternfly/react-core';
+import { Card, CardBody, CardHeader, CardTitle, DescriptionList } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
 import { resourcePathFromModel } from '@console/internal/components/utils';
@@ -35,32 +35,34 @@ const DetailsCard: React.FC = () => {
       </CardHeader>
       <CardBody>
         <DetailsBody>
-          <OverviewDetailItem isLoading={!obj} title={t('console-app~Node name')}>
-            {obj.metadata.name}
-          </OverviewDetailItem>
-          <OverviewDetailItem isLoading={!obj} title={t('console-app~Roles')}>
-            <NodeRoles node={obj} />
-          </OverviewDetailItem>
-          <OverviewDetailItem
-            isLoading={!obj}
-            title={t('console-app~Instance type')}
-            error={!instanceType ? t('console-app~Not available') : undefined}
-          >
-            {instanceType}
-          </OverviewDetailItem>
-          <OverviewDetailItem
-            isLoading={!obj}
-            title={t('console-app~Zone')}
-            error={!zone ? t('console-app~Not available') : undefined}
-          >
-            {zone}
-          </OverviewDetailItem>
-          <OverviewDetailItem isLoading={!obj} title={t('console-app~Node addresses')}>
-            <NodeIPList ips={getNodeAddresses(obj)} expand />
-          </OverviewDetailItem>
-          <OverviewDetailItem isLoading={!obj} title={t('console-app~Uptime')}>
-            <NodeUptime obj={obj} />
-          </OverviewDetailItem>
+          <DescriptionList>
+            <OverviewDetailItem isLoading={!obj} title={t('console-app~Node name')}>
+              {obj.metadata.name}
+            </OverviewDetailItem>
+            <OverviewDetailItem isLoading={!obj} title={t('console-app~Roles')}>
+              <NodeRoles node={obj} />
+            </OverviewDetailItem>
+            <OverviewDetailItem
+              isLoading={!obj}
+              title={t('console-app~Instance type')}
+              error={!instanceType ? t('console-app~Not available') : undefined}
+            >
+              {instanceType}
+            </OverviewDetailItem>
+            <OverviewDetailItem
+              isLoading={!obj}
+              title={t('console-app~Zone')}
+              error={!zone ? t('console-app~Not available') : undefined}
+            >
+              {zone}
+            </OverviewDetailItem>
+            <OverviewDetailItem isLoading={!obj} title={t('console-app~Node addresses')}>
+              <NodeIPList ips={getNodeAddresses(obj)} expand />
+            </OverviewDetailItem>
+            <OverviewDetailItem isLoading={!obj} title={t('console-app~Uptime')}>
+              <NodeUptime obj={obj} />
+            </OverviewDetailItem>
+          </DescriptionList>
         </DetailsBody>
       </CardBody>
     </Card>

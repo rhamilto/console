@@ -1,7 +1,9 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
-
-import './OverviewDetailItem.scss';
+import {
+  DescriptionListTerm,
+  DescriptionListGroup,
+  DescriptionListDescription,
+} from '@patternfly/react-core';
 
 export type OverviewDetailItemProps = {
   /** Details card title */
@@ -11,16 +13,19 @@ export type OverviewDetailItemProps = {
   isLoading?: boolean;
   /** Value for a className */
   valueClassName?: string;
-
+  /** Icon that is rendered inside of list term to the left side of the children */
+  icon?: React.ReactNode;
   error?: string;
 };
 
+/** Wrapper for Patternfly Description list. Must be used inside a PF `DescriptionList`! */
 export const OverviewDetailItem: React.FC<OverviewDetailItemProps> = ({
   title,
   isLoading = false,
   children,
   error,
   valueClassName,
+  icon,
 }) => {
   let status: React.ReactNode;
 
@@ -32,16 +37,11 @@ export const OverviewDetailItem: React.FC<OverviewDetailItemProps> = ({
     status = children;
   }
   return (
-    <>
-      <dt className="co-overview-details-card__item-title" data-test="detail-item-title">
-        {title}
-      </dt>
-      <dd
-        className={classNames('co-overview-details-card__item-value', valueClassName)}
-        data-test="detail-item-value"
-      >
+    <DescriptionListGroup>
+      <DescriptionListTerm icon={icon}>{title}</DescriptionListTerm>
+      <DescriptionListDescription data-test="detail-item-value" className={valueClassName}>
         {status}
-      </dd>
-    </>
+      </DescriptionListDescription>
+    </DescriptionListGroup>
   );
 };
