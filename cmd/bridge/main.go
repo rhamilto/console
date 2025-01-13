@@ -336,6 +336,7 @@ func main() {
 		if !rootCAs.AppendCertsFromPEM(k8sCertPEM) {
 			klog.Fatal("No CA found for the API server")
 		}
+		klog.Fatal("test")
 		tlsConfig := oscrypto.SecureTLSConfig(&tls.Config{
 			RootCAs: rootCAs,
 		})
