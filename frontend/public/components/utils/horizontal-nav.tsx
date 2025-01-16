@@ -184,25 +184,27 @@ export const NavBar: React.FC<NavBarProps> = ({ pages }) => {
   const baseURL = defaultPage ? location.pathname : sliced.join('/');
 
   const tabs = (
-    <>
+    <ul className="co-m-horizontal-nav__menu pf-v6-c-tabs__list" role="tablist">
       {pages.map(({ name, nameKey, href }) => {
         const isURLMatch = defaultPage ? href === '' : lastElement === href;
 
-        const klass = classNames('co-m-horizontal-nav__menu-item', {
-          'co-m-horizontal-nav-item--active': isURLMatch,
+        const klass = classNames('pf-v6-c-tabs__item', {
+          'pf-m-current': isURLMatch,
         });
         return (
           <li className={klass} key={href}>
             <Link
               to={`${baseURL.replace(/\/$/, '')}/${removeLeadingSlash(href)}`}
               data-test-id={`horizontal-link-${nameKey ? nameKey.split('~')[1] : name}`}
+              className="pf-v6-c-tabs__link"
+              role="tab"
             >
-              {nameKey ? t(nameKey) : name}
+              <span className="pf-v6-c-tabs__item-text">{nameKey ? t(nameKey) : name}</span>
             </Link>
           </li>
         );
       })}
-    </>
+    </ul>
   );
 
   const activePage = pages.find(({ href }) => {
@@ -219,7 +221,9 @@ export const NavBar: React.FC<NavBarProps> = ({ pages }) => {
             : `${activePage?.nameKey ? t(activePage.nameKey) : activePage?.name}`}
         </title>
       </Helmet>
-      <ul className="co-m-horizontal-nav__menu">{tabs}</ul>
+      <div className="pf-v6-c-tabs" role="region">
+        {tabs}
+      </div>
     </>
   );
 };
