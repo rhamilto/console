@@ -113,7 +113,10 @@ const HelmReleaseList: React.FC = () => {
         alt=""
       />
     );
-    const installURL = { pathname: `/catalog/ns/${namespace}`, search: '?catalogType=HelmChart' };
+    const installURL = {
+      pathname: `/catalog/ns/${namespace || 'default'}`,
+      search: '?catalogType=HelmChart',
+    };
     return (
       <EmptyState
         headingLevel="h3"
