@@ -555,7 +555,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
               aria-label={t('public~Utility menu')}
               ref={toggleRef}
               variant="plain"
-              onClick={(open) => setIsKebabDropdownOpen(open)}
+              onClick={() => setIsKebabDropdownOpen(!isKebabDropdownOpen)}
               isExpanded={isKebabDropdownOpen}
               data-quickstart-id="qs-masthead-utilitymenu"
             >
@@ -586,7 +586,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
           <MenuToggle
             aria-label={t('public~User menu')}
             ref={toggleRef}
-            onClick={(open) => setIsUserDropdownOpen(open)}
+            onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
             isExpanded={isUserDropdownOpen}
             data-test="user-dropdown"
             data-tour-id="tour-user-button"
@@ -679,7 +679,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
                       aria-label={t('public~Application launcher')}
                       ref={toggleRef}
                       variant="plain"
-                      onClick={(open) => setIsAppLauncherDropdownOpen(open)}
+                      onClick={() => setIsAppLauncherDropdownOpen(!isAppLauncherDropdownOpen)}
                       isExpanded={isKebabDropdownOpen}
                       data-test-id="application-launcher"
                     >
@@ -714,7 +714,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
                     aria-label={t('public~Help menu')}
                     ref={toggleRef}
                     variant="plain"
-                    onClick={(open) => setIsHelpDropdownOpen(open)}
+                    onClick={() => setIsHelpDropdownOpen(!isHelpDropdownOpen)}
                     isExpanded={isHelpDropdownOpen}
                     data-test="help-dropdown-toggle"
                     data-tour-id="tour-help-button"
