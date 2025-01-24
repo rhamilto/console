@@ -49,6 +49,7 @@ import { ConsoleLinkModel } from '../models';
 import ClusterMenu from '@console/app/src/components/nav/ClusterMenu';
 import { ACM_PERSPECTIVE_ID } from '@console/app/src/consts';
 import { FeedbackModal } from '@patternfly/react-user-feedback';
+import '@patternfly/react-user-feedback/dist/esm/Feedback/Feedback.css';
 import { useFeedbackLocal } from './feedback-local';
 import { action as reduxAction } from 'typesafe-actions';
 import feedbackImage from '@patternfly/react-user-feedback/dist/esm/images/rh_feedback.svg';
@@ -555,7 +556,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
               aria-label={t('public~Utility menu')}
               ref={toggleRef}
               variant="plain"
-              onClick={(open) => setIsKebabDropdownOpen(open)}
+              onClick={() => setIsKebabDropdownOpen(!isKebabDropdownOpen)}
               isExpanded={isKebabDropdownOpen}
               data-quickstart-id="qs-masthead-utilitymenu"
             >
@@ -586,9 +587,9 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
           <MenuToggle
             aria-label={t('public~User menu')}
             ref={toggleRef}
-            onClick={(open) => setIsUserDropdownOpen(open)}
+            onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
             isExpanded={isUserDropdownOpen}
-            data-test="user-dropdown"
+            data-test="user-dropdown-toggle"
             data-tour-id="tour-user-button"
             data-quickstart-id="qs-masthead-usermenu"
             className="co-user-menu"
@@ -598,6 +599,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
         )}
         ref={userMenuRef}
         popperProps={{ position: 'right' }}
+        data-test="user-dropdown"
       >
         {renderApplicationItems(actions)}
       </Dropdown>
@@ -679,7 +681,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
                       aria-label={t('public~Application launcher')}
                       ref={toggleRef}
                       variant="plain"
-                      onClick={(open) => setIsAppLauncherDropdownOpen(open)}
+                      onClick={() => setIsAppLauncherDropdownOpen(!isAppLauncherDropdownOpen)}
                       isExpanded={isKebabDropdownOpen}
                       data-test-id="application-launcher"
                     >
@@ -714,7 +716,7 @@ const MastheadToolbarContents = ({ consoleLinks, cv, isMastheadStacked }) => {
                     aria-label={t('public~Help menu')}
                     ref={toggleRef}
                     variant="plain"
-                    onClick={(open) => setIsHelpDropdownOpen(open)}
+                    onClick={() => setIsHelpDropdownOpen(!isHelpDropdownOpen)}
                     isExpanded={isHelpDropdownOpen}
                     data-test="help-dropdown-toggle"
                     data-tour-id="tour-help-button"
