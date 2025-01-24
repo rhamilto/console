@@ -1,7 +1,7 @@
 @import '../../../styles/skeleton-screen';
 
 .co-status-card__alerts-body {
-  border-top: var(--pf-t--global--border--width--100) solid
+  border-top: var(--pf-t--global--border--width--divider--default) solid
     var(--pf-t--global--border--color--default);
   max-height: 19rem;
   min-height: 6rem;
