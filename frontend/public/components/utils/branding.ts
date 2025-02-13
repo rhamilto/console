@@ -4,6 +4,7 @@ import {
   THEME_DARK,
   THEME_LIGHT,
   applyThemeBehaviour,
+  darkThemeMq,
 } from '@console/internal/components/ThemeProvider';
 import okdLogoImg from '../../imgs/okd-logo.svg';
 import openshiftLogoImg from '../../imgs/openshift-logo.svg';
@@ -64,10 +65,10 @@ export const useCustomLogoURL = (type: CUSTOM_LOGO): string => {
     if (!window.SERVER_FLAGS.customLogoURL) {
       return;
     }
+    let reqTheme;
     const fetchData = async () => {
-      let reqTheme;
       if (type === FAVICON_TYPE) {
-        if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (!darkThemeMq.matches) {
           // Fetch Light theme favicon if the Dark preference is not set via the system preference
           reqTheme = THEME_LIGHT;
         } else {
