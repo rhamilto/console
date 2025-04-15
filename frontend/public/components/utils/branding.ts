@@ -65,15 +65,25 @@ export const useCustomLogoURL = (type: CUSTOM_LOGO): string => {
       return;
     }
     const fetchData = async () => {
-      const reqTheme = applyThemeBehaviour(
-        theme,
-        () => {
-          return THEME_DARK;
-        },
-        () => {
-          return THEME_LIGHT;
-        },
-      );
+      let reqTheme;
+      if (type === FAVICON_TYPE) {
+        if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          // Fetch Light theme favicon if the Dark preference is not set via the system preference
+          reqTheme = THEME_LIGHT;
+        } else {
+          reqTheme = THEME_DARK;
+        }
+      } else {
+        reqTheme = applyThemeBehaviour(
+          theme,
+          () => {
+            return THEME_DARK;
+          },
+          () => {
+            return THEME_LIGHT;
+          },
+        );
+      }
       const fetchURL = `${window.SERVER_FLAGS.basePath}custom-logo?type=${type}&theme=${reqTheme}`;
       const response = await fetch(fetchURL);
       if (response.ok) {

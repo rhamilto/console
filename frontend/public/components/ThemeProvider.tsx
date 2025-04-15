@@ -16,11 +16,10 @@ export const applyThemeBehaviour = (
   onDarkBehaviour?: () => string,
   onLightBehaviour?: () => string,
 ) => {
-  let systemTheme: string;
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    systemTheme = THEME_DARK;
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches && theme === THEME_SYSTEM_DEFAULT) {
+    theme = THEME_DARK;
   }
-  if (theme === THEME_DARK || (theme === THEME_SYSTEM_DEFAULT && systemTheme === THEME_DARK)) {
+  if (theme === THEME_DARK) {
     return onDarkBehaviour();
   }
   return onLightBehaviour();
