@@ -1,7 +1,7 @@
 import * as _ from 'lodash-es';
-import { css } from '@patternfly/react-styles';
+import * as React from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
-import { sortable, Table as PfTable, Thead, Tbody, Tr, Th, Td } from '@patternfly/react-table';
+import { Table as PfTable, Thead, Tbody, Tr, Th, Td } from '@patternfly/react-table';
 import { OutlinedCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-circle-icon';
 import { ResourcesAlmostEmptyIcon } from '@patternfly/react-icons/dist/esm/icons/resources-almost-empty-icon';
 import { ResourcesAlmostFullIcon } from '@patternfly/react-icons/dist/esm/icons/resources-almost-full-icon';
@@ -14,8 +14,8 @@ import ResourceQuotaCharts from '@console/app/src/components/resource-quota/Reso
 import ClusterResourceQuotaCharts from '@console/app/src/components/resource-quota/ClusterResourceQuotaCharts';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 
-import { FLAGS, YellowExclamationTriangleIcon } from '@console/shared';
-import { DetailsPage, MultiListPage, Table, TableData } from './factory';
+import { FLAGS, YellowExclamationTriangleIcon, DASH } from '@console/shared';
+import { DetailsPage, MultiListPage } from './factory';
 import {
   Kebab,
   SectionHeading,
@@ -49,6 +49,14 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
+import {
+  actionsCellProps,
+  cellIsStickyProps,
+  getNameCellProps,
+  initialFiltersDefault,
+  ResourceDataView,
+} from '@console/app/src/components/data-view/ResourceDataView';
+import { DataViewCheckboxFilter } from '@patternfly/react-data-view';
 
 const { common } = Kebab.factory;
 
@@ -159,25 +167,6 @@ export const getResourceUsage = (quota, resourceType) => {
     percent,
   };
 };
-
-const tableColumnClasses = [
-  '',
-  '',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  Kebab.columnClass,
-];
-
-const acrqTableColumnClasses = [
-  '',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  'pf-m-hidden pf-m-visible-on-lg',
-  Kebab.columnClass,
-];
 
 export const UsageIcon = ({ percent }) => {
   let usageIcon = <UnknownIcon />;
@@ -401,263 +390,408 @@ const Details = ({ obj: rq }) => {
   );
 };
 
-const ResourceQuotaTableRow = ({ obj: rq, customData }) => {
+const resourceQuotaColumnInfo = [
+  { id: 'name' },
+  { id: 'namespace' },
+  { id: 'label-selector' },
+  { id: 'project-annotations' },
+  { id: 'status' },
+  { id: 'created' },
+  { id: '' },
+];
+
+const useResourceQuotaColumns = () => {
   const { t } = useTranslation();
-  const actions = quotaActions(rq, customData);
-  let resourcesAtQuota;
-  if (rq.kind === ResourceQuotaModel.kind) {
-    resourcesAtQuota = Object.keys(rq?.status?.hard || {}).reduce(
-      (acc, resource) =>
-        getUsedPercentage(rq?.status?.hard[resource], rq?.status?.used?.[resource]) >= 100
-          ? acc + 1
-          : acc,
-      0,
-    );
-  } else {
-    resourcesAtQuota = Object.keys(rq?.status?.total?.hard || {}).reduce(
-      (acc, resource) =>
-        getUsedPercentage(rq?.status?.total?.hard[resource], rq?.status?.total?.used?.[resource]) >=
-        100
-          ? acc + 1
-          : acc,
-      0,
-    );
-  }
-  return (
-    <>
-      <TableData className={tableColumnClasses[0]}>
-        <ResourceLink
-          kind={referenceFor(rq)}
-          name={rq.metadata.name}
-          namespace={
-            referenceFor(rq) === appliedClusterQuotaReference
-              ? customData.namespace
-              : rq.metadata.namespace
-          }
-          className="co-resource-item__resource-name"
-          dataTest="resource-quota-link"
-        />
-      </TableData>
-      <TableData className={css(tableColumnClasses[1], 'co-break-word')} columnID="namespace">
-        {rq.metadata.namespace ? (
-          <ResourceLink kind="Namespace" name={rq.metadata.namespace} />
-        ) : (
-          t('public~None')
-        )}
-      </TableData>
-      <TableData className={css(tableColumnClasses[2], 'co-break-word')}>
-        <LabelList
-          kind={appliedClusterQuotaReference}
-          labels={rq.spec?.selector?.labels?.matchLabels}
-        />
-      </TableData>
-      <TableData className={css(tableColumnClasses[3], 'co-break-word')}>
-        <Selector selector={rq.spec?.selector?.annotations} namespace={customData.namespace} />
-      </TableData>
-      <TableData className={css(tableColumnClasses[4], 'co-break-word')}>
-        {resourcesAtQuota > 0 ? (
-          <>
-            <YellowExclamationTriangleIcon />{' '}
-            {t('public~{{count}} resource reached quota', { count: resourcesAtQuota })}
-          </>
-        ) : (
-          t('public~none are at quota')
-        )}
-      </TableData>
-      <TableData className={tableColumnClasses[5]}>
-        <Timestamp timestamp={rq.metadata.creationTimestamp} />
-      </TableData>
-      <TableData className={tableColumnClasses[6]}>
-        <ResourceKebab
-          customData={customData}
-          actions={actions}
-          kind={referenceFor(rq)}
-          resource={rq}
-        />
-      </TableData>
-    </>
-  );
+  const columns = React.useMemo(() => {
+    return [
+      {
+        title: t('public~Name'),
+        id: resourceQuotaColumnInfo[0].id,
+        sort: 'metadata.name',
+        props: {
+          ...cellIsStickyProps,
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: t('public~Namespace'),
+        id: resourceQuotaColumnInfo[1].id,
+        sort: 'spec.group',
+        props: {
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: t('public~Label selector'),
+        id: resourceQuotaColumnInfo[2].id,
+        sort: 'spec.selector.labels.matchLabels',
+        props: {
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: t('public~Project annotations'),
+        id: resourceQuotaColumnInfo[3].id,
+        sort: 'spec.selector.annotations',
+        props: {
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: t('public~Status'),
+        id: resourceQuotaColumnInfo[4].id,
+        props: {
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: t('public~Created'),
+        id: resourceQuotaColumnInfo[5].id,
+        sort: 'metadata.creationTimestamp',
+        props: {
+          modifier: 'nowrap',
+        },
+      },
+      {
+        title: '',
+        id: resourceQuotaColumnInfo[6].id,
+        props: {
+          ...cellIsStickyProps,
+        },
+      },
+    ];
+  }, [t]);
+  return columns;
 };
 
-const AppliedClusterResourceQuotaTableRow = ({ obj: rq, customData }) => {
-  const { t } = useTranslation();
-  const actions = quotaActions(rq, customData);
-  const resourcesAtQuota = Object.keys(rq?.status?.total?.hard || {}).reduce(
-    (acc, resource) =>
-      getUsedPercentage(rq?.status?.total?.hard[resource], rq?.status?.total?.used?.[resource]) >=
-      100
-        ? acc + 1
-        : acc,
-    0,
-  );
-  return (
-    <>
-      <TableData className={acrqTableColumnClasses[0]}>
-        <ResourceLink
-          kind={appliedClusterQuotaReference}
-          name={rq.metadata.name}
-          namespace={customData.namespace}
-          className="co-resource-item__resource-name"
-        />
-      </TableData>
-      <TableData className={css(acrqTableColumnClasses[1], 'co-break-word')}>
-        <LabelList
-          kind={appliedClusterQuotaReference}
-          labels={rq.spec?.selector?.labels?.matchLabels}
-        />
-      </TableData>
-      <TableData className={css(acrqTableColumnClasses[2], 'co-break-word')}>
-        <Selector selector={rq.spec?.selector?.annotations} namespace={customData.namespace} />
-      </TableData>
-      <TableData className={css(acrqTableColumnClasses[3], 'co-break-word')}>
-        {resourcesAtQuota > 0 ? (
-          <>
-            <YellowExclamationTriangleIcon />{' '}
-            {t('public~{{count}} resource reached quota', { count: resourcesAtQuota })}
-          </>
-        ) : (
-          t('public~none are at quota')
-        )}
-      </TableData>
-      <TableData className={acrqTableColumnClasses[4]}>
-        <Timestamp timestamp={rq.metadata.creationTimestamp} />
-      </TableData>
-      <TableData className={acrqTableColumnClasses[5]}>
-        <ResourceKebab
-          customData={customData}
-          actions={actions}
-          kind={appliedClusterQuotaReference}
-          resource={rq}
-        />
-      </TableData>
-    </>
-  );
+const getResourceQuotaDataViewRows = (data, columns, customData) => {
+  return data.map(({ obj }) => {
+    const { name, namespace } = obj.metadata;
+    const reference = referenceFor(obj);
+    const actions = quotaActions(obj, customData);
+
+    let resourcesAtQuota;
+    if (obj.kind === ResourceQuotaModel.kind) {
+      resourcesAtQuota = Object.keys(obj?.status?.hard || {}).reduce(
+        (acc, resource) =>
+          getUsedPercentage(obj?.status?.hard[resource], obj?.status?.used?.[resource]) >= 100
+            ? acc + 1
+            : acc,
+        0,
+      );
+    } else {
+      resourcesAtQuota = Object.keys(obj?.status?.total?.hard || {}).reduce(
+        (acc, resource) =>
+          getUsedPercentage(
+            obj?.status?.total?.hard[resource],
+            obj?.status?.total?.used?.[resource],
+          ) >= 100
+            ? acc + 1
+            : acc,
+        0,
+      );
+    }
+
+    const rowCells = {
+      [resourceQuotaColumnInfo[0].id]: {
+        cell: (
+          <ResourceLink
+            kind={reference}
+            name={name}
+            namespace={
+              reference === appliedClusterQuotaReference ? customData?.namespace : namespace
+            }
+            className="co-resource-item__resource-name"
+            dataTest="resource-quota-link"
+          />
+        ),
+        props: getNameCellProps(name),
+      },
+      [resourceQuotaColumnInfo[1].id]: {
+        cell: namespace ? <ResourceLink kind="Namespace" name={namespace} /> : 'None',
+      },
+      [resourceQuotaColumnInfo[2].id]: {
+        cell: (
+          <LabelList
+            kind={appliedClusterQuotaReference}
+            labels={obj.spec?.selector?.labels?.matchLabels}
+          />
+        ),
+      },
+      [resourceQuotaColumnInfo[3].id]: {
+        cell: (
+          <Selector selector={obj.spec?.selector?.annotations} namespace={customData?.namespace} />
+        ),
+      },
+      [resourceQuotaColumnInfo[4].id]: {
+        cell:
+          resourcesAtQuota > 0 ? (
+            <>
+              <YellowExclamationTriangleIcon />{' '}
+              {`${resourcesAtQuota} resource${resourcesAtQuota > 1 ? 's' : ''} reached quota`}
+            </>
+          ) : (
+            'none are at quota'
+          ),
+      },
+      [resourceQuotaColumnInfo[5].id]: {
+        cell: <Timestamp timestamp={obj.metadata.creationTimestamp} />,
+      },
+      [resourceQuotaColumnInfo[6].id]: {
+        cell: (
+          <ResourceKebab
+            customData={customData}
+            actions={actions}
+            kind={reference}
+            resource={obj}
+          />
+        ),
+        props: {
+          ...actionsCellProps,
+        },
+      },
+    };
+
+    return columns.map(({ id }) => {
+      const cell = rowCells[id]?.cell || DASH;
+      return {
+        id,
+        props: rowCells[id]?.props,
+        cell,
+      };
+    });
+  });
 };
 
 export const ResourceQuotasList = (props) => {
   const { t } = useTranslation();
-  const ResourceQuotaTableHeader = () => {
+
+  const roleFilterOptions = React.useMemo(
+    () => [
+      {
+        value: 'cluster',
+        label: t('public~Cluster-wide {{resource}}', {
+          resource: t(ResourceQuotaModel.labelPluralKey),
+        }),
+      },
+      {
+        value: 'namespace',
+        label: t('public~Namespace {{resource}}', {
+          resource: t(ResourceQuotaModel.labelPluralKey),
+        }),
+      },
+    ],
+    [t],
+  );
+
+  const additionalFilterNodes = React.useMemo(
+    () => [
+      <DataViewCheckboxFilter
+        key="role"
+        filterId="role-kind"
+        title={t('public~Role')}
+        placeholder={t('public~Filter by role')}
+        options={roleFilterOptions}
+      />,
+    ],
+    [roleFilterOptions, t],
+  );
+
+  const matchesAdditionalFilters = (resource, filters) => {
+    if (filters['role-kind'] && filters['role-kind'].length > 0) {
+      const resourceType = resource?.metadata?.namespace ? 'namespace' : 'cluster';
+      return filters['role-kind'].includes(resourceType);
+    }
+    return true;
+  };
+
+  return (
+    <ResourceDataView
+      {...props}
+      aria-label={t('public~ResourceQuotas')}
+      data={props.data}
+      loaded={props.loaded}
+      columns={useResourceQuotaColumns()}
+      initialFilters={initialFiltersDefault}
+      additionalFilterNodes={additionalFilterNodes}
+      matchesAdditionalFilters={matchesAdditionalFilters}
+      getDataViewRows={getResourceQuotaDataViewRows}
+      customRowData={{ namespace: props.namespace }}
+      hideColumnManagement={true}
+    />
+  );
+};
+
+const acrqTableColumnInfo = [
+  { id: 'name' },
+  { id: 'label-selector' },
+  { id: 'project-annotations' },
+  { id: 'status' },
+  { id: 'created' },
+  { id: '' },
+];
+
+const useAppliedClusterResourceQuotaColumns = () => {
+  const { t } = useTranslation();
+  const columns = React.useMemo(() => {
     return [
       {
         title: t('public~Name'),
-        sortField: 'metadata.name',
-        transforms: [sortable],
-        props: { className: tableColumnClasses[0] },
-      },
-      {
-        title: t('public~Namespace'),
-        sortField: 'metadata.namespace',
-        transforms: [sortable],
-        props: { className: tableColumnClasses[1] },
-        id: 'namespace',
+        id: acrqTableColumnInfo[0].id,
+        sort: 'metadata.name',
+        props: {
+          ...cellIsStickyProps,
+          modifier: 'nowrap',
+        },
       },
       {
         title: t('public~Label selector'),
-        sortField: 'spec.selector.labels.matchLabels',
-        transforms: [sortable],
-        props: { className: tableColumnClasses[2] },
+        id: acrqTableColumnInfo[1].id,
+        sort: 'spec.selector.labels.matchLabels',
+        props: {
+          modifier: 'nowrap',
+        },
       },
       {
         title: t('public~Project annotations'),
-        sortField: 'spec.selector.annotations',
-        transforms: [sortable],
-        props: { className: tableColumnClasses[3] },
+        id: acrqTableColumnInfo[2].id,
+        sort: 'spec.selector.annotations',
+        props: {
+          modifier: 'nowrap',
+        },
       },
       {
         title: t('public~Status'),
-        props: { className: tableColumnClasses[4] },
-        transforms: [sortable],
+        id: acrqTableColumnInfo[3].id,
+        props: {
+          modifier: 'nowrap',
+        },
       },
       {
         title: t('public~Created'),
-        sortField: 'metadata.creationTimestamp',
-        transforms: [sortable],
-        props: { className: tableColumnClasses[5] },
+        id: acrqTableColumnInfo[4].id,
+        sort: 'metadata.creationTimestamp',
+        props: {
+          modifier: 'nowrap',
+        },
       },
       {
         title: '',
-        props: { className: tableColumnClasses[6] },
+        id: acrqTableColumnInfo[5].id,
+        props: {
+          ...cellIsStickyProps,
+        },
       },
     ];
-  };
-  return (
-    <Table
-      {...props}
-      aria-label={t('public~ResourceQuotas')}
-      Header={ResourceQuotaTableHeader}
-      Row={ResourceQuotaTableRow}
-      virtualize
-      customData={{ namespace: props.namespace }}
-    />
-  );
+  }, [t]);
+  return columns;
+};
+
+const getAppliedClusterResourceQuotaDataViewRows = (data, columns, customData) => {
+  return data.map(({ obj }) => {
+    const { name } = obj.metadata;
+    const actions = quotaActions(obj, customData);
+    const resourcesAtQuota = Object.keys(obj?.status?.total?.hard || {}).reduce(
+      (acc, resource) =>
+        getUsedPercentage(
+          obj?.status?.total?.hard[resource],
+          obj?.status?.total?.used?.[resource],
+        ) >= 100
+          ? acc + 1
+          : acc,
+      0,
+    );
+
+    const rowCells = {
+      [acrqTableColumnInfo[0].id]: {
+        cell: (
+          <ResourceLink
+            kind={appliedClusterQuotaReference}
+            name={name}
+            namespace={customData.namespace}
+            className="co-resource-item__resource-name"
+          />
+        ),
+        props: getNameCellProps(name),
+      },
+      [acrqTableColumnInfo[1].id]: {
+        cell: (
+          <LabelList
+            kind={appliedClusterQuotaReference}
+            labels={obj.spec?.selector?.labels?.matchLabels}
+          />
+        ),
+      },
+      [acrqTableColumnInfo[2].id]: {
+        cell: (
+          <Selector selector={obj.spec?.selector?.annotations} namespace={customData.namespace} />
+        ),
+      },
+      [acrqTableColumnInfo[3].id]: {
+        cell:
+          resourcesAtQuota > 0 ? (
+            <>
+              <YellowExclamationTriangleIcon />{' '}
+              {`${resourcesAtQuota} resource${resourcesAtQuota > 1 ? 's' : ''} reached quota`}
+            </>
+          ) : (
+            'none are at quota'
+          ),
+      },
+      [acrqTableColumnInfo[4].id]: {
+        cell: <Timestamp timestamp={obj.metadata.creationTimestamp} />,
+      },
+      [acrqTableColumnInfo[5].id]: {
+        cell: (
+          <ResourceKebab
+            customData={customData}
+            actions={actions}
+            kind={appliedClusterQuotaReference}
+            resource={obj}
+          />
+        ),
+        props: {
+          ...actionsCellProps,
+        },
+      },
+    };
+
+    return columns.map(({ id }) => {
+      const cell = rowCells[id]?.cell || <span>-</span>;
+      return {
+        id,
+        props: rowCells[id]?.props,
+        cell,
+      };
+    });
+  });
 };
 
 export const AppliedClusterResourceQuotasList = (props) => {
   const { t } = useTranslation();
-  const AppliedClusterResourceQuotaTableHeader = () => {
-    return [
-      {
-        title: t('public~Name'),
-        sortField: 'metadata.name',
-        transforms: [sortable],
-        props: { className: acrqTableColumnClasses[0] },
-      },
-      {
-        title: t('public~Label selector'),
-        sortField: 'spec.selector.labels.matchLabels',
-        transforms: [sortable],
-        props: { className: acrqTableColumnClasses[1] },
-      },
-      {
-        title: t('public~Project annotations'),
-        sortField: 'spec.selector.annotations',
-        transforms: [sortable],
-        props: { className: acrqTableColumnClasses[2] },
-      },
-      {
-        title: t('public~Status'),
-        props: { className: acrqTableColumnClasses[3] },
-        transforms: [sortable],
-      },
-      {
-        title: t('public~Created'),
-        sortField: 'metadata.creationTimestamp',
-        transforms: [sortable],
-        props: { className: acrqTableColumnClasses[4] },
-      },
-      {
-        title: '',
-        props: { className: acrqTableColumnClasses[5] },
-      },
-    ];
-  };
+
   return (
-    <Table
+    <ResourceDataView
       {...props}
       aria-label={t('public~AppliedClusterResourceQuotas')}
-      Header={AppliedClusterResourceQuotaTableHeader}
-      Row={AppliedClusterResourceQuotaTableRow}
-      virtualize
-      customData={{ namespace: props.namespace }}
+      data={props.data}
+      loaded={props.loaded}
+      columns={useAppliedClusterResourceQuotaColumns()}
+      initialFilters={initialFiltersDefault}
+      getDataViewRows={getAppliedClusterResourceQuotaDataViewRows}
+      customRowData={{ namespace: props.namespace }}
+      hideColumnManagement={true}
     />
   );
-};
-
-export const quotaType = (quota) => {
-  if (!quota) {
-    return undefined;
-  }
-  return quota.metadata.namespace ? 'namespace' : 'cluster';
 };
 
 // Split each resource quota into one row per subject
 export const flatten = (resources) => _.flatMap(resources, (resource) => _.compact(resource.data));
 
 export const ResourceQuotasPage = connectToFlags(FLAGS.OPENSHIFT)(
-  ({ namespace, flags, mock, showTitle }) => {
+  ({ namespace, flags, mock, showTitle, hideNameLabelFilters, hideLabelFilter }) => {
     const { t } = useTranslation();
     const resources = [{ kind: 'ResourceQuota', namespaced: true }];
-    let rowFilters = null;
 
     if (flagPending(flags[FLAGS.OPENSHIFT])) {
       return <LoadingBox />;
@@ -677,28 +811,6 @@ export const ResourceQuotasPage = connectToFlags(FLAGS.OPENSHIFT)(
           optional: true,
         });
       }
-
-      rowFilters = [
-        {
-          filterGroupName: t('public~Role'),
-          type: 'role-kind',
-          reducer: quotaType,
-          items: [
-            {
-              id: 'cluster',
-              title: t('public~Cluster-wide {{resource}}', {
-                resource: t(ResourceQuotaModel.labelPluralKey),
-              }),
-            },
-            {
-              id: 'namespace',
-              title: t('public~Namespace {{resource}}', {
-                resource: t(ResourceQuotaModel.labelPluralKey),
-              }),
-            },
-          ],
-        },
-      ];
     }
     const createNS = namespace || 'default';
     const accessReview = {
@@ -717,15 +829,23 @@ export const ResourceQuotasPage = connectToFlags(FLAGS.OPENSHIFT)(
         namespace={namespace}
         flatten={flatten}
         title={t(ResourceQuotaModel.labelPluralKey)}
-        rowFilters={rowFilters}
         mock={mock}
         showTitle={showTitle}
+        omitFilterToolbar={true}
+        hideNameLabelFilters={hideNameLabelFilters}
+        hideLabelFilter={hideLabelFilter}
       />
     );
   },
 );
 
-export const AppliedClusterResourceQuotasPage = ({ namespace, mock, showTitle }) => {
+export const AppliedClusterResourceQuotasPage = ({
+  namespace,
+  mock,
+  showTitle,
+  hideNameLabelFilters,
+  hideLabelFilter,
+}) => {
   const { t } = useTranslation();
   const resources = [
     {
@@ -746,6 +866,9 @@ export const AppliedClusterResourceQuotasPage = ({ namespace, mock, showTitle })
       title={t(AppliedClusterResourceQuotaModel.labelPluralKey)}
       mock={mock}
       showTitle={showTitle}
+      omitFilterToolbar={true}
+      hideNameLabelFilters={hideNameLabelFilters}
+      hideLabelFilter={hideLabelFilter}
     />
   );
 };
