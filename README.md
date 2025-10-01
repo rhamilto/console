@@ -423,6 +423,8 @@ Note that when upgrading @patternfly packages, we've seen in the past that it ca
 yarn run dedupe-deps --scopes @patternfly
 ```
 
+Please note that PatternFly releases do not follow closely semantic versioning. Therefore, it's important to use the `~` semver range operator, to ensure better compatibility when building dynamic plugins.
+
 #### Supported Browsers
 
 We support the latest versions of the following browsers:
