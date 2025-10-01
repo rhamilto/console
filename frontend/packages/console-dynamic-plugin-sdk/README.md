@@ -219,6 +219,7 @@ This section documents notable changes in Console provided shared modules and ot
 
 - Upgraded from `react-redux` v7 to v8. Plugins must use `react-redux` v8 to be compatible
   with Console.
+- Updated PatternFly 6 shared modules to [PatternFly 6.4](https://www.patternfly.org/get-started/release-highlights#patternfly-6.4).
 
 ### PatternFly 5+ dynamic modules
 
