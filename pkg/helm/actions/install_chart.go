@@ -3,7 +3,10 @@ package actions
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"os"
+	"regexp"
+	"strings"
 	"time"
 
 	"github.com/openshift/api/helm/v1beta1"
@@ -30,7 +33,69 @@ var (
 		Version:  "v1beta1",
 		Resource: "projecthelmchartrepositories",
 	}
+	svVersionCore     = `\d+\.\d+\.\d+`
+	svId              = `[a-zA-Z0-9-]+`
+	svPrerelease      = svId + `(?:\.` + svId + `)*`
+	svPrereleaseOpt   = `(?:-` + svPrerelease + `)?`
+	svBuild           = svId + `(?:\.` + svId + `)*`
+	svBuildOpt        = `(?:\+` + svBuild + `)?`
+	chartVersionRegex = regexp.MustCompile(`-(` + svVersionCore + svPrereleaseOpt + svBuildOpt + `)\.(?:tgz|tar\.gz)$`)
 )
+
+// isValidChartURL returns true for oci://<ref> or http(s)://... with path ending in .tgz or .tar.gz (query params allowed).
+func isValidChartURL(raw string) bool {
+	u, err := url.Parse(raw)
+	if err != nil {
+		return false
+
+	}
+	if strings.HasPrefix(u.Scheme, "http") {
+		return strings.HasSuffix(u.Path, ".tgz") || strings.HasSuffix(u.Path, ".tar.gz")
+	} else {
+		return u.Scheme == "oci"
+	}
+}
+
+// chartVersionFromURL extracts the chart version from a chart URL.
+// For OCI URLs the version is the tag after the last ':' in the path:
+//
+//	oci://registry/repo/chart:1.0.0 -> "1.0.0"
+//
+// For HTTP(S) archive URLs the version is parsed from the filename using the
+// Helm naming convention <name>-<version>.tgz (or .tar.gz):
+//
+//	https://example.com/charts/argo-cd-9.4.1.tgz -> "9.4.1"
+//
+// Returns an empty string when no version can be determined.
+func chartVersionFromURL(raw string) string {
+	u, err := url.Parse(raw)
+	if err != nil {
+		return ""
+	}
+
+	switch u.Scheme {
+	case "oci":
+		// Digest refs (`@sha256`:...) should not extract a "version" (digests are content-addressed)
+		if strings.Contains(u.Path, "@") {
+			return ""
+		}
+
+		// OCI ref tag is the segment after the last ':' in the path (host may be host/link:tag for version)
+		if i := strings.LastIndex(u.Path, ":"); i >= 0 {
+			return u.Path[i+1:]
+		}
+	case "http", "https":
+		// Extract the chart version from the filename.
+		if i := strings.LastIndex(u.Path, "/"); i >= 0 {
+			filename := u.Path[i+1:]
+			if ver := chartVersionRegex.FindStringSubmatch(filename); ver != nil {
+				return ver[1]
+			}
+			return ""
+		}
+	}
+	return ""
+}
 
 func InstallChart(ns, name, url string, vals map[string]interface{}, conf *action.Configuration, client dynamic.Interface, coreClient corev1client.CoreV1Interface, fileCleanUp bool, indexEntry string) (*release.Release, error) {
 	var err error
@@ -194,4 +259,51 @@ func InstallChartAsync(ns, name, url string, vals map[string]interface{}, conf *
 		return nil, err
 	}
 	return &secret, nil
+}
+
+// InstallChartFromURL installs a chart from an OCI or direct HTTP(S) chart URL.
+// If not provided, version is extracted from the OCI URL tag when applicable.
+func InstallChartFromURL(ns, name, url string, vals map[string]interface{}, conf *action.Configuration, version string) (*release.Release, error) {
+
+	if !isValidChartURL(url) {
+		return nil, fmt.Errorf("invalid chart URL: %s, must be oci:// URL or http(s)://*.tgz", url)
+	}
+
+	cmd := action.NewInstall(conf)
+	cmd.ReleaseName = name
+	cmd.Namespace = ns
+
+	// Set version so LocateChart (and Helm OCI) resolve the correct chart tag; matches InstallChart behavior.
+	if version == "" {
+		version = chartVersionFromURL(url)
+	}
+	cmd.ChartPathOptions.Version = version
+
+	cp, err := cmd.ChartPathOptions.LocateChart(url, settings)
+	if err != nil {
+		return nil, fmt.Errorf("error locating chart: %v", err)
+	}
+	ch, err := loader.Load(cp)
+	if err != nil {
+		return nil, err
+	}
+
+	// Add chart URL as an annotation before installation
+	if ch.Metadata == nil {
+		ch.Metadata = &chart.Metadata{}
+	}
+	if ch.Metadata.Annotations == nil {
+		ch.Metadata.Annotations = make(map[string]string)
+	}
+	ch.Metadata.Annotations["chart_url"] = url
+
+	release, err := cmd.Run(ch, vals)
+	if err != nil {
+		return nil, err
+	}
+	if ch.Metadata.Name != "" && ch.Metadata.Version != "" {
+		metrics.HandleconsoleHelmInstallsTotal(ch.Metadata.Name, ch.Metadata.Version)
+	}
+
+	return release, nil
 }

@@ -30,6 +30,7 @@ func New(apiUrl string, transport http.RoundTripper, kubeversionGetter version.K
 		renderManifests:         actions.RenderManifests,
 		installChartAsync:       actions.InstallChartAsync,
 		installChart:            actions.InstallChart,
+		installChartFromURL:     actions.InstallChartFromURL,
 		listReleases:            actions.ListReleases,
 		getRelease:              actions.GetRelease,
 		getChart:                actions.GetChart,
@@ -62,6 +63,7 @@ type helmHandlers struct {
 	renderManifests       func(string, string, map[string]interface{}, *action.Configuration, dynamic.Interface, corev1client.CoreV1Interface, string, string, bool) (string, error)
 	installChartAsync     func(string, string, string, map[string]interface{}, *action.Configuration, dynamic.Interface, corev1client.CoreV1Interface, bool, string) (*kv1.Secret, error)
 	installChart          func(string, string, string, map[string]interface{}, *action.Configuration, dynamic.Interface, corev1client.CoreV1Interface, bool, string) (*release.Release, error)
+	installChartFromURL   func(string, string, string, map[string]interface{}, *action.Configuration, string) (*release.Release, error)
 	listReleases          func(*action.Configuration, bool) ([]*release.Release, error)
 	upgradeReleaseAsync   func(string, string, string, map[string]interface{}, *action.Configuration, dynamic.Interface, corev1client.CoreV1Interface, bool, string) (*kv1.Secret, error)
 	upgradeRelease        func(string, string, string, map[string]interface{}, *action.Configuration, dynamic.Interface, corev1client.CoreV1Interface, bool, string) (*release.Release, error)
@@ -411,4 +413,30 @@ func (h *helmHandlers) HandleUninstallReleaseAsync(user *auth.User, w http.Respo
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func (h *helmHandlers) HandleInstallChartFromURL(user *auth.User, w http.ResponseWriter, r *http.Request) {
+	var req HelmRequest
+
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		serverutils.SendResponse(w, http.StatusBadGateway, serverutils.ApiError{Err: fmt.Sprintf("Failed to parse request: %v", err)})
+		return
+	}
+
+	namespace := req.Namespace
+	if namespace == "" {
+		namespace = r.URL.Query().Get("namespace")
+	}
+	if namespace == "" {
+		namespace = "default"
+	}
+
+	conf := h.getActionConfigurations(h.ApiServerHost, namespace, user.Token, &h.Transport)
+	resp, err := h.installChartFromURL(namespace, req.Name, req.ChartUrl, req.Values, conf, req.ChartVersion)
+	if err != nil {
+		serverutils.SendResponse(w, http.StatusBadGateway, serverutils.ApiError{Err: fmt.Sprintf("Failed to install helm chart: %v", err)})
+		return
+	}
+	serverutils.SendResponse(w, http.StatusCreated, resp)
 }
