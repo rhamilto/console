@@ -1,9 +1,14 @@
 import { Node } from '@patternfly/react-topology';
 import { Trans } from 'react-i18next';
-import { confirmModal, errorModal } from '@console/internal/components/modals';
+import { confirmModal } from '@console/internal/components/modals';
+import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
 import { updateTopologyResourceApplication } from './topology-utils';
 
-export const moveNodeToGroup = (node: Node, targetGroup: Node): Promise<void> => {
+export const moveNodeToGroup = (
+  node: Node,
+  targetGroup: Node,
+  onError?: (error: string) => void,
+): Promise<void> => {
   const sourceGroup = node.getParent() !== node.getGraph() ? (node.getParent() as Node) : undefined;
   if (sourceGroup === targetGroup) {
     return Promise.reject();
@@ -51,7 +56,11 @@ export const moveNodeToGroup = (node: Node, targetGroup: Node): Promise<void> =>
             .then(resolve)
             .catch((err) => {
               const error = err.message;
-              errorModal({ error });
+              if (onError) {
+                onError(error);
+              } else {
+                launchErrorModal({ error });
+              }
               reject(err);
             });
         },
@@ -61,6 +70,10 @@ export const moveNodeToGroup = (node: Node, targetGroup: Node): Promise<void> =>
 
   return updateTopologyResourceApplication(node, targetGroup.getLabel()).catch((err) => {
     const error = err.message;
-    errorModal({ error });
+    if (onError) {
+      onError(error);
+    } else {
+      launchErrorModal({ error });
+    }
   });
 };

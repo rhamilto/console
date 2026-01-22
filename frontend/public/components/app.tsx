@@ -52,6 +52,7 @@ import { QuickStartDrawer } from '@console/app/src/components/quick-starts/Quick
 import { ModalProvider } from '@console/dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
 import { OverlayProvider } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import ToastProvider from '@console/shared/src/components/toast/ToastProvider';
+import { SyncErrorModalLauncher } from '@console/shared/src/utils/error-modal-handler';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { useDebounceCallback } from '@console/shared/src/hooks/debounce';
 import { LOGIN_ERROR_PATH } from '@console/internal/module/auth';
@@ -308,6 +309,7 @@ const App: FC<{
       <DetectNamespace>
         <ModalProvider>
           <OverlayProvider>
+            <SyncErrorModalLauncher />
             <Suspense fallback={<LoadingBox blame="contextProviderExtensions suspense" />}>
               {contextProviderExtensions.reduce(
                 (children, e) => (
