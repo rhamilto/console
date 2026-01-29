@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { ActionGroup, Button } from '@patternfly/react-core';
 import { Formik, FormikHelpers, FormikValues } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import {
@@ -15,7 +16,6 @@ import {
 import {
   Firehose,
   FirehoseResult,
-  history,
   resourceListPathFromModel,
 } from '@console/internal/components/utils';
 import {
@@ -51,6 +51,7 @@ type ControllerProps = {
 
 const Controller: FC<ControllerProps> = ({ loaded, resources, revision, cancel, close }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   if (!loaded) {
     return null;
   }
@@ -131,7 +132,7 @@ const Controller: FC<ControllerProps> = ({ loaded, resources, revision, cancel, 
         // If we are currently on the deleted revision's page, redirect to the list page
         const re = new RegExp(`/${revision.metadata.name}(/|$)`);
         if (re.test(window.location.pathname)) {
-          history.push(resourceListPathFromModel(RevisionModel, revision.metadata.namespace));
+          navigate(resourceListPathFromModel(RevisionModel, revision.metadata.namespace));
         }
       })
       .catch((err) => {
