@@ -1,11 +1,12 @@
 import type { ComponentType, ReactNode, FC } from 'react';
 import { Component } from 'react';
+import { useLocation } from 'react-router-dom-v5-compat';
 import { ErrorBoundaryFallbackProps } from '@console/dynamic-plugin-sdk';
-import { history } from '@console/internal/components/utils/router';
 
 type ErrorBoundaryProps = {
   FallbackComponent?: ComponentType<ErrorBoundaryFallbackProps>;
   children?: ReactNode;
+  locationPathname?: string;
 };
 
 /** Needed for tests -- should not be imported by application logic */
@@ -17,9 +18,7 @@ export type ErrorBoundaryState = {
 
 const DefaultFallback: FC = () => <div />;
 
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  unlisten: () => void = () => {};
-
+class ErrorBoundaryInner extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   readonly defaultState: ErrorBoundaryState = {
     hasError: false,
     error: {
@@ -37,15 +36,16 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.state = this.defaultState;
   }
 
-  componentDidMount() {
-    this.unlisten = history.listen(() => {
-      // reset state to default when location changes
+  componentDidUpdate(prevProps: ErrorBoundaryProps) {
+    // Reset error state when location changes
+    if (
+      this.state.hasError &&
+      prevProps.locationPathname &&
+      this.props.locationPathname !== prevProps.locationPathname
+    ) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState(this.defaultState);
-    });
-  }
-
-  componentWillUnmount() {
-    this.unlisten();
+    }
   }
 
   componentDidCatch(error, errorInfo) {
@@ -74,5 +74,16 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     );
   }
 }
+
+// Functional wrapper to handle location changes
+const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, FallbackComponent }) => {
+  const location = useLocation();
+
+  return (
+    <ErrorBoundaryInner locationPathname={location.pathname} FallbackComponent={FallbackComponent}>
+      {children}
+    </ErrorBoundaryInner>
+  );
+};
 
 export default ErrorBoundary;
