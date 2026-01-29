@@ -93,6 +93,8 @@ export const operator = {
     projectDropdown.shouldContain(installedNamespace);
     operator.filterByName(operatorName);
     listPage.rows.countShouldBe(1);
+    // TODO: figure out why this arbitrary wait is needed
+    cy.wait(3000);
     cy.byTestOperatorRow(operatorName).should('exist');
     cy.byTestOperatorRow(operatorName).click();
   },
