@@ -82,11 +82,11 @@ type OperatorsSectionProps = {
   Row: ComponentType<
     OperatorRowProps & {
       LoadingComponent: () => JSX.Element;
-      Component: ComponentType<OperatorRowProps> | LazyLoader<OperatorRowProps>;
+      Component: ComponentType<OperatorRowProps> | LazyLoader<ComponentType<OperatorRowProps>>;
       key: string;
       isResolved: boolean;
     }
   >;
   isResolved: boolean;
-  Component: ComponentType<OperatorRowProps> | LazyLoader<OperatorRowProps>;
+  Component: ComponentType<OperatorRowProps> | LazyLoader<ComponentType<OperatorRowProps>>;
 };

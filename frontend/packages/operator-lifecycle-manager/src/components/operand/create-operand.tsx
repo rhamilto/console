@@ -26,7 +26,6 @@ import {
   hasNoFields,
   prune,
 } from '@console/shared/src/components/dynamic-form/utils';
-import { ErrorBoundaryPage } from '@console/shared/src/components/error';
 import { PageHeading } from '@console/shared/src/components/heading/PageHeading';
 import { SyncedEditor } from '@console/shared/src/components/synced-editor';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
@@ -162,12 +161,10 @@ const CreateOperandPage: FC = () => {
       </DocumentTitle>
       <ModelStatusBox groupVersionKind={params.plural}>
         {createResourceExtension ? (
-          <ErrorBoundaryPage>
-            <AsyncComponent
-              loader={createResourceExtension.properties.component}
-              namespace={params.ns}
-            />
-          </ErrorBoundaryPage>
+          <AsyncComponent
+            loader={createResourceExtension.properties.component}
+            namespace={params.ns}
+          />
         ) : (
           <CreateOperand
             initialEditorType={EditorType.Form}
