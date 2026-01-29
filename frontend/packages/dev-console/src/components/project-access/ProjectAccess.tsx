@@ -3,11 +3,10 @@ import { Content, ContentVariants } from '@patternfly/react-core';
 import { Formik } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation, Trans } from 'react-i18next';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link, useNavigate } from 'react-router-dom-v5-compat';
 import {
   documentationURLs,
   getDocumentationURL,
-  history,
   isManaged,
   LoadingBox,
   StatusBox,
@@ -43,6 +42,7 @@ const ProjectAccess: FC<ProjectAccessProps> = ({
   fullFormView,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   if ((!roleBindings.loaded && _.isEmpty(roleBindings.loadError)) || !roles.loaded) {
     return <LoadingBox />;
   }
@@ -157,7 +157,7 @@ const ProjectAccess: FC<ProjectAccessProps> = ({
               {...formikProps}
               roles={roles.data}
               roleBindings={initialValues}
-              onCancel={fullFormView ? history.goBack : null}
+              onCancel={fullFormView ? () => navigate(-1) : null}
             />
           )}
         </Formik>
