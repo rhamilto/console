@@ -19,7 +19,6 @@ import { connectToPlural } from '../../kinds';
 export type AttachStorageFormProps = {
   kindObj: K8sKind;
   kindsInFlight: any;
-  history: History;
 };
 
 type StorageProviderMap = {
