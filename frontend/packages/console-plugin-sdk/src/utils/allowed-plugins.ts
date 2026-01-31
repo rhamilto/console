@@ -19,7 +19,7 @@ const getEnabledDynamicPluginNames = () => {
 };
 
 /**
- * List of dynamic plugin names from server flags and URL params to be loaded by Console.
+ * List of dynamic plugin names from {@link window.SERVER_FLAGS} and URL params to be loaded by Console.
  *
  * Note: this also determines the order of extensions returned from Console plugin SDK hooks
  * like `useExtensions` and `useResolvedExtensions`.

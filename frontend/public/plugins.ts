@@ -7,18 +7,20 @@ import type { RootState } from './redux';
 import { valid as semver } from 'semver';
 import { consoleFetch } from '@console/dynamic-plugin-sdk/src/utils/fetch/console-fetch';
 import { ValidationResult } from '@console/dynamic-plugin-sdk/src/validation/ValidationResult';
+import { REMOTE_ENTRY_CALLBACK } from '@console/dynamic-plugin-sdk/src/constants';
 
-/** Set by `console-operator` or `./bin/bridge -release-version` */
-const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion);
+/**
+ * Set by `console-operator` or `./bin/bridge -release-version`. If this is
+ * undefined, we will not check this value when loading plugins.
+ */
+const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion) ?? undefined;
 
 /**
  * Console local plugins module has its source generated during webpack build,
  * so we use dynamic require() instead of the usual static import statement.
  */
-const localPlugins =
-  process.env.NODE_ENV !== 'test'
-    ? (require('../get-local-plugins').default as LocalPluginManifest[])
-    : [];
+const localPlugins: LocalPluginManifest[] =
+  process.env.NODE_ENV !== 'test' ? require('../get-local-plugins').default : [];
 
 const localPluginNames = localPlugins.map((p) => p.name);
 
@@ -32,40 +34,33 @@ const localPluginNames = localPlugins.map((p) => p.name);
 export const pluginStore = new PluginStore({
   loaderOptions: {
     sharedScope: getSharedScope(),
-    // @ts-expect-error incompatible due to console-specific fetch options
     fetchImpl: consoleFetch,
-    // Allows plugins to target a specific version of OpenShift via semver
-    fixedPluginDependencyResolutions: {
-      // TODO(plugin-sdk): allow a way to bypass this dependency in development, where we don't have this info
-      '@console/pluginAPI':
-        process.env.NODE_ENV === 'production'
-          ? CURRENT_OPENSHIFT_VERSION // this is always provided by console-operator in production
-          : CURRENT_OPENSHIFT_VERSION || '4.1337.67',
+    canLoadPlugin: (manifest) => {
+      return localPluginNames.includes(manifest.name) || dynamicPluginNames.includes(manifest.name);
     },
-    // Additional validation for plugin manifest
+    // Allows plugins to target a specific version of OpenShift via semver
+    customDependencyResolutions: {
+      '@console/pluginAPI': CURRENT_OPENSHIFT_VERSION,
+    },
+    // Additional validation for Console plugin manifests
     transformPluginManifest: (manifest) => {
-      const isLocalPlugin = localPluginNames.includes(manifest.name);
-
       // Local plugins can skip remote plugin validation
-      if (isLocalPlugin) {
+      if (localPluginNames.includes(manifest.name)) {
         return manifest;
-      }
-
-      // Only allow plugins listed in `dynamicPluginNames` to be loaded
-      if (!dynamicPluginNames.includes(manifest.name)) {
-        throw new Error(`Plugin "${manifest.name}" is not in the list of allowed plugins.`);
       }
 
       // Ensure plugin name can be a valid DNS subdomain name for loading
       const result = new ValidationResult('Console plugin metadata');
       result.assertions.validDNSSubdomainName(manifest.name, 'metadata.name');
-
-      if (result.hasErrors()) {
-        throw new Error(result.formatErrors());
-      }
+      result.report();
 
       // No issues, return manifest as-is
       return manifest;
+    },
+    // Explicitly define the default entry callback name
+    entryCallbackSettings: {
+      name: REMOTE_ENTRY_CALLBACK,
+      registerCallback: true,
     },
   },
 });

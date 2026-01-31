@@ -12,7 +12,7 @@ import * as readPkg from 'read-pkg';
 import * as semver from 'semver';
 import type * as webpack from 'webpack';
 import { ConsolePluginBuildMetadata, ConsolePluginPackageJSON } from '../build-types';
-import { extensionsFile } from '../constants';
+import { extensionsFile, REMOTE_ENTRY_CALLBACK } from '../constants';
 import {
   sharedPluginModules,
   getSharedModuleMetadata,
@@ -414,6 +414,9 @@ export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
       },
       extensions,
       sharedModules: { ...consoleProvidedSharedModules, ...sharedDynamicModules },
+      entryCallbackSettings: {
+        name: REMOTE_ENTRY_CALLBACK,
+      },
       entryScriptFilename:
         process.env.NODE_ENV === 'production'
           ? 'plugin-entry.[fullhash].min.js'

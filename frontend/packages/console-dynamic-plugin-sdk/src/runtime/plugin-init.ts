@@ -5,7 +5,7 @@ import {
   getSharedScope,
 } from '@console/dynamic-plugin-sdk/src/runtime/plugin-shared-modules';
 import { dynamicPluginNames } from '@console/plugin-sdk/src/utils/allowed-plugins';
-import type { ConsoleSupportedCustomProperties } from '../build-types';
+import { REMOTE_ENTRY_CALLBACK } from '../constants';
 import type { ErrorWithCause } from '../utils/error/custom-error';
 import { resolveURL } from '../utils/url';
 
@@ -41,8 +41,7 @@ const loadAndEnablePlugin = async (
     );
   } else if (plugin?.status === 'loaded') {
     const disablePlugins = (
-      (plugin.manifest.customProperties?.console as ConsoleSupportedCustomProperties)
-        ?.disableStaticPlugins ?? []
+      plugin.manifest.customProperties?.console?.disableStaticPlugins ?? []
     ).filter((name) => {
       const pluginInfo = pluginStore.getPluginInfo().find((p) => p.manifest.name === name);
 
@@ -70,8 +69,6 @@ const loadAndEnablePlugin = async (
  * Plugins built with the new callback function do not need this shim.
  */
 const registerLegacyPluginEntryCallback = () => {
-  /** DEFAULT_REMOTE_ENTRY_CALLBACK in @openshift/dynamic-plugin-sdk */
-  const sdkCallbackName = '__load_plugin_entry__';
   /** Used in @openshift-console/dynamic-plugin-sdk-webpack 1.0.0 - 4.21.x */
   const previousConsoleCallbackName = 'loadPluginEntry';
 
@@ -85,7 +82,7 @@ const registerLegacyPluginEntryCallback = () => {
       `[DEPRECATION WARNING] ${pluginName} was built for an older version of Console and may not work correctly in this version.`,
     );
 
-    window[sdkCallbackName](patchedPluginName, entryModule);
+    window[REMOTE_ENTRY_CALLBACK](patchedPluginName, entryModule);
   };
 
   // eslint-disable-next-line no-console
