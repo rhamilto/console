@@ -11,6 +11,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Form,
 } from '@patternfly/react-core';
 import type { TextInputProps } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
@@ -73,7 +74,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
     <Modal variant="small" isOpen onClose={closeOverlay}>
       <ModalHeader title={title} />
       <ModalBody>
-        <form onSubmit={submit} name="form" className="modal-content">
+        <Form onSubmit={submit}>
           <FormGroup label={label} isRequired fieldId="input-value">
             <TextInput
               id="input-value"
@@ -108,7 +109,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
               <div className="co-pre-line">{errorMessage}</div>
             </Alert>
           )}
-        </form>
+        </Form>
       </ModalBody>
       <ModalFooter>
         <Button
