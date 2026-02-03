@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { useModal } from '@console/dynamic-plugin-sdk/src/app/modal-support/useModal';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import {
   CreateServiceAccountModal,
   CreateServiceAccountModalProps,
 } from '../components/cluster-extension/CreateServiceAccountModal';
 
 export const useCreateServiceAccountModal: UseCreateServiceAccountModal = () => {
-  const launcher = useModal();
+  const launcher = useOverlay();
   return useCallback((props) => launcher(CreateServiceAccountModal, props), [launcher]);
 };
 

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { useModal } from '@console/dynamic-plugin-sdk/src/app/modal-support/useModal';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { TextInputModal, TextInputModalProps } from '../components/modals/TextInputModal';
 
 export const useTextInputModal: UseTextInputModal = () => {
-  const launcher = useModal();
+  const launcher = useOverlay();
   return useCallback((props) => launcher(TextInputModal, props), [launcher]);
 };
 

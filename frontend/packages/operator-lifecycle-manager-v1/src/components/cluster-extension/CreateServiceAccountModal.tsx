@@ -1,9 +1,18 @@
 import { useState } from 'react';
-import { Button, Alert, Form, FormGroup, TextInput } from '@patternfly/react-core';
-import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
+import {
+  Button,
+  Alert,
+  Form,
+  FormGroup,
+  TextInput,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src';
-import { ModalComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
+import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { k8sCreateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { LoadingInline } from '@console/internal/components/utils/status-box';
 import { ServiceAccountModel } from '@console/internal/models';
@@ -14,8 +23,8 @@ export interface CreateServiceAccountModalProps {
   initialName?: string;
 }
 
-export const CreateServiceAccountModal: ModalComponent<CreateServiceAccountModalProps> = ({
-  closeModal,
+export const CreateServiceAccountModal: OverlayComponent<CreateServiceAccountModalProps> = ({
+  closeOverlay,
   onSubmit,
   namespace,
   initialName = '',
@@ -60,11 +69,11 @@ export const CreateServiceAccountModal: ModalComponent<CreateServiceAccountModal
     return k8sCreateResource({ model: ServiceAccountModel, data: serviceAccount });
   };
 
-  const submit = (event) => {
+  const submit = (event: React.FormEvent | React.MouseEvent) => {
     event.preventDefault();
     handlePromise(createServiceAccount())
       .then((obj) => {
-        closeModal();
+        closeOverlay();
         if (onSubmit) {
           onSubmit(obj);
         }
@@ -76,12 +85,44 @@ export const CreateServiceAccountModal: ModalComponent<CreateServiceAccountModal
   };
 
   return (
-    <Modal
-      variant={ModalVariant.small}
-      title={t('olm-v1~Create ServiceAccount')}
-      isOpen
-      onClose={closeModal}
-      actions={[
+    <Modal variant="small" isOpen onClose={closeOverlay}>
+      <ModalHeader title={t('olm-v1~Create ServiceAccount')} />
+      <ModalBody>
+        <Form onSubmit={submit}>
+          <FormGroup label={t('olm-v1~Name')} fieldId="input-name">
+            <TextInput
+              id="input-name"
+              data-test="input-name"
+              name="name"
+              type="text"
+              value={name}
+              onChange={(e, value) => setName(value)}
+            />
+          </FormGroup>
+          <FormGroup label={t('olm-v1~Namespace')} fieldId="input-namespace">
+            <TextInput
+              readOnly
+              id="input-namespace"
+              data-test="input-namespace"
+              name="namespace"
+              value={namespace}
+              type="text"
+            />
+          </FormGroup>
+          {errorMessage && (
+            <Alert
+              isInline
+              className="co-alert co-alert--scrollable"
+              variant="danger"
+              title={t('olm-v1~An error occurred')}
+              data-test="alert-error"
+            >
+              <div className="co-pre-line">{errorMessage}</div>
+            </Alert>
+          )}
+        </Form>
+      </ModalBody>
+      <ModalFooter>
         <Button
           key="confirm-action"
           type="submit"
@@ -92,55 +133,19 @@ export const CreateServiceAccountModal: ModalComponent<CreateServiceAccountModal
           id="confirm-action"
         >
           {t('olm-v1~Create')}
-        </Button>,
+        </Button>
         <Button
           key="cancel-action"
           type="button"
           variant="secondary"
           disabled={inProgress}
-          onClick={closeModal}
+          onClick={closeOverlay}
           data-test-id="modal-cancel-action"
         >
           {t('olm-v1~Cancel')}
-        </Button>,
-        ...(inProgress ? [<LoadingInline key="loading-inline" />] : []),
-      ]}
-    >
-      <Form onSubmit={submit}>
-        <FormGroup>
-          <FormGroup label={t('olm-v1~Name')}>
-            <TextInput
-              id="input-name"
-              data-test="input-name"
-              name="name"
-              type="text"
-              value={name}
-              onChange={(e, value) => setName(value)}
-            />
-          </FormGroup>
-        </FormGroup>
-        <FormGroup label={t('olm-v1~Namespace')}>
-          <TextInput
-            readOnly
-            id="input-namespace"
-            data-test="input-namespace"
-            name="namespace"
-            value={namespace}
-            type="text"
-          />
-        </FormGroup>
-        {errorMessage && (
-          <Alert
-            isInline
-            className="co-alert co-alert--scrollable"
-            variant="danger"
-            title={t('olm-v1~An error occurred')}
-            data-test="alert-error"
-          >
-            <div className="co-pre-line">{errorMessage}</div>
-          </Alert>
-        )}
-      </Form>
+        </Button>
+        {inProgress && <LoadingInline />}
+      </ModalFooter>
     </Modal>
   );
 };

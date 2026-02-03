@@ -1,8 +1,20 @@
-import { useState } from 'react';
-import { Button, Alert, TextInput, FormGroup } from '@patternfly/react-core';
-import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
+import { useState, useCallback } from 'react';
+import {
+  Button,
+  Alert,
+  TextInput,
+  FormGroup,
+  FormHelperText,
+  HelperText,
+  HelperTextItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@patternfly/react-core';
+import type { TextInputProps } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { ModalComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
+import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 
 export interface TextInputModalProps {
   title: string;
@@ -12,13 +24,13 @@ export interface TextInputModalProps {
   validator?: (value: string) => string | null; // Returns error message or null if valid
   submitButtonText?: string;
   cancelButtonText?: string;
-  inputType?: 'text' | 'password' | 'email' | 'url' | 'number';
+  inputType?: TextInputProps['type'];
   placeholder?: string;
   helpText?: string;
 }
 
-export const TextInputModal: ModalComponent<TextInputModalProps> = ({
-  closeModal,
+export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
+  closeOverlay,
   title,
   label,
   initialValue,
@@ -34,33 +46,71 @@ export const TextInputModal: ModalComponent<TextInputModalProps> = ({
   const [value, setValue] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const submit = (event) => {
-    event.preventDefault();
+  const submit = useCallback(
+    (event: React.FormEvent | React.MouseEvent) => {
+      event.preventDefault();
 
-    if (!value) {
-      setErrorMessage(t('console-shared~This field is required'));
-      return;
-    }
-
-    if (validator) {
-      const validationError = validator(value);
-      if (validationError) {
-        setErrorMessage(validationError);
+      if (!value) {
+        setErrorMessage(t('console-shared~This field is required'));
         return;
       }
-    }
 
-    onSubmit(value);
-    closeModal();
-  };
+      if (validator) {
+        const validationError = validator(value);
+        if (validationError) {
+          setErrorMessage(validationError);
+          return;
+        }
+      }
+
+      onSubmit(value);
+      closeOverlay();
+    },
+    [value, t, validator, onSubmit, closeOverlay],
+  );
 
   return (
-    <Modal
-      variant={ModalVariant.small}
-      title={title}
-      isOpen
-      onClose={closeModal}
-      actions={[
+    <Modal variant="small" isOpen onClose={closeOverlay}>
+      <ModalHeader title={title} />
+      <ModalBody>
+        <form onSubmit={submit} name="form" className="modal-content">
+          <FormGroup label={label} isRequired fieldId="input-value">
+            <TextInput
+              id="input-value"
+              data-test="input-value"
+              name="value"
+              type={inputType}
+              onChange={(_event, val) => {
+                setValue(val);
+                setErrorMessage('');
+              }}
+              value={value}
+              isRequired
+              autoFocus
+              placeholder={placeholder}
+            />
+            {helpText && (
+              <FormHelperText>
+                <HelperText>
+                  <HelperTextItem>{helpText}</HelperTextItem>
+                </HelperText>
+              </FormHelperText>
+            )}
+          </FormGroup>
+          {errorMessage && (
+            <Alert
+              isInline
+              className="co-alert co-alert--scrollable"
+              variant="danger"
+              title={t('console-shared~An error occurred')}
+              data-test="alert-error"
+            >
+              <div className="co-pre-line">{errorMessage}</div>
+            </Alert>
+          )}
+        </form>
+      </ModalBody>
+      <ModalFooter>
         <Button
           key="confirm-action"
           type="submit"
@@ -71,48 +121,17 @@ export const TextInputModal: ModalComponent<TextInputModalProps> = ({
           id="confirm-action"
         >
           {submitButtonText || t('console-shared~Save')}
-        </Button>,
+        </Button>
         <Button
           key="cancel-action"
           type="button"
           variant="secondary"
-          onClick={closeModal}
+          onClick={closeOverlay}
           data-test-id="modal-cancel-action"
         >
           {cancelButtonText || t('console-shared~Cancel')}
-        </Button>,
-      ]}
-    >
-      <form onSubmit={submit} name="form" className="modal-content">
-        <FormGroup label={label} isRequired fieldId="input-value">
-          <TextInput
-            id="input-value"
-            data-test="input-value"
-            name="value"
-            type={inputType}
-            onChange={(_event, val) => {
-              setValue(val);
-              setErrorMessage('');
-            }}
-            value={value}
-            isRequired
-            autoFocus
-            placeholder={placeholder}
-          />
-          {helpText && <div className="pf-v6-c-form__helper-text">{helpText}</div>}
-        </FormGroup>
-        {errorMessage && (
-          <Alert
-            isInline
-            className="co-alert co-alert--scrollable"
-            variant="danger"
-            title={t('console-shared~An error occurred')}
-            data-test="alert-error"
-          >
-            <div className="co-pre-line">{errorMessage}</div>
-          </Alert>
-        )}
-      </form>
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };

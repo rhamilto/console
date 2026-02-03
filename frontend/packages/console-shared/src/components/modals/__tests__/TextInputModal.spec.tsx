@@ -3,11 +3,11 @@ import { renderWithProviders } from '../../../test-utils/unit-test-utils';
 import { TextInputModal } from '../TextInputModal';
 
 describe('TextInputModal', () => {
-  const mockCloseModal = jest.fn();
+  const mockCloseOverlay = jest.fn();
   const mockOnSubmit = jest.fn();
 
   const defaultProps = {
-    closeModal: mockCloseModal,
+    closeOverlay: mockCloseOverlay,
     title: 'Edit Name',
     label: 'Name',
     initialValue: 'initial-value',
@@ -40,7 +40,7 @@ describe('TextInputModal', () => {
     fireEvent.click(saveButton);
 
     expect(mockOnSubmit).toHaveBeenCalledWith('initial-value');
-    expect(mockCloseModal).toHaveBeenCalled();
+    expect(mockCloseOverlay).toHaveBeenCalled();
   });
 
   it('should update value when input changes', () => {
@@ -52,13 +52,13 @@ describe('TextInputModal', () => {
     expect(input.value).toBe('new-value');
   });
 
-  it('should call closeModal when cancel button is clicked', () => {
+  it('should call closeOverlay when cancel button is clicked', () => {
     renderWithProviders(<TextInputModal {...defaultProps} />);
 
     const cancelButton = screen.getByRole('button', { name: 'Cancel' });
     fireEvent.click(cancelButton);
 
-    expect(mockCloseModal).toHaveBeenCalled();
+    expect(mockCloseOverlay).toHaveBeenCalled();
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
@@ -76,7 +76,7 @@ describe('TextInputModal', () => {
     });
 
     expect(mockOnSubmit).not.toHaveBeenCalled();
-    expect(mockCloseModal).not.toHaveBeenCalled();
+    expect(mockCloseOverlay).not.toHaveBeenCalled();
   });
 
   it('should call validator and show error when validation fails', async () => {
@@ -93,7 +93,7 @@ describe('TextInputModal', () => {
 
     expect(mockValidator).toHaveBeenCalledWith('initial-value');
     expect(mockOnSubmit).not.toHaveBeenCalled();
-    expect(mockCloseModal).not.toHaveBeenCalled();
+    expect(mockCloseOverlay).not.toHaveBeenCalled();
   });
 
   it('should clear error when input changes', async () => {
