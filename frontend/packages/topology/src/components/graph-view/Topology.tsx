@@ -40,6 +40,7 @@ import { TOPOLOGY_LAYOUT_CONFIG_STORAGE_KEY, TOPOLOGY_LAYOUT_LOCAL_STORAGE_KEY }
 import { odcElementFactory } from '../../elements';
 import { getTopologyGraphModel, setTopologyGraphModel } from '../../redux/action';
 import { SHOW_GROUPING_HINT_EVENT, ShowGroupingHintEventListener } from '../../topology-types';
+import { MoveNodeHandlersProvider, SyncMoveNodeHandlers } from '../../utils';
 import { componentFactory } from './components';
 import { DEFAULT_LAYOUT, SUPPORTED_LAYOUTS, layoutFactory } from './layouts/layoutFactory';
 import TopologyControlBar from './TopologyControlBar';
@@ -376,7 +377,7 @@ const TopologyDispatchToProps = (dispatch): DispatchProps => ({
   },
 });
 
-export default withFallback(
+const ConnectedTopology = withFallback(
   connect<StateProps, DispatchProps, TopologyProps>(
     TopologyStateToProps,
     TopologyDispatchToProps,
@@ -392,3 +393,13 @@ export default withFallback(
   ),
   ErrorBoundaryFallbackPage,
 );
+
+// Wrap with MoveNodeHandlersProvider to provide context for drag-drop operations
+const TopologyWithProviders: FC<TopologyProps> = (props) => (
+  <MoveNodeHandlersProvider>
+    <SyncMoveNodeHandlers />
+    <ConnectedTopology {...props} />
+  </MoveNodeHandlersProvider>
+);
+
+export default TopologyWithProviders;
