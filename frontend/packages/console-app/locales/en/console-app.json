@@ -210,7 +210,6 @@
   "Edit labels": "Edit labels",
   "Edit annotations": "Edit annotations",
   "Edit Pod count": "Edit Pod count",
-  "Edit Pod selector": "Edit Pod selector",
   "Edit tolerations": "Edit tolerations",
   "Edit taints": "Edit taints",
   "Add storage": "Add storage",

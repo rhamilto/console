@@ -30,15 +30,12 @@ export const LazyConfigureNamespacePullSecretModalOverlay = lazy(() =>
   })),
 );
 
-export const labelsModalLauncher = (props) =>
-  import('./labels-modal' /* webpackChunkName: "labels-modal" */).then((m) =>
-    m.labelsModalLauncher(props),
-  );
-
-export const podSelectorModal = (props) =>
-  import('./labels-modal' /* webpackChunkName: "labels-modal" */).then((m) =>
-    m.podSelectorModal(props),
-  );
+// Lazy-loaded OverlayComponent for Labels Modal
+export const LazyLabelsModalOverlay = lazy(() =>
+  import('./labels-modal' /* webpackChunkName: "labels-modal" */).then((m) => ({
+    default: m.LabelsModalOverlay,
+  })),
+);
 
 export const rollbackModal = (props) =>
   import('./rollback-modal' /* webpackChunkName: "rollback-modal" */).then((m) =>
@@ -54,8 +51,12 @@ export const LazyConfigureUpdateStrategyModalOverlay = lazy(() =>
   })),
 );
 
-export const annotationsModalLauncher = (props) =>
-  import('./tags' /* webpackChunkName: "tags" */).then((m) => m.annotationsModalLauncher(props));
+// Lazy-loaded OverlayComponent for Annotations Modal
+export const LazyAnnotationsModalOverlay = lazy(() =>
+  import('./tags' /* webpackChunkName: "tags" */).then((m) => ({
+    default: m.AnnotationsModalOverlay,
+  })),
+);
 
 // Lazy-loaded OverlayComponent for Delete Modal
 export const LazyDeleteModalOverlay = lazy(() =>
@@ -117,15 +118,21 @@ export const LazyConfigureClusterUpstreamModalOverlay = lazy(() =>
   })),
 );
 
-export const createAlertRoutingModal = (props) =>
-  import('./alert-routing-modal' /* webpackChunkName: "alert-routing-modal" */).then((m) =>
-    m.createAlertRoutingModal(props),
-  );
+// Lazy-loaded OverlayComponent for Alert Routing Modal
+export const LazyAlertRoutingModalOverlay = lazy(() =>
+  import('./alert-routing-modal' /* webpackChunkName: "alert-routing-modal" */).then((m) => ({
+    default: m.AlertRoutingModalOverlay,
+  })),
+);
 
-export const createColumnManagementModal = (props) =>
-  import('./column-management-modal' /* webpackChunkName: "column-management-modal" */).then((m) =>
-    m.createColumnManagementModal(props),
-  );
+// Lazy-loaded OverlayComponent for Column Management Modal
+export const LazyColumnManagementModalOverlay = lazy(() =>
+  import('./column-management-modal' /* webpackChunkName: "column-management-modal" */).then(
+    (m) => ({
+      default: m.ColumnManagementModalOverlay,
+    }),
+  ),
+);
 
 // Lazy-loaded OverlayComponent for Restore PVC Modal
 export const LazyRestorePVCModalOverlay = lazy(() =>

@@ -6,14 +6,15 @@ import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/uti
 import { K8sModel } from '@console/dynamic-plugin-sdk/src/api/common-types';
 import { k8sPatchResource } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource';
 import { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
+import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { K8sResourceKind } from '../../module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import {
-  createModalLauncher,
   ModalBody,
   ModalComponentProps,
   ModalSubmitFooter,
   ModalTitle,
+  ModalWrapper,
 } from '../factory/modal';
 import { ResourceIcon } from '../utils/resource-icon';
 import { SelectorInput } from '../utils/selector-input';
@@ -141,30 +142,12 @@ const BaseLabelsModal: FC<BaseLabelsModalProps> = ({
 export const LabelsModal: FC<LabelsModalProps> = (props) => (
   <BaseLabelsModal path={LABELS_PATH} {...props} />
 );
-export const labelsModalLauncher = createModalLauncher<LabelsModalProps>(LabelsModal);
 
-export const podSelectorModal = createModalLauncher<PodSelectorModalProps>((props) => {
-  const { t } = useTranslation();
-  return (
-    <BaseLabelsModal
-      path={
-        ['replicationcontrolleres', 'services'].includes(props.kind.plural)
-          ? '/spec/selector'
-          : '/spec/selector/matchLabels'
-      }
-      isPodSelector={true}
-      // t('public~Pod selector')
-      descriptionKey="public~Pod selector"
-      // t('public~Determines the set of pods targeted by this {{kind}}.')
-      messageKey={'public~Determines the set of pods targeted by this {{kind}}.'}
-      messageVariables={{
-        kind: props.kind.labelKey ? t(props.kind.labelKey) : props.kind.label.toLowerCase(),
-      }}
-      labelClassName="co-m-pod"
-      {...props}
-    />
-  );
-});
+export const LabelsModalOverlay: OverlayComponent<LabelsModalProps> = (props) => (
+  <ModalWrapper blocking onClose={props.closeOverlay}>
+    <LabelsModal {...props} cancel={props.closeOverlay} close={props.closeOverlay} />
+  </ModalWrapper>
+);
 
 type BaseLabelsModalProps = {
   descriptionKey?: string;
@@ -177,7 +160,3 @@ type BaseLabelsModalProps = {
   resource: K8sResourceKind;
 } & ModalComponentProps;
 export type LabelsModalProps = Omit<BaseLabelsModalProps, 'path'>;
-type PodSelectorModalProps = Omit<
-  BaseLabelsModalProps,
-  'descriptionKey' | 'isPodSelector' | 'labelClassName' | 'messageKey' | 'messageVariables' | 'path'
->;

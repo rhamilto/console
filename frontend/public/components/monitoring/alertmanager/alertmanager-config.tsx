@@ -30,8 +30,9 @@ import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { breadcrumbsForGlobalConfig } from '../../cluster-settings/global-config';
 
 import { K8sResourceKind } from '../../../module/k8s';
-import { createAlertRoutingModal } from '../../modals';
+import { LazyAlertRoutingModalOverlay } from '../../modals';
 import { useWarningModal } from '@console/shared/src/hooks/useWarningModal';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { Firehose } from '../../utils/firehose';
 import { Kebab } from '../../utils/kebab';
 import { SectionHeading } from '../../utils/headings';
@@ -72,11 +73,12 @@ interface AlertRoutingProps {
 const AlertRouting = ({ secret, config }: AlertRoutingProps) => {
   const groupBy = _.get(config, ['route', 'group_by'], []);
   const { t } = useTranslation();
+  const launchModal = useOverlay();
   return (
     <PaneBody>
       <SectionHeading text={t('public~Alert routing')}>
         <Button
-          onClick={() => createAlertRoutingModal({ config, secret })}
+          onClick={() => launchModal(LazyAlertRoutingModalOverlay, { config, secret })}
           variant="secondary"
           data-test="edit-alert-routing-btn"
         >
