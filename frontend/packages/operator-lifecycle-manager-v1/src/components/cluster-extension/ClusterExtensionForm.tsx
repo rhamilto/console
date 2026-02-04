@@ -49,20 +49,8 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
 
   // Extract values from formData first
   const name = formData?.metadata?.name || '';
-  const namespace = formData?.spec?.namespace || '';
-  const serviceAccountName = formData?.spec?.serviceAccount?.name || '';
-
-  // UI-only state (not part of formData)
-  const [channelInputValue, setChannelInputValue] = useState('');
-  const [catalogInputValue, setCatalogInputValue] = useState('');
-
-  // Initialize radio button state based on formData values
-  // If namespace matches name, assume it's auto-generated
-  // Otherwise, assume it was manually set or selected from cluster
-  const [useAutoNamespace, setUseAutoNamespace] = useState(() => !namespace || namespace === name);
-  const [useAutoServiceAccount, setUseAutoServiceAccount] = useState(
-    () => !serviceAccountName || serviceAccountName === `${name}-service-account`,
-  );
+  const namespace = formData?.spec?.namespace || name;
+  const serviceAccountName = formData?.spec?.serviceAccount?.name || `${name}-service-account`;
   const packageName = formData?.spec?.source?.catalog?.packageName || '';
   const version = formData?.spec?.source?.catalog?.version || '';
   const channels = useMemo(() => formData?.spec?.source?.catalog?.channels || [], [
@@ -85,6 +73,14 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
     );
     return matchExpr?.values || [];
   }, [formData?.spec?.source?.catalog?.selector]);
+
+  // UI-only state (not part of formData)
+  const [channelInputValue, setChannelInputValue] = useState('');
+  const [catalogInputValue, setCatalogInputValue] = useState('');
+
+  // Start with the auto-create radio button checked. Let useEffect hooks handle the rest.
+  const [autoCreateNamespace, setAutoCreateNamespace] = useState(true);
+  const [autoCreateServiceAccount, setAutoCreateServiceAccount] = useState(true);
 
   // Helper to update formData at a specific path
   const updateFormDataPath = useCallback(
@@ -124,17 +120,47 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
 
   // Auto-switch to "Select from cluster" if the namespace exists
   useEffect(() => {
-    if (namespaceExists && useAutoNamespace) {
-      setUseAutoNamespace(false);
+    if (namespaceExists && autoCreateNamespace) {
+      setAutoCreateNamespace(false);
     }
-  }, [namespaceExists, useAutoNamespace]);
+  }, [namespaceExists, autoCreateNamespace]);
 
   // Auto-switch to "Select from cluster" if the service account exists
   useEffect(() => {
-    if (serviceAccountExists && useAutoServiceAccount) {
-      setUseAutoServiceAccount(false);
+    if (serviceAccountExists && autoCreateServiceAccount) {
+      setAutoCreateServiceAccount(false);
     }
-  }, [serviceAccountExists, useAutoServiceAccount]);
+  }, [serviceAccountExists, autoCreateServiceAccount]);
+
+  useEffect(() => {
+    if (!namespaceExists) {
+      setAutoCreateServiceAccount(true);
+    }
+  }, [namespaceExists]);
+
+  useEffect(() => {
+    if (autoCreateNamespace) {
+      updateFormDataPath('spec.namespace', namespace);
+    }
+  }, [autoCreateNamespace, name, updateFormDataPath, namespace]);
+
+  useEffect(() => {
+    if (autoCreateServiceAccount) {
+      updateFormDataPath('spec.serviceAccount.name', serviceAccountName);
+    }
+  }, [autoCreateServiceAccount, name, updateFormDataPath, serviceAccountName]);
+
+  useEffect(() => {
+    if (!autoCreateNamespace && namespaceLoaded && !namespaceResource) {
+      updateFormDataPath('spec.namespace', undefined);
+    }
+  });
+
+  useEffect(() => {
+    if (!autoCreateServiceAccount && serviceAccountLoaded && !serviceAccountResource) {
+      updateFormDataPath('spec.serviceAccount', undefined);
+    }
+  });
 
   const handleNameChange = useCallback(
     (_event: any, value: string) => {
@@ -275,7 +301,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
 
       try {
         // Create namespace if "Create new Namespace" is selected
-        if (useAutoNamespace && namespace) {
+        if (autoCreateNamespace) {
           try {
             await k8sCreateResource({
               model: NamespaceModel,
@@ -294,7 +320,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
         }
 
         // Create service account if "Create new ServiceAccount" is selected
-        if (useAutoServiceAccount && serviceAccountName && namespace) {
+        if (autoCreateServiceAccount) {
           try {
             await k8sCreateResource({
               model: ServiceAccountModel,
@@ -321,7 +347,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
         navigate(resourcePathFromModel(ClusterExtensionModel, created.metadata.name));
       } catch (err) {
         setError(
-          t('olm-v1~An error occurred creating the ClusterExtension: {error}', {
+          t('olm-v1~An error occurred creating the ClusterExtension: {{error}}', {
             error: err.toString(),
           }),
         );
@@ -329,10 +355,16 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
         setIsSubmitting(false);
       }
     },
-    [formData, navigate, t, useAutoNamespace, useAutoServiceAccount, namespace, serviceAccountName],
+    [
+      formData,
+      navigate,
+      t,
+      autoCreateNamespace,
+      autoCreateServiceAccount,
+      namespace,
+      serviceAccountName,
+    ],
   );
-
-  const isValid = name && packageName && namespace && serviceAccountName;
 
   return (
     <PageSection hasBodyWrapper={false}>
@@ -403,14 +435,10 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
               label={
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>
-                    {t('olm-v1~Create new Namespace')}
-                    {namespace && (
-                      <>
-                        : <strong>{useAutoNamespace ? namespace : name}</strong>
-                      </>
-                    )}
+                    {t('olm-v1~Automatically create a new Namespace: ')}
+                    <strong>{autoCreateNamespace ? namespace : name}</strong>
                   </span>
-                  {namespace && useAutoNamespace && (
+                  {namespace && autoCreateNamespace && (
                     <Button
                       variant="plain"
                       onClick={(e) => {
@@ -418,7 +446,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
                         textInputModal({
                           title: t('olm-v1~Edit Namespace Name'),
                           label: t('olm-v1~Namespace'),
-                          initialValue: name,
+                          initialValue: namespace || name,
                           onSubmit: handleNamespaceChange,
                         });
                       }}
@@ -431,21 +459,22 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
                 </span>
               }
               onChange={() => {
-                setUseAutoNamespace(true);
+                setAutoCreateNamespace(true);
                 handleNamespaceChange(name);
               }}
-              isChecked={useAutoNamespace}
+              isChecked={autoCreateNamespace}
             />
             <Radio
               id="namespace-select"
               name="namespace-option"
               label={t('olm-v1~Select from cluster')}
               onChange={() => {
-                setUseAutoNamespace(false);
+                setAutoCreateNamespace(false);
+                handleNamespaceChange(undefined);
               }}
-              isChecked={!useAutoNamespace}
+              isChecked={!autoCreateNamespace}
             />
-            {!useAutoNamespace && (
+            {!autoCreateNamespace && (
               <NsDropdown id="namespace" selectedKey={namespace} onChange={handleNamespaceChange} />
             )}
           </FormGroup>
@@ -481,17 +510,12 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
               label={
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span>
-                    {t('olm-v1~Create new ServiceAccount')}
-                    {serviceAccountName && (
-                      <>
-                        :{' '}
-                        <strong>
-                          {useAutoServiceAccount ? serviceAccountName : `${name}-service-account`}
-                        </strong>
-                      </>
-                    )}
+                    {t('olm-v1~Automatically create a new ServiceAccount: ')}
+                    <strong>
+                      {autoCreateServiceAccount ? serviceAccountName : `${name}-service-account`}
+                    </strong>
                   </span>
-                  {serviceAccountName && useAutoServiceAccount && (
+                  {autoCreateServiceAccount && (
                     <Button
                       variant="plain"
                       onClick={(e) => {
@@ -499,7 +523,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
                         textInputModal({
                           title: t('olm-v1~Edit ServiceAccount Name'),
                           label: t('olm-v1~Service Account Name'),
-                          initialValue: serviceAccountName,
+                          initialValue: serviceAccountName || `${name}-service-account`,
                           onSubmit: handleServiceAccountNameChange,
                         });
                       }}
@@ -512,21 +536,23 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
                 </span>
               }
               onChange={() => {
-                setUseAutoServiceAccount(true);
+                setAutoCreateServiceAccount(true);
                 handleServiceAccountNameChange(`${name}-service-account`);
               }}
-              isChecked={useAutoServiceAccount}
+              isChecked={autoCreateServiceAccount}
             />
             <Radio
               id="service-account-select"
               name="service-account-option"
               label={t('olm-v1~Select from cluster')}
+              isDisabled={!namespaceExists}
               onChange={() => {
-                setUseAutoServiceAccount(false);
+                setAutoCreateServiceAccount(false);
+                updateFormDataPath('spec.serviceAccount', undefined);
               }}
-              isChecked={!useAutoServiceAccount}
+              isChecked={!autoCreateServiceAccount}
             />
-            {!useAutoServiceAccount && (
+            {!autoCreateServiceAccount && namespaceExists && (
               <ServiceAccountDropdown
                 id="service-account"
                 namespace={namespace}
@@ -668,7 +694,7 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
           <Button
             type="submit"
             variant="primary"
-            isDisabled={!isValid || isSubmitting}
+            isDisabled={isSubmitting}
             isLoading={isSubmitting}
           >
             {t('olm-v1~Create')}

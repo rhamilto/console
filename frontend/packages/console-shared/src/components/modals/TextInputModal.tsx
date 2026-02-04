@@ -28,6 +28,7 @@ export interface TextInputModalProps {
   inputType?: TextInputProps['type'];
   placeholder?: string;
   helpText?: string;
+  isRequired?: boolean;
 }
 
 export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
@@ -42,6 +43,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
   inputType = 'text',
   placeholder,
   helpText,
+  isRequired = false,
 }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(initialValue);
@@ -50,12 +52,10 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
   const submit = useCallback(
     (event: React.FormEvent | React.MouseEvent) => {
       event.preventDefault();
-
-      if (!value) {
+      if (isRequired && !value) {
         setErrorMessage(t('console-shared~This field is required'));
         return;
       }
-
       if (validator) {
         const validationError = validator(value);
         if (validationError) {
@@ -67,7 +67,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
       onSubmit(value);
       closeOverlay();
     },
-    [value, t, validator, onSubmit, closeOverlay],
+    [validator, onSubmit, closeOverlay, value, isRequired, t],
   );
 
   return (
@@ -75,7 +75,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
       <ModalHeader title={title} />
       <ModalBody>
         <Form onSubmit={submit}>
-          <FormGroup label={label} isRequired fieldId="input-value">
+          <FormGroup label={label} isRequired={isRequired} fieldId="input-value">
             <TextInput
               id="input-value"
               data-test="input-value"
@@ -83,10 +83,9 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
               type={inputType}
               onChange={(_event, val) => {
                 setValue(val);
-                setErrorMessage('');
               }}
               value={value}
-              isRequired
+              isRequired={isRequired}
               autoFocus
               placeholder={placeholder}
             />
@@ -116,7 +115,7 @@ export const TextInputModal: OverlayComponent<TextInputModalProps> = ({
           key="confirm-action"
           type="submit"
           variant="primary"
-          disabled={!value}
+          disabled={isRequired && !value}
           onClick={submit}
           data-test="confirm-action"
           id="confirm-action"
