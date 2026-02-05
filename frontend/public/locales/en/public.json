@@ -26,6 +26,7 @@
   "Cluster": "Cluster",
   "API resources": "API resources",
   "by kind": "by kind",
+  "of": "of",
   "Kind": "Kind",
   "Group": "Group",
   "Namespaced": "Namespaced",
