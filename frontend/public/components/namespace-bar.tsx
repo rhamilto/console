@@ -63,7 +63,18 @@ export const NamespaceBarDropdowns: FC<NamespaceBarDropdownsProps> = ({
           setActiveNamespaceError(false);
         })
         .catch((err) => {
-          if (err?.response?.status === 404) {
+          if (err?.response?.status === 403 && useProjects) {
+            k8sGet(NamespaceModel, activeNamespace)
+              .then(() => {
+                setActiveNamespace(activeNamespace);
+                setActiveNamespaceError(false);
+              })
+              .catch(() => {
+                /* This would redirect to "/all-namespaces" to show the Project List */
+                setActiveNamespace(ALL_NAMESPACES_KEY);
+                setActiveNamespaceError(true);
+              });
+          } else if (err?.response?.status === 404) {
             /* This would redirect to "/all-namespaces" to show the Project List */
             setActiveNamespace(ALL_NAMESPACES_KEY);
             setActiveNamespaceError(true);
