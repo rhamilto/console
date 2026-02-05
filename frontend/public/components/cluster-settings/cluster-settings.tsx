@@ -497,7 +497,7 @@ export const NodesUpdatesGroup: FC<NodesUpdatesGroupProps> = ({
     : machineConfigOperatorLoaded && renderedConfigLoaded && (
         <UpdatesGroup divided={divided}>
           <UpdatesType>
-            <Link to={`/k8s/cluster/nodes?rowFilter-node-role=${nodeRoleFilterValue}`}>
+            <Link to={`/k8s/cluster/nodes?roles=${nodeRoleFilterValue}`}>
               {`${name} ${NodeModel.labelPlural}`}
             </Link>
             {!isMaster && (
@@ -779,10 +779,7 @@ export const ClusterNotUpgradeableAlert: FC<ClusterNotUpgradeableAlertProps> = (
           <Flex>
             {notUpgradeableClusterOperatorsPresent && (
               <FlexItem>
-                <ClusterOperatorsLink
-                  onCancel={onCancel}
-                  queryString="?rowFilter-cluster-operator-status=Cannot+update"
-                >
+                <ClusterOperatorsLink onCancel={onCancel} queryString="?status=Cannot+update">
                   {t('public~View ClusterOperators')}
                 </ClusterOperatorsLink>
               </FlexItem>
