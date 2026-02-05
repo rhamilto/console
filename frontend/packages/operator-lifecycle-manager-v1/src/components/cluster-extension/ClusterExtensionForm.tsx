@@ -610,7 +610,6 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
               onKeyDown={handleChannelKeyDown}
               id="channel"
               aria-label={t('olm-v1~Channels')}
-              placeholder={t('olm-v1~e.g., stable, beta')}
             >
               <LabelGroup>
                 {channels.map((ch: string) => (
@@ -659,7 +658,6 @@ const ClusterExtensionForm: FC<ClusterExtensionFormProps> = ({ formData = {}, on
               onKeyDown={handleCatalogKeyDown}
               id="catalogs"
               aria-label={t('olm-v1~Catalogs')}
-              placeholder={t('olm-v1~e.g., redhat-community-operators')}
             >
               <LabelGroup>
                 {catalogs.map((cat: string) => (
