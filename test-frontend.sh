@@ -31,8 +31,9 @@ if [ -n "$GIT_STATUS" ]; then
   exit 1
 fi
 
-if ! yarn run dedupe-deps --fail ; then
-  echo "You have duplicate version resolutions of some packages in yarn.lock. Run 'yarn dedupe-deps' and commit the updated yarn.lock."
+if ! yarn dedupe --strategy highest --check ; then
+  echo "You have duplicate version resolutions of some packages in yarn.lock. Run 'yarn dedupe' and commit the updated yarn.lock."
+  yarn dedupe --strategy highest
   git --no-pager diff
   exit 1
 fi
