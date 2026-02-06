@@ -44,7 +44,7 @@
   "Create": "Create",
   "Cancel": "Cancel",
   "Create ClusterExtension": "Create ClusterExtension",
-  "Create a ClusterExtension to add functionality to your cluster. ClusterExtensions are managed by Operator Lifecycle Manager v1.": "Create a ClusterExtension to add functionality to your cluster. ClusterExtensions are managed by Operator Lifecycle Manager v1.",
+  "Create a ClusterExtension to add functionality to your cluster. Operator Lifecycle Manager v1 manages ClusterExtensions.": "Create a ClusterExtension to add functionality to your cluster. Operator Lifecycle Manager v1 manages ClusterExtensions.",
   "An error occurred. Please try again.": "An error occurred. Please try again.",
   "Create ServiceAccount": "Create ServiceAccount",
   "An error occurred": "An error occurred",

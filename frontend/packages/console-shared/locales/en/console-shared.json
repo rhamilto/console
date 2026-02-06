@@ -1,7 +1,7 @@
 {
   "Actions": "Actions",
   "An error occurred": "An error occurred",
-  "Some fields might not be represented in this form view. Select \"YAML view\" for full control.": "Some fields might not be represented in this form view. Select \"YAML view\" for full control.",
+  "Some fields might not be displayed in this form. Select YAML view to edit all fields.": "Some fields might not be displayed in this form. Select YAML view to edit all fields.",
   "Dev preview": "Dev preview",
   "Tech preview": "Tech preview",
   "No results found": "No results found",
