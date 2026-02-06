@@ -1,6 +1,16 @@
 .env
 .idea
 .vscode
+
+# Yarn v4 (Berry)
+.pnp.*
+.yarn/*
+install-state.gz
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 !/vendor/**
 !.vscode/settings.json
 .DS_Store
