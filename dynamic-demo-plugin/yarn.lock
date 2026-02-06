@@ -90,7 +90,7 @@
 "@openshift-console/dynamic-plugin-sdk-webpack@file:../frontend/packages/console-dynamic-plugin-sdk/dist/webpack":
   version "0.0.0-fixed"
   dependencies:
-    "@openshift/dynamic-plugin-sdk" "^7.0.0"
+    "@openshift/dynamic-plugin-sdk" "^8.0.0"
     "@openshift/dynamic-plugin-sdk-webpack" "^5.1.0"
     ajv "^6.12.3"
     chalk "2.4.x"
@@ -104,7 +104,7 @@
 "@openshift-console/dynamic-plugin-sdk@file:../frontend/packages/console-dynamic-plugin-sdk/dist/core":
   version "0.0.0-fixed"
   dependencies:
-    "@openshift/dynamic-plugin-sdk" "^7.0.0"
+    "@openshift/dynamic-plugin-sdk" "^8.0.0"
     immutable "3.x"
     lodash "^4.17.21"
     reselect "4.x"
@@ -119,10 +119,10 @@
     semver "^7.7.3"
     yup "^1.7.1"
 
-"@openshift/dynamic-plugin-sdk@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@openshift/dynamic-plugin-sdk/-/dynamic-plugin-sdk-7.0.0.tgz#d4a8807c1ebbced3d7819562f8055c0057d4d860"
-  integrity sha512-MDbQKGhzdgbRN3ojwqLMcQ/5UzSq5jgNmnT/t5u1G34Fug9RWp9TVTP5+p3WpBCedH7f5gZMC8RUvzFVifxJ1A==
+"@openshift/dynamic-plugin-sdk@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@openshift/dynamic-plugin-sdk/-/dynamic-plugin-sdk-8.0.0.tgz#ed47fa76662deefc57f9a3a83fe66eaec08aa8e5"
+  integrity sha512-4DtsxIOOsDPbMctgIZuU0D1vfEuOeCibqJ5/HLLpfP1U0sQlMZvDYpZY/FTq9JjAiuCpnhWGhGytRh9vFi4d8w==
   dependencies:
     lodash "^4.17.23"
     semver "^7.7.3"

@@ -11,9 +11,9 @@ import { REMOTE_ENTRY_CALLBACK } from '@console/dynamic-plugin-sdk/src/constants
 
 /**
  * Set by `console-operator` or `./bin/bridge -release-version`. If this is
- * undefined, we will not check this value when loading plugins.
+ * `unknown`, we will not check this value when loading plugins.
  */
-const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion) ?? undefined;
+const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion) ?? 'unknown';
 
 /**
  * Console local plugins module has its source generated during webpack build,
@@ -24,6 +24,11 @@ const localPlugins: LocalPluginManifest[] =
 
 const localPluginNames = localPlugins.map((p) => p.name);
 
+/** Checks if a plugin name is allowed to be loaded in Console. */
+const isAllowedPluginName = (name: string) => {
+  return localPluginNames.includes(name) || dynamicPluginNames.includes(name);
+};
+
 /**
  * Provides access to Console plugins and their extensions.
  *
@@ -33,15 +38,45 @@ const localPluginNames = localPlugins.map((p) => p.name);
  */
 export const pluginStore = new PluginStore({
   loaderOptions: {
-    sharedScope: getSharedScope(),
-    fetchImpl: consoleFetch,
-    canLoadPlugin: (manifest) => {
-      return localPluginNames.includes(manifest.name) || dynamicPluginNames.includes(manifest.name);
+    // Prevent plugins from loading other plugins
+    canLoadPlugin: (manifest) => isAllowedPluginName(manifest.name),
+
+    // Explicitly define the default entry callback name
+    entryCallbackSettings: {
+      name: REMOTE_ENTRY_CALLBACK,
+      registerCallback: true,
     },
+
+    // Use coFetch for plugin resource fetching
+    fetchImpl: consoleFetch,
+
     // Allows plugins to target a specific version of OpenShift via semver
     customDependencyResolutions: {
       '@console/pluginAPI': CURRENT_OPENSHIFT_VERSION,
     },
+
+    // Only resolve dependencies that are known to Console
+    isDependencyResolvable: (name, isOptional) => {
+      // Console operator explicitly sets a known OpenShift version. In development
+      // builds this may not be set, but we still want to load plugins. Thus, we
+      // skip resolution checks of @console/pluginAPI if the version is 'unknown'.
+      if (name === '@console/pluginAPI') {
+        return CURRENT_OPENSHIFT_VERSION !== 'unknown';
+      }
+
+      // In cases where dependencies are not optional, we must enforce that all
+      // plugins are resolvable, i.e., never skip trying to resolve them.
+
+      // When resolving plugin optional dependencies, if we know that an
+      // optionalDependency will never be loaded (per isAllowedPluginName), then
+      // we should bypass its resolution, so that the plugin can still load
+      // even if the optional dependency is not present.
+      return !isOptional || isAllowedPluginName(name);
+    },
+
+    // Assume that webpack shared scope is already initialized
+    sharedScope: getSharedScope(),
+
     // Additional validation for Console plugin manifests
     transformPluginManifest: (manifest) => {
       // Local plugins can skip remote plugin validation
@@ -49,27 +84,32 @@ export const pluginStore = new PluginStore({
         return manifest;
       }
 
-      // Ensure plugin name can be a valid DNS subdomain name for loading
       const result = new ValidationResult('Console plugin metadata');
+
+      // Ensure plugin name can be a valid DNS subdomain name for loading
       result.assertions.validDNSSubdomainName(manifest.name, 'metadata.name');
+
+      // Only allow 'callback' registration method
+      result.assertions.validRegistrationMethod(manifest.registrationMethod);
+
       result.report();
 
       // No issues, return manifest as-is
       return manifest;
     },
-    // Explicitly define the default entry callback name
-    entryCallbackSettings: {
-      name: REMOTE_ENTRY_CALLBACK,
-      registerCallback: true,
+
+    // Double check that only 'callback' registration method is used
+    getPluginEntryModule: ({ name }) => {
+      throw new Error(
+        `Plugin "${name}" tried to load with registrationMethod "custom", but only "callback" is supported.`,
+      );
     },
   },
 });
 
 localPlugins.forEach((plugin) => pluginStore.loadPlugin(plugin));
 
-/**
- * Redux middleware to update plugin store feature flags when actions are dispatched.
- */
+/** Redux middleware that updates PluginStore FeatureFlags when redux actions are dispatched. */
 export const featureFlagMiddleware: Middleware<{}, RootState> = (s) => {
   let prevFlags: RootState['FLAGS'] | undefined;
 
