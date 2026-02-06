@@ -90,17 +90,21 @@ describe('ClusterExtensionForm', () => {
     );
   });
 
-  it('should show "Create new Namespace" radio button checked by default', () => {
+  it('should show "Automatically create a new Namespace" radio button checked by default', () => {
     renderWithProviders(<ClusterExtensionForm formData={{}} onChange={mockOnChange} />);
 
-    const createNewRadio = screen.getByLabelText(/Create new Namespace/);
+    const createNewRadio = screen.getByRole('radio', {
+      name: /Automatically create a new Namespace/,
+    });
     expect(createNewRadio).toBeChecked();
   });
 
-  it('should show "Create new ServiceAccount" radio button checked by default', () => {
+  it('should show "Automatically create a new ServiceAccount" radio button checked by default', () => {
     renderWithProviders(<ClusterExtensionForm formData={{}} onChange={mockOnChange} />);
 
-    const createNewRadio = screen.getByLabelText(/Create new ServiceAccount/);
+    const createNewRadio = screen.getByRole('radio', {
+      name: /Automatically create a new ServiceAccount/,
+    });
     expect(createNewRadio).toBeChecked();
   });
 
@@ -269,5 +273,21 @@ describe('ClusterExtensionForm', () => {
     // Should show pencil icon button for editing
     const editButtons = screen.getAllByLabelText(/Edit service account name/i);
     expect(editButtons.length).toBeGreaterThan(0);
+  });
+
+  it('should render Create button with correct text', () => {
+    renderWithProviders(<ClusterExtensionForm formData={{}} onChange={mockOnChange} />);
+
+    const createButton = screen.getByRole('button', { name: 'Create' });
+    expect(createButton).toBeInTheDocument();
+    expect(createButton).toHaveAttribute('type', 'submit');
+  });
+
+  it('should render Cancel button', () => {
+    renderWithProviders(<ClusterExtensionForm formData={{}} onChange={mockOnChange} />);
+
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    expect(cancelButton).toBeInTheDocument();
+    expect(cancelButton).toHaveAttribute('type', 'button');
   });
 });

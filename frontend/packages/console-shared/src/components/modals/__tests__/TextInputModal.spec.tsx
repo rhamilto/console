@@ -62,8 +62,8 @@ describe('TextInputModal', () => {
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
-  it('should show error when submitting empty value', async () => {
-    renderWithProviders(<TextInputModal {...defaultProps} />);
+  it('should show error when submitting empty value and isRequired is true', async () => {
+    renderWithProviders(<TextInputModal {...defaultProps} isRequired />);
 
     const input = screen.getByTestId('input-value') as HTMLInputElement;
     fireEvent.change(input, { target: { value: '' } });
@@ -96,8 +96,8 @@ describe('TextInputModal', () => {
     expect(mockCloseOverlay).not.toHaveBeenCalled();
   });
 
-  it('should clear error when input changes', async () => {
-    const mockValidator = jest.fn().mockReturnValue('Invalid value');
+  it('should allow submission after fixing validation error', async () => {
+    const mockValidator = jest.fn().mockReturnValueOnce('Invalid value').mockReturnValueOnce(null);
 
     renderWithProviders(<TextInputModal {...defaultProps} validator={mockValidator} />);
 
@@ -109,11 +109,14 @@ describe('TextInputModal', () => {
       expect(screen.getByText('Invalid value')).toBeInTheDocument();
     });
 
-    // Change input to clear error
+    // Change input and retry
     const input = screen.getByTestId('input-value') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: 'new-value' } });
+    fireEvent.change(input, { target: { value: 'valid-value' } });
+    fireEvent.click(saveButton);
 
-    expect(screen.queryByText('Invalid value')).not.toBeInTheDocument();
+    expect(mockValidator).toHaveBeenCalledTimes(2);
+    expect(mockOnSubmit).toHaveBeenCalledWith('valid-value');
+    expect(mockCloseOverlay).toHaveBeenCalled();
   });
 
   it('should render with custom button labels', () => {
@@ -142,8 +145,36 @@ describe('TextInputModal', () => {
     expect(input).toHaveAttribute('type', 'email');
   });
 
-  it('should prevent submission when value is empty', async () => {
-    renderWithProviders(<TextInputModal {...defaultProps} initialValue="" />);
+  it('should allow empty value submission when isRequired is false', () => {
+    renderWithProviders(<TextInputModal {...defaultProps} initialValue="" isRequired={false} />);
+
+    const saveButton = screen.getByRole('button', { name: 'Save' });
+    fireEvent.click(saveButton);
+
+    expect(mockOnSubmit).toHaveBeenCalledWith('');
+    expect(mockCloseOverlay).toHaveBeenCalled();
+  });
+
+  it('should show required indicator on label when isRequired is true', () => {
+    renderWithProviders(<TextInputModal {...defaultProps} isRequired />);
+
+    const label = screen.getByText('Name');
+    // PatternFly adds an asterisk or required class to the label
+    expect(label.closest('.pf-v6-c-form__label')).toBeInTheDocument();
+  });
+
+  it('should submit form when Enter is pressed in input field', () => {
+    renderWithProviders(<TextInputModal {...defaultProps} />);
+
+    const input = screen.getByTestId('input-value') as HTMLInputElement;
+    fireEvent.submit(input.closest('form'));
+
+    expect(mockOnSubmit).toHaveBeenCalledWith('initial-value');
+    expect(mockCloseOverlay).toHaveBeenCalled();
+  });
+
+  it('should prevent submission when value is empty and isRequired is true', async () => {
+    renderWithProviders(<TextInputModal {...defaultProps} initialValue="" isRequired />);
 
     const saveButton = screen.getByRole('button', { name: 'Save' });
     fireEvent.click(saveButton);
