@@ -349,7 +349,7 @@ export const OperatorDescription: FC<OperatorDescriptionProps> = ({
 };
 
 export const OperatorHubItemDetails: FC<OperatorHubItemDetailsProps> = ({
-  item,
+  item = null,
   updateChannel,
   setUpdateChannel,
   updateVersion,
@@ -506,10 +506,6 @@ export const OperatorHubItemDetails: FC<OperatorHubItemDetailsProps> = ({
       </CatalogPageOverlay>
     </div>
   ) : null;
-};
-
-OperatorHubItemDetails.defaultProps = {
-  item: null,
 };
 
 type InstallingHintProps = {
