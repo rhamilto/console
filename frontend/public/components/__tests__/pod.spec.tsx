@@ -175,4 +175,10 @@ describe('ContainerRow', () => {
     expect(screen.getAllByText(/11:20|6:20|4:50/)[0]).toBeVisible();
     expect(screen.getByText(/Completed/)).toBeVisible();
   });
+
+  it('verifies container ready status displays as Not ready', async () => {
+    await renderContainerRow();
+
+    expect(screen.getByText('Not ready')).toBeVisible();
+  });
 });

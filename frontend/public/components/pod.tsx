@@ -133,6 +133,7 @@ export const ContainerLastState: FC<ContainerLastStateProps> = ({ containerLastS
 };
 
 export const ContainerRow: FC<ContainerRowProps> = ({ pod, container }) => {
+  const { t } = useTranslation();
   const cstatus = getContainerStatus(pod, container.name);
   const cstate = getContainerState(cstatus);
   const startedAt =
@@ -152,6 +153,9 @@ export const ContainerRow: FC<ContainerRowProps> = ({ pod, container }) => {
       </Td>
       <Td visibility={['hidden', 'visibleOnMd']}>
         <Status status={cstate.label} />
+      </Td>
+      <Td visibility={['hidden', 'visibleOnMd']}>
+        {cstatus?.ready ? t('public~Ready') : t('public~Not ready')}
       </Td>
       <Td visibility={['hidden', 'visibleOnXl']}>
         <ContainerLastState containerLastState={cstatus?.lastState} />
@@ -180,6 +184,7 @@ export const PodContainerTable: FC<PodContainerTableProps> = ({ heading, contain
             <Th width={20}>{t('public~Name')}</Th>
             <Th>{t('public~Image')}</Th>
             <Th visibility={['hidden', 'visibleOnMd']}>{t('public~State')}</Th>
+            <Th visibility={['hidden', 'visibleOnMd']}>{t('public~Ready')}</Th>
             <Th visibility={['hidden', 'visibleOnXl']}>{t('public~Last State')}</Th>
             <Th visibility={['hidden', 'visibleOnLg']}>{t('public~Restarts')}</Th>
             <Th width={10} visibility={['hidden', 'visibleOnLg']}>
