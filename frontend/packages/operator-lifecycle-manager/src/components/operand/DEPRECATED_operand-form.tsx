@@ -26,13 +26,12 @@ import * as Immutable from 'immutable';
 import { JSONSchema6, JSONSchema6TypeName } from 'json-schema';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { SyncMarkdownView } from '@console/internal/components/markdown-view';
 import { ConfigureUpdateStrategy } from '@console/internal/components/modals/configure-update-strategy-modal';
 import { RadioGroup } from '@console/internal/components/radio';
 import {
   NumberSpinner,
-  history,
   SelectorInput,
   ListDropdown,
   useScrollToTopOnMount,
@@ -514,6 +513,7 @@ export const DEPRECATED_CreateOperandForm: FC<OperandFormProps> = ({
   const postFormCallback = useResourceConnectionHandler();
   const { t } = useTranslation();
   const params = useParams();
+  const navigate = useNavigate();
   const immutableFormData = Immutable.fromJS(formData);
   const handleFormDataUpdate = (path: string, value: any): void => {
     const { regexMatch, index, pathBeforeIndex, pathAfterIndex } = parseArrayPath(path);
@@ -681,7 +681,7 @@ export const DEPRECATED_CreateOperandForm: FC<OperandFormProps> = ({
         : immutableFormData.toJS(),
     )
       .then((res) => postFormCallback(res))
-      .then(() => next && history.push(next))
+      .then(() => next && navigate(next))
       .catch((err: Error) => setError(err.message || 'Unknown error.'));
   };
 
@@ -1175,7 +1175,7 @@ export const DEPRECATED_CreateOperandForm: FC<OperandFormProps> = ({
                 <Button onClick={submit} type="submit" variant="primary">
                   {t('public~Create')}
                 </Button>
-                <Button onClick={history.goBack} variant="secondary">
+                <Button onClick={() => navigate(-1)} variant="secondary">
                   {t('public~Cancel')}
                 </Button>
               </ActionGroup>
