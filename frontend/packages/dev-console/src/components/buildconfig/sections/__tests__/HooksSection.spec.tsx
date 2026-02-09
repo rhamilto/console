@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
-import userEvent from '../../__tests__/user-event';
 import HooksSection, { HooksSectionFormData } from '../HooksSection';
 
 jest.mock('../EditorField', () =>
@@ -88,7 +88,7 @@ describe('HooksSection', () => {
     const [checkbox] = renderResult.getAllByRole('checkbox') as HTMLInputElement[];
     expect(checkbox.checked).toBeFalsy();
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     await waitFor(() => {
       expect(checkbox.checked).toBeTruthy();
@@ -167,8 +167,8 @@ describe('HooksSection', () => {
     expect(renderResult.queryAllByPlaceholderText('Command')).toHaveLength(2);
     expect(renderResult.queryAllByPlaceholderText('Argument')).toHaveLength(2);
 
-    userEvent.click(renderResult.getByTestId('type'));
-    userEvent.click(renderResult.getByText('Shell script'));
+    await userEvent.click(renderResult.getByTestId('type'));
+    await userEvent.click(renderResult.getByText('Shell script'));
 
     await waitFor(() => {
       expect(renderResult.baseElement.querySelector('textarea')).toBeTruthy();
@@ -201,8 +201,8 @@ describe('HooksSection', () => {
     expect(renderResult.queryAllByPlaceholderText('Command')).toHaveLength(2);
     expect(renderResult.queryAllByPlaceholderText('Argument')).toHaveLength(2);
 
-    userEvent.click(renderResult.getByTestId('type'));
-    userEvent.click(renderResult.getByText('Arguments to default image entry point'));
+    await userEvent.click(renderResult.getByTestId('type'));
+    await userEvent.click(renderResult.getByText('Arguments to default image entry point'));
 
     await waitFor(() => {
       expect(renderResult.baseElement.querySelector('textarea')).toBeFalsy();
@@ -232,7 +232,7 @@ describe('HooksSection', () => {
     );
 
     const [checkbox] = renderResult.getAllByRole('checkbox') as HTMLInputElement[];
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     // Wait for subform
     await waitFor(() => {
@@ -246,16 +246,16 @@ describe('HooksSection', () => {
 
     // Fill out subform
     const [command1] = renderResult.getAllByPlaceholderText('Command');
-    userEvent.type(command1, 'echo');
-    userEvent.click(renderResult.getByText('Add argument'));
-    userEvent.click(renderResult.getByText('Add argument'));
+    await userEvent.type(command1, 'echo');
+    await userEvent.click(renderResult.getByText('Add argument'));
+    await userEvent.click(renderResult.getByText('Add argument'));
     const [argument1, argument2] = renderResult.getAllByPlaceholderText('Argument');
-    userEvent.type(argument1, 'hello');
-    userEvent.type(argument2, 'world');
+    await userEvent.type(argument1, 'hello');
+    await userEvent.type(argument2, 'world');
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });

@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from 'react';
 import { FormGroup } from '@patternfly/react-core';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
 import * as _ from 'lodash';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
 import { DropdownField } from '@console/shared/src';
-import userEvent from '../../__tests__/user-event';
 import { BuildStrategyType } from '../../types';
 import ImagesSection, { ImagesSectionFormData } from '../ImagesSection';
 

@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
-import userEvent from '../../__tests__/user-event';
 import EnvironmentVariablesSection, {
   EnvironmentVariablesSectionFormData,
 } from '../EnvironmentVariablesSection';
@@ -132,8 +132,8 @@ describe('EnvironmentVariablesSection', () => {
       </Wrapper>,
     );
 
-    userEvent.click(renderResult.getByText('Add value'));
-    userEvent.click(renderResult.getByText('Add value'));
+    await userEvent.click(renderResult.getByText('Add value'));
+    await userEvent.click(renderResult.getByText('Add value'));
 
     expect(renderResult.queryAllByPlaceholderText('Name')).toHaveLength(3);
     expect(renderResult.queryAllByPlaceholderText('Value')).toHaveLength(3);
@@ -141,16 +141,16 @@ describe('EnvironmentVariablesSection', () => {
     const [name1, name2, name3] = renderResult.queryAllByPlaceholderText('Name');
     const [value1, value2, value3] = renderResult.queryAllByPlaceholderText('Value');
 
-    userEvent.type(name1, 'env key 1');
-    userEvent.type(value1, 'env value 1');
-    userEvent.type(name2, 'env key 2');
-    userEvent.type(value2, 'env value 2');
-    userEvent.type(name3, 'env key 3');
-    userEvent.type(value3, 'env value 3');
+    await userEvent.type(name1, 'env key 1');
+    await userEvent.type(value1, 'env value 1');
+    await userEvent.type(name2, 'env key 2');
+    await userEvent.type(value2, 'env value 2');
+    await userEvent.type(name3, 'env key 3');
+    await userEvent.type(value3, 'env value 3');
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });

@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
-import userEvent from '../../__tests__/user-event';
 import NameSection, { NameSectionFormData } from '../NameSection';
 
 interface WrapperProps extends FormikConfig<NameSectionFormData> {
@@ -98,7 +98,7 @@ describe('NameSection', () => {
     expect(nameInput.value).toEqual('');
     expect(nameInput.disabled).toBeFalsy();
 
-    userEvent.type(nameInput, 'changed name');
+    await userEvent.type(nameInput, 'changed name');
 
     await waitFor(() => {
       expect(screen.getAllByRole('textbox')[0].getAttribute('value')).toEqual('changed name');
@@ -109,7 +109,7 @@ describe('NameSection', () => {
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
