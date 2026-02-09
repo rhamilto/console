@@ -24,6 +24,7 @@ table in [Console dynamic plugins README](./README.md).
 - **Type breaking**: Fix inaccurate types in `console.topology/details/resource-link` and
   `console.topology/details/tab-section`. ([CONSOLE-4630], [#15893])
 - **Type breaking**: Fix inaccurate types in `console.catalog/item-type`. ([CONSOLE-4402], [#14869])
+- **Type breaking**: Replace `LocationDescriptor` type from `history` package with `To` type from `react-router-dom-v5-compat` in `UseDeleteModal` hook ([CONSOLE-4990], [#15959])
 - Add support for the updated `React.FC` type in `@types/react` version 18 ([CONSOLE-4630], [#15893])
 - Make all Console-provided shared modules optional peer dependencies ([CONSOLE-5050], [#15934])
 
@@ -172,6 +173,7 @@ table in [Console dynamic plugins README](./README.md).
 [CONSOLE-4796]: https://issues.redhat.com/browse/CONSOLE-4796
 [CONSOLE-4806]: https://issues.redhat.com/browse/CONSOLE-4806
 [CONSOLE-4840]: https://issues.redhat.com/browse/CONSOLE-4840
+[CONSOLE-4990]: https://issues.redhat.com/browse/CONSOLE-4990
 [CONSOLE-5039]: https://issues.redhat.com/browse/CONSOLE-5039
 [CONSOLE-5050]: https://issues.redhat.com/browse/CONSOLE-5050
 [OCPBUGS-19048]: https://issues.redhat.com/browse/OCPBUGS-19048
@@ -243,3 +245,4 @@ table in [Console dynamic plugins README](./README.md).
 [#15778]: https://github.com/openshift/console/pull/15778
 [#15893]: https://github.com/openshift/console/pull/15893
 [#15934]: https://github.com/openshift/console/pull/15934
+[#15959]: https://github.com/openshift/console/pull/15959
