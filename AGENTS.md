@@ -1,12 +1,11 @@
-# AGENTS.md – **Machine-readable briefing for all AI coding agents**  
-(Claude Code, Cursor, GitHub Copilot, Gemini Code Assist, CodeRabbit, etc.)
+# Instructions for Large Language Models and AI Coding Agents
 
 This is the entry point for AI-assisted development. Read this first and follow links for details.
 
 ## Usage
 All AI assistants reference these files to understand:
 - Project architecture and key packages
-- Development workflows and commands  
+- Development workflows and commands
 - Code conventions and best practices
 - Testing and deployment procedures
 
@@ -17,8 +16,6 @@ All AI assistants reference these files to understand:
 
 ## Quick Start
 ```bash
-# Clone & install
-git clone https://github.com/openshift/console.git && cd console
 cd frontend && yarn install
 
 # Development server
@@ -35,9 +32,8 @@ cd frontend && yarn test       # Jest unit tests
 
 ### Frontend Development Commands
 - **Build**: `cd frontend && yarn build`
-- **Dev server**: `cd frontend && yarn dev`
-- **Run tests**: `cd frontend && yarn test`
-- **Lint code**: `cd frontend && yarn lint`
+- **Run tests**: `cd frontend && yarn test <test-path>`
+- **Lint code**: `cd frontend && yarn lint <file-path>`
 - **Update i18n keys**: `cd frontend && yarn i18n`
 
 ### Backend Development Commands
@@ -60,7 +56,7 @@ cd frontend && yarn test       # Jest unit tests
 
 **REQUIRED FOR ALL CODING AGENTS: Before generating or modifying code, always consult the relevant file(s) to ensure full compliance. These files are the single source of truth for architecture, coding standards, and testing.**
 
-**General:**
+### General
 - **[ARCHITECTURE.md](ARCHITECTURE.md)**
 - **[CONVENTIONS.md](CONVENTIONS.md)**
 - **[TESTING.md](TESTING.md)**
@@ -69,10 +65,5 @@ cd frontend && yarn test       # Jest unit tests
 - **[STYLEGUIDE.md](STYLEGUIDE.md)**
 - **[INTERNATIONALIZATION.md](INTERNATIONALIZATION.md)**
 
-**Plugin Development:**
+### Plugin Development
 - **[frontend/packages/console-dynamic-plugin-sdk/README.md](frontend/packages/console-dynamic-plugin-sdk/README.md)** - Comprehensive dynamic plugin SDK documentation
-
-**Tool-specific:**
-- Claude → [CLAUDE.md](CLAUDE.md) and `.claude/`
-- Cursor → `.cursor/context.md`
-- CodeRabbit → [coderabbit.yaml](coderabbit.yaml)
