@@ -1,7 +1,6 @@
 ---
+name: gen-rtl-test
 description: Generate React Testing Library tests following OCP Console best practices
-model: claude-sonnet-4-5-20250929
-modelFormatter: "Sonnet 4.5"
 argument-hint: "[path/to/Component.tsx] or use @file for autocomplete"
 ---
 
@@ -249,8 +248,8 @@ it('should create resource', async () => {
 // ❌ NEVER in mock factories
 jest.mock('../Component', () => {
   const React = require('react'); // ❌ FORBIDDEN - even here!
-  return () => 
-  
+  return () => React.createElement('div', null, 'Mock');
+
 });
 
 // ❌ NEVER in beforeEach
@@ -1147,7 +1146,7 @@ grep -n "expect.anything()" test-file.spec.tsx
 
 ### Rule 25: Prefer Specific Types Over `any`
 
-**IMPORTANT:** While TypeScript is not strictly enforced in test files, prefer specific types when available, or leave untyped. 
+**IMPORTANT:** While TypeScript is not strictly enforced in test files, prefer specific types when available, or leave untyped.
 
 #### Why Specific Types Are Preferred
 

@@ -1,7 +1,10 @@
-# /plugin-api-review
+---
+name: plugin-api-review
+description: Review changes to the OpenShift Console plugin API for compliance with contribution guidelines, styleguide, and proper documentation in changelogs. Provides a detailed report of findings and compliance score.
+allowed-tools: Bash(git diff *), GitHub API, Web search, Read, Grep, Glob
+---
 
-## Usage
-`@plugin-api-review`
+# /plugin-api-review
 
 ## Context
 - Files in git staging and commits that are not present of the `main` branch are
@@ -76,6 +79,8 @@ When reviewing changes to the plugin API, ensure the following rules are followe
 - Changes to `@openshift-console/dynamic-plugin-sdk-webpack` package MUST also be
   documented in the appropriate section of the [SDK webpack changelog] for the
   next version.
+- Major changes to the API may also be documented by an accompanying entry to the
+  associated [dynamic plugin SDK release notes] for the next version.
 - CSS changes are documented in the "CSS styling" section of the
   [dynamic plugin SDK release notes] for the next version if they remove or rename
   existing classes which may be used by plugins.
@@ -170,11 +175,11 @@ Reason for score:
 - The [styleguide] is in full compliance for all changed files.
 ```
 
-[contribution guide]: ./CONTRIBUTING.md
-[styleguide]: ./STYLEGUIDE.md
+[contribution guide]: ../../../CONTRIBUTING.md
+[styleguide]: ../../../STYLEGUIDE.md
 [upstream remote]: https://github.com/openshift/console.git
-[console-dynamic-plugin-sdk]: ./frontend/packages/console-dynamic-plugin-sdk/
-[the extensions folder]: ./frontend/packages/console-dynamic-plugin-sdk/src/extensions/
-[dynamic plugin SDK release notes]: ./frontend/packages/console-dynamic-plugin-sdk/README.md
-[SDK core changelog]: ./frontend/packages/console-dynamic-plugin-sdk/CHANGELOG-core.md
-[SDK webpack changelog]: ./frontend/packages/console-dynamic-plugin-sdk/CHANGELOG-webpack.md
+[console-dynamic-plugin-sdk]: ../../../frontend/packages/console-dynamic-plugin-sdk/
+[the extensions folder]: ../../../frontend/packages/console-dynamic-plugin-sdk/src/extensions/
+[dynamic plugin SDK release notes]: ../../../frontend/packages/console-dynamic-plugin-sdk/release-notes
+[SDK core changelog]: ../../../frontend/packages/console-dynamic-plugin-sdk/CHANGELOG-core.md
+[SDK webpack changelog]: ../../../frontend/packages/console-dynamic-plugin-sdk/CHANGELOG-webpack.md
