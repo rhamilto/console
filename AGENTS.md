@@ -1,69 +1,55 @@
-# Instructions for Large Language Models and AI Coding Agents
+# Instructions for large language models and AI coding agents
 
 This is the entry point for AI-assisted development. Read this first and follow links for details.
 
-## Usage
-All AI assistants reference these files to understand:
-- Project architecture and key packages
-- Development workflows and commands
-- Code conventions and best practices
-- Testing and deployment procedures
+## Project overview
 
-## Project Overview
 - **Monorepo:** `frontend/` (React + TypeScript, yarn workspaces), `pkg/` - Go backend code, `cmd/` - Go CLI commands
-- **Dynamic plugins:** `frontend/packages/` (dev-console, knative, helm, pipelines, etc.)
-- **Key Packages:** `@console/dynamic-plugin-sdk` (public API—no breaking changes), `@console/shared` (utils), `@console/internal` (core UI/k8s)
+- **Static plugins:** dependencies listed in `frontend/packages/console-app/package.json`
+- **Key Packages:** `@console/dynamic-plugin-sdk` (public API), `@console/shared` (utils), `@console/internal` (core UI/k8s)
 
-## Quick Start
+## Common commands
+
 ```bash
-cd frontend && yarn install
-
-# Development server
-cd frontend && yarn dev
-
-# Core commands
-cd frontend && yarn lint       # ESLint + Prettier
-cd frontend && yarn test       # Jest unit tests
-./build-frontend.sh            # Production build
-
-# Full build (frontend + backend)
-./build.sh
+cd frontend && yarn install    # Install frontend dependencies
+cd frontend && yarn lint       # ESLint / prettier linting (can specify file path)
+cd frontend && yarn test       # Run frontend tests (can specify test path)
+cd frontend && yarn build      # Production build
+cd frontend && yarn dev-once   # Development build (no watch mode)
+cd frontend && yarn i18n       # Update i18n keys
+go mod vendor && go mod tidy   # Update Go dependencies
+./build-frontend.sh            # Production build of frontend
+./build-backend.sh             # Build backend Go code
+./test-backend.sh              # Run backend tests
+./build.sh                     # Full build (frontend + backend)
 ```
 
-### Frontend Development Commands
-- **Build**: `cd frontend && yarn build`
-- **Run tests**: `cd frontend && yarn test <test-path>`
-- **Lint code**: `cd frontend && yarn lint <file-path>`
-- **Update i18n keys**: `cd frontend && yarn i18n`
+## Global practices
 
-### Backend Development Commands
-- **Build**: `./build-backend.sh`
-- **Tests**: `./test-backend.sh`
+### Commit strategy
 
-## Global Practices
-
-### Commit Strategy
 - **Backend dependency updates**: Separate vendor folder changes into their own commit to isolate core logic changes
 - **Frontend i18n updates**: Run `yarn i18n` and commit updated keys alongside any code changes that affect i18n
-- **Redux migration**: When possible during story work, migrate away from Redux/Immutable.js to React hooks/Context without increasing scope
 
-### Branch Naming
+### Branch naming
+
 - Feature work: `CONSOLE-####` (Jira story number)
 - Bug fixes: `OCPBUGS-####` (Jira bug number)
 - Base branch: `main`
 
-## Required Reference Files for AI Coding Agents
+## Required reference files for AI coding agents
 
-**REQUIRED FOR ALL CODING AGENTS: Before generating or modifying code, always consult the relevant file(s) to ensure full compliance. These files are the single source of truth for architecture, coding standards, and testing.**
+**REQUIRED FOR ALL CODING AGENTS**: Before generating or modifying code, always consult the relevant file(s) to ensure full compliance. These files are the single source of truth for architecture, coding standards, and testing.
 
 ### General
+
 - **[ARCHITECTURE.md](ARCHITECTURE.md)**
-- **[CONVENTIONS.md](CONVENTIONS.md)**
 - **[TESTING.md](TESTING.md)**
 - **[README.md](README.md)**
 - **[CONTRIBUTING.md](CONTRIBUTING.md)**
 - **[STYLEGUIDE.md](STYLEGUIDE.md)**
 - **[INTERNATIONALIZATION.md](INTERNATIONALIZATION.md)**
 
-### Plugin Development
+### Plugin development
+
 - **[frontend/packages/console-dynamic-plugin-sdk/README.md](frontend/packages/console-dynamic-plugin-sdk/README.md)** - Comprehensive dynamic plugin SDK documentation

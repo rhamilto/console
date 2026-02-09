@@ -77,7 +77,6 @@ knowledge_base:
       # Repository documentation
       - "AGENTS.md"
       - "ARCHITECTURE.md"
-      - "CONVENTIONS.md"
       - "TESTING.md"
       - "STYLEGUIDE.md"
       - "CONTRIBUTING.md"
