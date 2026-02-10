@@ -31,7 +31,6 @@ const validateConsoleExtensionsFileSchema = remotePluginModule.validateConsoleEx
 
 const {
   getLocalPluginsModule,
-  loadLocalPluginsForTestPurposes,
   getExecutableCodeRefSource,
   getDynamicExtensions,
 } = localPluginsModule;
@@ -109,74 +108,6 @@ describe('getLocalPluginsModule', () => {
         `,
       ),
     );
-
-    expect(moduleHook.mock.calls.length).toBe(1);
-    expect(moduleHook.mock.calls[0]).toEqual([]);
-
-    expect(extensionHook.mock.calls.length).toBe(2);
-    expect(extensionHook.mock.calls[0]).toEqual([fooPluginPackage]);
-    expect(extensionHook.mock.calls[1]).toEqual([barPluginPackage]);
-  });
-});
-
-describe('loadLocalPluginsForTestPurposes', () => {
-  afterEach(() => {
-    jest.resetModules();
-  });
-
-  it('loads and returns the list of plugins based on pluginPackages', () => {
-    const fooPluginPackage: PluginPackage = {
-      ...getTemplatePackage({
-        name: 'foo',
-      }),
-      consolePlugin: {},
-    };
-
-    const barPluginPackage: PluginPackage = {
-      ...getTemplatePackage({
-        name: 'bar-plugin',
-      }),
-      consolePlugin: {},
-    };
-
-    const fooDynamicExtensions: Extension[] = [{ type: 'Dynamic/Foo', properties: { test: true } }];
-    const barDynamicExtensions: Extension[] = [
-      { type: 'Dynamic/Bar', properties: { baz: 1, qux: { $codeRef: 'a.b' } } },
-    ];
-
-    const moduleHook = jest.fn<void, []>();
-
-    const extensionHook = jest.fn((pkg: PluginPackage) => {
-      switch (pkg) {
-        case fooPluginPackage:
-          return fooDynamicExtensions;
-        case barPluginPackage:
-          return barDynamicExtensions;
-        default:
-          throw new Error('invalid arguments');
-      }
-    });
-
-    expect(
-      loadLocalPluginsForTestPurposes(
-        [fooPluginPackage, barPluginPackage],
-        moduleHook,
-        extensionHook,
-      ),
-    ).toEqual([
-      {
-        name: 'foo',
-        version: '0.0.0',
-        registrationMethod: 'local',
-        extensions: fooDynamicExtensions,
-      },
-      {
-        name: 'bar-plugin',
-        version: '0.0.0',
-        registrationMethod: 'local',
-        extensions: barDynamicExtensions,
-      },
-    ]);
 
     expect(moduleHook.mock.calls.length).toBe(1);
     expect(moduleHook.mock.calls[0]).toEqual([]);

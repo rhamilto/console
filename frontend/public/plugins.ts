@@ -19,8 +19,7 @@ const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion) ?? 
  * Console local plugins module has its source generated during webpack build,
  * so we use dynamic require() instead of the usual static import statement.
  */
-const localPlugins: LocalPluginManifest[] =
-  process.env.NODE_ENV !== 'test' ? require('../get-local-plugins').default : [];
+const localPlugins: LocalPluginManifest[] = require('../get-local-plugins').default;
 
 const localPluginNames = localPlugins.map((p) => p.name);
 
