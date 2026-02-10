@@ -1,14 +1,12 @@
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Button,
-  HelperText,
-  HelperTextItem,
   FormGroup,
   Form,
 } from '@patternfly/react-core';
@@ -18,6 +16,7 @@ import { k8sPatchResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { K8sResourceKind, K8sModel } from '../../module/k8s';
 import { NumberSpinner, NumberSpinnerProps } from '../utils/number-spinner';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
+import { ModalErrorContent } from '@console/shared/src/components/modal-error-content';
 
 export const ConfigureCountModal: OverlayComponent<ConfigureCountModalProps> = (props) => {
   const {
@@ -42,6 +41,13 @@ export const ConfigureCountModal: OverlayComponent<ConfigureCountModalProps> = (
   const [value, setValue] = useState<number>(_.get(resource, getPath) ?? defaultValue);
   const { t } = useTranslation();
   const [handlePromise, inProgress, errorMessage] = usePromiseHandler();
+
+  // Move focus away from the triggering element to prevent aria-hidden warning
+  useEffect(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, []);
 
   const submit = useCallback(
     (e) => {
@@ -90,7 +96,7 @@ export const ConfigureCountModal: OverlayComponent<ConfigureCountModalProps> = (
         description={messageKey ? t(messageKey, messageVariablesSafe) : message}
       />
       <ModalBody>
-        <Form>
+        <Form id="configure-count-form" onSubmit={submit}>
           <FormGroup>
             <NumberSpinner
               value={value}
@@ -100,20 +106,16 @@ export const ConfigureCountModal: OverlayComponent<ConfigureCountModalProps> = (
               required
               min={0}
             />
-            {errorMessage && (
-              <HelperText isLiveRegion className="pf-v6-u-mt-md">
-                <HelperTextItem variant="error">{errorMessage}</HelperTextItem>
-              </HelperText>
-            )}
           </FormGroup>
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <Button variant="secondary" onClick={closeOverlay} type="button">
-          {t('public~Cancel')}
-        </Button>
-        <Button variant="primary" isLoading={inProgress} onClick={submit}>
+      <ModalFooter className="pf-v6-u-flex-wrap">
+        <ModalErrorContent errorMessage={errorMessage} />
+        <Button variant="primary" type="submit" form="configure-count-form" isLoading={inProgress}>
           {buttonTextKey ? t(buttonTextKey, buttonTextVariables) : buttonText}
+        </Button>
+        <Button variant="link" onClick={closeOverlay} type="button">
+          {t('public~Cancel')}
         </Button>
       </ModalFooter>
     </Modal>

@@ -8,8 +8,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  HelperText,
-  HelperTextItem,
   FormGroup,
   Form,
 } from '@patternfly/react-core';
@@ -20,6 +18,7 @@ import { resourcePathFromModel } from '../utils/resource-link';
 import { K8sResourceKind } from '../../module/k8s';
 import { k8sCreateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
+import { ModalErrorContent } from '@console/shared/src/components/modal-error-content';
 
 export const ConfigureMachineAutoscalerModal: OverlayComponent<ConfigureMachineAutoscalerModalProps> = ({
   machineSet,
@@ -116,7 +115,7 @@ export const ConfigureMachineAutoscalerModal: OverlayComponent<ConfigureMachineA
         description={t('public~This will automatically scale machine set {{ name }}.', { name })}
       />
       <ModalBody>
-        <Form>
+        <Form id="create-machineautoscaler-form">
           <FormGroup label={t('public~Minimum replicas:')} fieldId="min-replicas" isRequired>
             <NumberSpinner
               value={minReplicas}
@@ -134,19 +133,20 @@ export const ConfigureMachineAutoscalerModal: OverlayComponent<ConfigureMachineA
               required
             />
           </FormGroup>
-          {errorMessage && (
-            <HelperText isLiveRegion className="pf-v6-u-mt-md">
-              <HelperTextItem variant="error">{errorMessage}</HelperTextItem>
-            </HelperText>
-          )}
         </Form>
       </ModalBody>
-      <ModalFooter>
-        <Button variant="secondary" onClick={closeOverlay || cancelProp} type="button">
-          {t('public~Cancel')}
-        </Button>
-        <Button variant="primary" isLoading={inProgress} onClick={submit}>
+      <ModalFooter className="pf-v6-u-flex-wrap">
+        <ModalErrorContent errorMessage={errorMessage} />
+        <Button
+          variant="primary"
+          isLoading={inProgress}
+          onClick={submit}
+          form="create-machineautoscaler-form"
+        >
           {t('public~Create')}
+        </Button>
+        <Button variant="link" onClick={closeOverlay || cancelProp} type="button">
+          {t('public~Cancel')}
         </Button>
       </ModalFooter>
     </Modal>
