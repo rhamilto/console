@@ -1,4 +1,4 @@
-import { PluginStore } from '@openshift/dynamic-plugin-sdk';
+import { consoleLogger, PluginStore } from '@openshift/dynamic-plugin-sdk';
 import { getSharedScope } from '@console/dynamic-plugin-sdk/src/runtime/plugin-shared-modules';
 import type { LocalPluginManifest } from '@openshift/dynamic-plugin-sdk';
 import type { Middleware } from 'redux';
@@ -8,6 +8,7 @@ import { valid as semver } from 'semver';
 import { consoleFetch } from '@console/dynamic-plugin-sdk/src/utils/fetch/console-fetch';
 import { ValidationResult } from '@console/dynamic-plugin-sdk/src/validation/ValidationResult';
 import { REMOTE_ENTRY_CALLBACK } from '@console/dynamic-plugin-sdk/src/constants';
+import { noop } from 'lodash';
 
 /**
  * Set by `console-operator` or `./bin/bridge -release-version`. If this is
@@ -20,6 +21,12 @@ const CURRENT_OPENSHIFT_VERSION = semver(window.SERVER_FLAGS.releaseVersion) ?? 
  * so we use dynamic require() instead of the usual static import statement.
  */
 const localPlugins: LocalPluginManifest[] = require('../get-local-plugins').default;
+
+// Suppress plugin SDK consoleLogger.info during testing to reduce noise
+// TODO: remove when upgrading to SDK 8.1 (codename "Blue")
+if (process.env.NODE_ENV === 'test') {
+  consoleLogger.info = noop;
+}
 
 const localPluginNames = localPlugins.map((p) => p.name);
 
