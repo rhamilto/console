@@ -33,6 +33,11 @@ jest.mock('@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource', () => ({
   k8sKill: jest.fn(),
 }));
 
+jest.mock('@console/shared/src/hooks/useTelemetry', () => ({
+  ...jest.requireActual('@console/shared/src/hooks/useTelemetry'),
+  useTelemetry: jest.fn(() => jest.fn()),
+}));
+
 const spyUseToast = useToastModule.default as jest.Mock;
 const spyUseUserSettings = useUserSettingsModule.useUserSettings as jest.Mock;
 const spyk8sCreate = k8sResourceModule.k8sCreate as jest.Mock;

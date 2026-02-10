@@ -88,15 +88,31 @@ export const useConsoleOperatorConfigData = () => {
   );
 };
 
-export const ConsolePluginStatus: FC<ConsolePluginStatusProps> = ({ status, errorMessage }) => (
-  <Status status={status} title={status === 'failed' ? errorMessage : undefined} />
-);
+export const ConsolePluginStatus: FC<ConsolePluginStatusProps> = ({ status, errorMessage }) => {
+  const { t } = useTranslation('console-app');
+
+  const pluginStatusTitles = useMemo<Record<PluginInfoEntry['status'], string>>(
+    () => ({
+      failed: t('Failed'),
+      loaded: t('Loaded'),
+      pending: t('Pending'),
+    }),
+    [t],
+  );
+
+  return (
+    <Status
+      status={status}
+      title={status === 'failed' ? errorMessage : pluginStatusTitles[status]}
+    />
+  );
+};
 
 export const ConsolePluginEnabledStatus: FC<ConsolePluginEnabledStatusProps> = ({
   pluginName,
   enabled,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('console-app');
 
   const {
     consoleOperatorConfig,
@@ -104,7 +120,7 @@ export const ConsolePluginEnabledStatus: FC<ConsolePluginEnabledStatusProps> = (
     canPatchConsoleOperatorConfig,
   } = useConsoleOperatorConfigData();
 
-  const labels = enabled ? t('console-app~Enabled') : t('console-app~Disabled');
+  const labels = enabled ? t('Enabled') : t('Disabled');
 
   return (
     <>
@@ -134,27 +150,27 @@ export const ConsolePluginEnabledStatus: FC<ConsolePluginEnabledStatusProps> = (
 };
 
 export const ConsolePluginCSPStatus: FC<ConsolePluginCSPStatusProps> = ({ hasViolations }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('console-app');
 
   return hasViolations ? (
     <>
       <YellowExclamationTriangleIcon
         className="co-icon-space-r"
         title={t(
-          "console-app~This plugin might have violated the Console Content Security Policy. Refer to the browser's console logs for details.",
+          "This plugin might have violated the Console Content Security Policy. Refer to the browser's console logs for details.",
         )}
       />{' '}
-      {t('console-app~Yes')}
+      {t('Yes')}
     </>
   ) : (
     <>
-      <GreenCheckCircleIcon className="co-icon-space-r" /> {t('console-app~No')}
+      <GreenCheckCircleIcon className="co-icon-space-r" /> {t('No')}
     </>
   );
 };
 
 const ConsolePluginsTable: FC<ConsolePluginsTableProps> = ({ obj, rows }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('console-app');
 
   const [sortBy, setSortBy] = useState<ISortBy>(() => ({
     index: 0,
@@ -169,30 +185,30 @@ const ConsolePluginsTable: FC<ConsolePluginsTableProps> = ({ obj, rows }) => {
     () => [
       {
         id: 'name',
-        name: t('console-app~Name'),
+        name: t('Name'),
         sortable: true,
       },
       {
         id: 'version',
-        name: t('console-app~Version'),
+        name: t('Version'),
       },
       {
         id: 'description',
-        name: t('console-app~Description'),
+        name: t('Description'),
       },
       {
         id: 'status',
-        name: t('console-app~Status'),
+        name: t('Status'),
         sortable: true,
       },
       {
         id: 'enabled',
-        name: t('console-app~Enabled'),
+        name: t('Enabled'),
         sortable: true,
       },
       {
         id: 'csp-violations',
-        name: t('console-app~CSP violations'),
+        name: t('CSP violations'),
       },
     ],
     [t],
@@ -225,7 +241,7 @@ const ConsolePluginsTable: FC<ConsolePluginsTableProps> = ({ obj, rows }) => {
           variant="info"
           isInline
           title={t(
-            'console-app~Console operator spec.managementState is unmanaged. Changes to plugins will have no effect.',
+            'Console operator spec.managementState is unmanaged. Changes to plugins will have no effect.',
           )}
         />
       )}
@@ -233,7 +249,7 @@ const ConsolePluginsTable: FC<ConsolePluginsTableProps> = ({ obj, rows }) => {
         <div className="co-m-pane__createLink--no-title">
           <Link to={`/k8s/cluster/${consolePluginConcatenatedGVK}/~new`}>
             <Button variant="primary" id="yaml-create" data-test="item-create">
-              {t('public~Create {{label}}', { label: t(ConsolePluginModel.label) })}
+              {t('Create {{label}}', { label: t(ConsolePluginModel.labelKey) })}
             </Button>
           </Link>
         </div>
@@ -285,7 +301,7 @@ const ConsolePluginsTable: FC<ConsolePluginsTableProps> = ({ obj, rows }) => {
           </Tbody>
         </Table>
       ) : (
-        <EmptyBox label={t('console-app~Console plugins')} />
+        <EmptyBox label={t('Console plugins')} />
       )}
     </PaneBody>
   );
@@ -302,12 +318,12 @@ const DevPluginsPage: FC<ConsoleOperatorConfigPageProps> = (props) => {
       pluginInfo
         .filter((plugin) => plugin.status === 'loaded')
         .map((plugin) => ({
-          name: plugin.metadata.name,
-          version: plugin.metadata.version,
-          description: plugin.metadata?.customProperties?.console?.description,
+          name: plugin.manifest.name,
+          version: plugin.manifest.version,
+          description: plugin.manifest.customProperties?.console?.description,
           enabled: plugin.enabled,
           status: plugin.status,
-          hasCSPViolations: cspViolations[plugin.metadata.name] ?? false,
+          hasCSPViolations: cspViolations[plugin.manifest.name] ?? false,
         })),
     [pluginInfo, cspViolations],
   );
@@ -333,22 +349,26 @@ const PluginsPage: FC<ConsoleOperatorConfigPageProps> = (props) => {
     return consolePlugins.map((plugin) => {
       const pluginName = plugin?.metadata?.name;
       const enabled = enabledPlugins.includes(pluginName);
+
       const loadedPluginInfo = pluginInfo
         .filter((p) => p.status === 'loaded')
-        .find((i) => i?.metadata?.name === pluginName);
+        .find((i) => i.manifest.name === pluginName);
+
       const notLoadedPluginInfo = pluginInfo
         .filter((p) => p.status !== 'loaded')
-        .find((i) => i?.pluginName === pluginName);
+        .find((i) => i.manifest.name === pluginName);
+
       if (loadedPluginInfo) {
         return {
           name: plugin?.metadata?.name,
-          version: loadedPluginInfo?.metadata?.version,
-          description: loadedPluginInfo?.metadata?.customProperties?.console?.description,
+          version: loadedPluginInfo?.manifest.version,
+          description: loadedPluginInfo?.manifest.customProperties?.console?.description,
           enabled,
           status: loadedPluginInfo?.status,
-          hasCSPViolations: cspViolations[plugin.metadata.name] ?? false,
+          hasCSPViolations: cspViolations[loadedPluginInfo?.manifest.name] ?? false,
         };
       }
+
       return {
         name: plugin?.metadata?.name,
         enabled,
