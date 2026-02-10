@@ -9,10 +9,13 @@ import {
   HelperTextItem,
   TextInput,
   Tooltip,
+  Modal,
+  ModalVariant,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@patternfly/react-core';
-import { ModalVariant } from '@patternfly/react-core/deprecated';
 import { useTranslation } from 'react-i18next';
-import Modal from '@console/shared/src/components/modal/Modal';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { useUserSettingsCompatibility } from '@console/shared/src/hooks/useUserSettingsCompatibility';
 import { FAVORITES_CONFIG_MAP_KEY, FAVORITES_LOCAL_STORAGE_KEY } from '../../consts';
@@ -78,7 +81,8 @@ export const FavoriteButton = ({ defaultName }: FavoriteButtonProps) => {
     setIsModalOpen(false);
   };
 
-  const handleConfirmStar = () => {
+  const handleConfirmStar = (e?: React.FormEvent) => {
+    e?.preventDefault();
     const trimmedName = name.trim();
     if (!trimmedName) {
       setError(t('Name is required.'));
@@ -151,46 +155,44 @@ export const FavoriteButton = ({ defaultName }: FavoriteButtonProps) => {
       </Tooltip>
 
       {isModalOpen && (
-        <Modal
-          title={t('Add to favorites')}
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          actions={[
+        <Modal isOpen={isModalOpen} onClose={handleModalClose} variant={ModalVariant.small}>
+          <ModalHeader title={t('Add to favorites')} />
+          <ModalBody>
+            <Form id="confirm-favorite-form" onSubmit={handleConfirmStar}>
+              <FormGroup label={t('Name')} isRequired fieldId="input-name">
+                <TextInput
+                  id="confirm-favorite-form-name"
+                  data-test="input-name"
+                  name="name"
+                  type="text"
+                  onChange={(e, v) => handleNameChange(v)}
+                  value={name || ''}
+                  autoFocus
+                  required
+                />
+                {error && (
+                  <FormHelperText>
+                    <HelperText>
+                      <HelperTextItem variant="error">{error}</HelperTextItem>
+                    </HelperText>
+                  </FormHelperText>
+                )}
+              </FormGroup>
+            </Form>
+          </ModalBody>
+          <ModalFooter>
             <Button
               key="confirm"
               variant="primary"
               onClick={handleConfirmStar}
-              form="confirm-favorite"
+              form="confirm-favorite-form"
             >
               {t('Save')}
-            </Button>,
+            </Button>
             <Button key="cancel" variant="link" onClick={handleModalClose}>
               {t('Cancel')}
-            </Button>,
-          ]}
-          variant={ModalVariant.small}
-        >
-          <Form id="confirm-favorite-form" onSubmit={handleConfirmStar}>
-            <FormGroup label={t('Name')} isRequired fieldId="input-name">
-              <TextInput
-                id="confirm-favorite-form-name"
-                data-test="input-name"
-                name="name"
-                type="text"
-                onChange={(e, v) => handleNameChange(v)}
-                value={name || ''}
-                autoFocus
-                required
-              />
-              {error && (
-                <FormHelperText>
-                  <HelperText>
-                    <HelperTextItem variant="error">{error}</HelperTextItem>
-                  </HelperText>
-                </FormHelperText>
-              )}
-            </FormGroup>
-          </Form>
+            </Button>
+          </ModalFooter>
         </Modal>
       )}
     </div>
