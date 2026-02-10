@@ -54,6 +54,7 @@ import {
 import { useUserSettings } from '@console/shared/src/hooks/useUserSettings';
 import { ThemeContext } from '@console/internal/components/ThemeProvider';
 import { Loading } from '@console/shared/src/components/loading/Loading';
+import { FetchProgressModal } from '@console/shared/src/components/modals/FetchProgressModal';
 import { TogglePlay } from './toggle-play';
 import { ExternalLinkButton } from '@console/shared/src/components/links/ExternalLinkButton';
 import { LinkTo } from '@console/shared/src/components/links/LinkTo';
@@ -139,27 +140,6 @@ const getLogDownloadFilename = (resource: K8sResourceKind, containerName?: strin
   return `${parts.join('-')}.log`;
 };
 
-/** detect encoding in raw pod logs to support multi-language characters */
-const handleRawLogs = (logURL: string): MouseEventHandler<HTMLButtonElement> => {
-  return (e) => {
-    e.preventDefault();
-
-    fetch(logURL)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => {
-        const encoding = detect(new Uint8Array(arrayBuffer));
-        const text = new TextDecoder(encoding).decode(arrayBuffer);
-        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch and decode log file:', err);
-      });
-  };
-};
-
 const HeaderBanner = ({ lines, status }: { lines: string[]; status: string }) => {
   const { t } = useTranslation('public');
   const count = lines[lines.length - 1] || lines.length === 0 ? lines.length : lines.length - 1;
@@ -213,6 +193,7 @@ const LogControls: FC<LogControlsProps> = ({
   dropdown,
   toggleFullscreen,
   currentLogURL,
+  handleRawLogs,
   isFullscreen,
   status,
   toggleStreaming,
@@ -465,11 +446,7 @@ const LogControls: FC<LogControlsProps> = ({
             <ToolbarGroup variant="action-group-plain">
               <ToolbarItem>
                 <Tooltip content={t('View raw logs')}>
-                  <ExternalLinkButton
-                    component="button"
-                    onClick={handleRawLogs(currentLogURL)}
-                    variant="plain"
-                  />
+                  <ExternalLinkButton component="button" onClick={handleRawLogs} variant="plain" />
                 </Tooltip>
               </ToolbarItem>
               <ToolbarItem>
@@ -502,8 +479,11 @@ const LogControls: FC<LogControlsProps> = ({
 };
 
 /** helper for opening a new window with raw logs. this is so we don't mess with the previous i18n string */
-const LogLink: FC<{ children: ReactNode; href: string }> = ({ children, href }) => (
-  <ExternalLink component="button" onClick={handleRawLogs(href)}>
+const LogLink: FC<{ children: ReactNode; onClick: MouseEventHandler<HTMLButtonElement> }> = ({
+  children,
+  onClick,
+}) => (
+  <ExternalLink component="button" onClick={onClick}>
     {children}
   </ExternalLink>
 );
@@ -532,6 +512,7 @@ export const ResourceLog: FC<ResourceLogProps> = ({
   const [error, setError] = useState(false);
   const [hasTruncated, setHasTruncated] = useState(false);
   const [lines, setLines] = useState([]);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [linesBehind, setLinesBehind] = useState(0);
   const [totalLineCount, setTotalLineCount] = useState(0);
   const [stale, setStale] = useState(false);
@@ -726,6 +707,21 @@ export const ResourceLog: FC<ResourceLogProps> = ({
     }
   };
 
+  /** detect encoding in raw pod logs to support multi-language characters */
+  const handleRawLogs = useCallback<MouseEventHandler<HTMLButtonElement>>((e) => {
+    e.preventDefault();
+    setIsDownloading(true);
+  }, []);
+
+  /** callback for FetchProgressModal to process fetched log data */
+  const handleFetchedLogData = useCallback((arrayBuffer: ArrayBuffer) => {
+    const encoding = detect(new Uint8Array(arrayBuffer));
+    const text = new TextDecoder(encoding).decode(arrayBuffer);
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  }, []);
+
   const errorAlert = (
     <Alert
       isInline
@@ -765,7 +761,7 @@ export const ResourceLog: FC<ResourceLogProps> = ({
     >
       <Trans ns="public" t={t}>
         To view unabridged log content, you can either{' '}
-        <LogLink href={linkURL}>open the raw file in another window</LogLink> or{' '}
+        <LogLink onClick={handleRawLogs}>open the raw file in another window</LogLink> or{' '}
         <a href={linkURL} download={getLogDownloadFilename(resource, containerName)}>
           download it
         </a>
@@ -777,6 +773,7 @@ export const ResourceLog: FC<ResourceLogProps> = ({
   const logControls = (
     <LogControls
       currentLogURL={linkURL}
+      handleRawLogs={handleRawLogs}
       dropdown={dropdown}
       isFullscreen={isFullscreen}
       status={status}
@@ -847,12 +844,28 @@ export const ResourceLog: FC<ResourceLogProps> = ({
         onScroll={onScroll}
         initialIndexWidth={7}
       />
+      <FetchProgressModal
+        url={linkURL}
+        title={t('View raw log')}
+        downloadingText={t('Preparing log...')}
+        downloadedText={
+          <Trans ns="public" t={t}>
+            Log is ready. <ExternalLink href={linkURL}>Open log manually</ExternalLink> if it does
+            not open automatically.
+          </Trans>
+        }
+        downloadFailedText={t('Could not download log. Check your connection and try again.')}
+        isDownloading={isDownloading}
+        setIsDownloading={setIsDownloading}
+        callback={handleFetchedLogData}
+      />
     </div>
   );
 };
 
 type LogControlsProps = {
   currentLogURL: string;
+  handleRawLogs: MouseEventHandler<HTMLButtonElement>;
   isFullscreen: boolean;
   canUseFullScreen?: boolean;
   dropdown?: ReactNode;
