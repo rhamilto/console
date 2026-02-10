@@ -55,7 +55,7 @@ const RestartHostModal: OverlayComponent<RestartHostModalProps> = (props) => {
         <Button variant="primary" onClick={onSubmit} isLoading={inProgress}>
           {t('metal3-plugin~Restart')}
         </Button>
-        <Button variant="secondary" onClick={closeOverlay}>
+        <Button variant="link" onClick={closeOverlay}>
           {t('metal3-plugin~Cancel')}
         </Button>
       </PfModalFooter>

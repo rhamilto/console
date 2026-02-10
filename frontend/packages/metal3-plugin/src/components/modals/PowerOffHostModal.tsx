@@ -239,7 +239,7 @@ const PowerOffHostModal: OverlayComponent<PowerOffHostModalProps> = (props) => {
         >
           {t('metal3-plugin~Power Off')}
         </Button>
-        <Button variant="secondary" onClick={closeOverlay}>
+        <Button variant="link" onClick={closeOverlay}>
           {t('metal3-plugin~Cancel')}
         </Button>
       </PfModalFooter>
