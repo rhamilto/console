@@ -19,7 +19,7 @@ import {
   Grid,
   GridItem,
 } from '@patternfly/react-core';
-import { CompressIcon, ExpandIcon } from '@patternfly/react-icons/dist/js/icons';
+import { CompressIcon, ExpandIcon } from '@patternfly/react-icons';
 /* eslint-disable import/named */
 import { useTranslation } from 'react-i18next';
 
