@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
-import userEvent from '../../__tests__/user-event';
 import { BuildConfigRunPolicy } from '../../types';
 import PolicySection, { PolicySectionFormData } from '../PolicySection';
 
@@ -59,12 +59,12 @@ describe('PolicySectionFormData', () => {
       </Wrapper>,
     );
 
-    userEvent.click(renderResult.getByText('Serial'));
-    userEvent.click(renderResult.getByText('Parallel'));
+    await userEvent.click(renderResult.getByText('Serial'));
+    await userEvent.click(renderResult.getByText('Parallel'));
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
@@ -88,12 +88,12 @@ describe('PolicySectionFormData', () => {
       </Wrapper>,
     );
 
-    userEvent.click(renderResult.getByText('Serial'));
-    userEvent.click(renderResult.getByText('Serial latest only'));
+    await userEvent.click(renderResult.getByText('Serial'));
+    await userEvent.click(renderResult.getByText('Serial latest only'));
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });

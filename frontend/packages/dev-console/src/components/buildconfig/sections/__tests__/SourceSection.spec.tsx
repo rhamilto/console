@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
 import { Provider } from 'react-redux';
 import * as rbacModule from '@console/dynamic-plugin-sdk/src/app/components/utils/rbac';
 import { GitProvider } from '@console/git-service/src';
 import * as serverlessFxUtils from '@console/git-service/src/utils/serverless-strategy-detector';
 import store from '@console/internal/redux';
-import userEvent from '../../__tests__/user-event';
 import { BuildStrategyType } from '../../types';
 import SourceSection, { SourceSectionFormData } from '../SourceSection';
 
@@ -141,8 +141,8 @@ describe('SourceSection', () => {
     );
 
     // Select git
-    userEvent.click(renderResult.getByText('Please select your source type'));
-    userEvent.click(renderResult.getByText('Git'));
+    await userEvent.click(renderResult.getByText('Please select your source type'));
+    await userEvent.click(renderResult.getByText('Git'));
 
     // Assert subforms
     await waitFor(() => {
@@ -165,10 +165,10 @@ describe('SourceSection', () => {
 
     // Select Dockerfile
     expect(renderResult.queryAllByText('Dockerfile')).toHaveLength(0);
-    userEvent.click(renderResult.getByText('Please select your source type'));
+    await userEvent.click(renderResult.getByText('Please select your source type'));
 
     expect(renderResult.queryAllByText('Dockerfile')).toHaveLength(1);
-    userEvent.click(renderResult.getByText('Dockerfile'));
+    await userEvent.click(renderResult.getByText('Dockerfile'));
 
     // Assert subforms
     await waitFor(() => {
@@ -190,11 +190,11 @@ describe('SourceSection', () => {
     );
 
     // Fill out subform
-    userEvent.click(renderResult.getByText('Please select your source type'));
-    userEvent.click(renderResult.getByText('Git'));
-    userEvent.click(renderResult.getByText('Show advanced Git options'));
+    await userEvent.click(renderResult.getByText('Please select your source type'));
+    await userEvent.click(renderResult.getByText('Git'));
+    await userEvent.click(renderResult.getByText('Show advanced Git options'));
 
-    userEvent.type(
+    await userEvent.type(
       getPatternFlyInputForLabel('Git Repo URL'),
       'https://github.com/openshift/console',
     );
@@ -202,7 +202,7 @@ describe('SourceSection', () => {
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
@@ -248,13 +248,13 @@ describe('SourceSection', () => {
     );
 
     // Fill out subform
-    userEvent.click(renderResult.getByText('Please select your source type'));
-    userEvent.click(renderResult.getByText('Dockerfile'));
-    userEvent.type(renderResult.getByRole('textbox'), 'FROM: centos\nRUN echo hello world');
+    await userEvent.click(renderResult.getByText('Please select your source type'));
+    await userEvent.click(renderResult.getByText('Dockerfile'));
+    await userEvent.type(renderResult.getByRole('textbox'), 'FROM: centos\nRUN echo hello world');
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });

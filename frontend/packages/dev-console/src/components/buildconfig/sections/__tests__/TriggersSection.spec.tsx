@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Formik, FormikConfig } from 'formik';
-import userEvent from '../../__tests__/user-event';
 import TriggersSection, { TriggersSectionFormData } from '../TriggersSection';
 
 interface WrapperProps extends FormikConfig<TriggersSectionFormData> {
@@ -62,11 +62,11 @@ describe('TriggersSection', () => {
     );
 
     // Change form
-    userEvent.click(renderResult.getByTestId('config-change checkbox'));
+    await userEvent.click(renderResult.getByTestId('config-change checkbox'));
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
@@ -93,11 +93,11 @@ describe('TriggersSection', () => {
     );
 
     // Change form
-    userEvent.click(renderResult.getByTestId('image-change checkbox'));
+    await userEvent.click(renderResult.getByTestId('image-change checkbox'));
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
