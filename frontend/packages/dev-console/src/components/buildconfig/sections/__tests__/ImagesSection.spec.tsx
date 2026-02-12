@@ -285,8 +285,7 @@ describe('ImagesSection', () => {
     expect(onSubmit).toHaveBeenCalledTimes(0);
   });
 
-  // Disabling as this test is flaking.  @vikram-raj to investigate.
-  xit('should submit right form data when user fills out an image stream tag', async () => {
+  it('should submit right form data when user fills out an image stream tag', async () => {
     const onSubmit = jest.fn();
 
     const renderResult = render(
@@ -357,7 +356,7 @@ describe('ImagesSection', () => {
       },
     };
     expect(onSubmit).toHaveBeenLastCalledWith(expectedFormData, expect.anything());
-  });
+  }, 30000); // userEvent.type is slow
 
   it('should submit right form data when user fills out an image stream image', async () => {
     const onSubmit = jest.fn();
@@ -399,7 +398,7 @@ describe('ImagesSection', () => {
       },
     };
     expect(onSubmit).toHaveBeenLastCalledWith(expectedFormData, expect.anything());
-  });
+  }, 30000); // userEvent.type is slow
 
   it('should submit right form data when user fills out an dockerfile', async () => {
     const onSubmit = jest.fn();
@@ -441,5 +440,5 @@ describe('ImagesSection', () => {
       },
     };
     expect(onSubmit).toHaveBeenLastCalledWith(expectedFormData, expect.anything());
-  });
+  }, 30000); // userEvent.type is slow
 });

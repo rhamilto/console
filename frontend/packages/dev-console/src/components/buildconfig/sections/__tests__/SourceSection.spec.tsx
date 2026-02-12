@@ -200,7 +200,6 @@ describe('SourceSection', () => {
       getPatternFlyInputForLabel('Git Repo URL'),
       'https://github.com/openshift/console',
     );
-    // TODO doesn't work at the moment?! userEvent.type(getPatternFlyInputForLabel('Git reference'), 'master');
 
     // Submit
     const submitButton = renderResult.getByRole('button', { name: 'Submit' });
@@ -235,7 +234,7 @@ describe('SourceSection', () => {
       },
     };
     expect(onSubmit).toHaveBeenLastCalledWith(expectedFormData, expect.anything());
-  });
+  }, 30000); // userEvent.type is slow
 
   it('should update form data correct after selecting and entering a dockerfile', async () => {
     const onSubmit = jest.fn();
@@ -287,5 +286,5 @@ describe('SourceSection', () => {
       },
     };
     expect(onSubmit).toHaveBeenLastCalledWith(expectedFormData, expect.anything());
-  });
+  }, 30000); // userEvent.type is slow
 });
