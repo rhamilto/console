@@ -208,6 +208,108 @@ describe('FetchProgressModal', () => {
     expect(setIsDownloading).toHaveBeenCalledWith(false);
   });
 
+  it('should fail when download exceeds maxBytes limit', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const setIsDownloading = jest.fn();
+    // Two chunks of 60 bytes each = 120 bytes, exceeding our 100-byte limit
+    const mockReader = createMockReader([new Uint8Array(60), new Uint8Array(60)]);
+    coFetchMock.mockResolvedValue({
+      body: { getReader: () => mockReader },
+    });
+
+    const { rerender } = render(
+      <FetchProgressModal
+        {...defaultProps}
+        isDownloading
+        setIsDownloading={setIsDownloading}
+        maxBytes={100}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(setIsDownloading).toHaveBeenCalledWith(false);
+    });
+
+    rerender(
+      <FetchProgressModal
+        {...defaultProps}
+        isDownloading={false}
+        setIsDownloading={setIsDownloading}
+        maxBytes={100}
+      />,
+    );
+
+    expect(screen.getByText('Download failed.')).toBeVisible();
+    expect(screen.getByText('The download exceeds the 0 B processing limit.')).toBeVisible();
+  });
+
+  it('should succeed when download is within maxBytes limit', async () => {
+    const setIsDownloading = jest.fn();
+    const mockCallback = jest.fn();
+    // 50 bytes total, well within 100-byte limit
+    const mockReader = createMockReader([new Uint8Array(50)]);
+    coFetchMock.mockResolvedValue({
+      body: { getReader: () => mockReader },
+    });
+
+    const { rerender } = render(
+      <FetchProgressModal
+        {...defaultProps}
+        isDownloading
+        setIsDownloading={setIsDownloading}
+        callback={mockCallback}
+        maxBytes={100}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(setIsDownloading).toHaveBeenCalledWith(false);
+    });
+
+    rerender(
+      <FetchProgressModal
+        {...defaultProps}
+        isDownloading={false}
+        setIsDownloading={setIsDownloading}
+        callback={mockCallback}
+        maxBytes={100}
+      />,
+    );
+
+    expect(mockCallback).toHaveBeenCalled();
+    expect(screen.getByText('Download complete!')).toBeVisible();
+  });
+
+  it('should abort the stream and release the reader when maxBytes is exceeded', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    const setIsDownloading = jest.fn();
+    const releaseLockMock = jest.fn();
+    const readMock = jest.fn();
+    // First chunk exceeds the limit
+    readMock.mockResolvedValueOnce({ done: false, value: new Uint8Array(200) });
+    // read() should not be called again after limit is exceeded
+    const mockReader = { read: readMock, releaseLock: releaseLockMock };
+    coFetchMock.mockResolvedValue({
+      body: { getReader: () => mockReader },
+    });
+
+    render(
+      <FetchProgressModal
+        {...defaultProps}
+        isDownloading
+        setIsDownloading={setIsDownloading}
+        maxBytes={100}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(setIsDownloading).toHaveBeenCalledWith(false);
+    });
+
+    expect(releaseLockMock).toHaveBeenCalled();
+    expect(readMock).toHaveBeenCalledTimes(1);
+  });
+
   it('should close the modal when PF modal close button is clicked', async () => {
     const setIsDownloading = jest.fn();
     const mockReader = createMockReader();

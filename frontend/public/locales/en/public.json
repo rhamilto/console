@@ -1526,6 +1526,7 @@
   "Preparing log...": "Preparing log...",
   "Log is ready. <1>Open log manually</1> if it does not open automatically.": "Log is ready. <1>Open log manually</1> if it does not open automatically.",
   "Could not download log. Check your connection and try again.": "Could not download log. Check your connection and try again.",
+  "You can also <1>open the raw log</1> without waiting. Some characters may not display correctly.": "You can also <1>open the raw log</1> without waiting. Some characters may not display correctly.",
   "No selector": "No selector",
   "Premium": "Premium",
   "Standard": "Standard",

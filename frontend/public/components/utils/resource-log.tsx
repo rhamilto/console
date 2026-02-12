@@ -23,6 +23,7 @@ import {
   Banner,
   BannerStatus,
   Button,
+  Content,
   Flex,
   MenuToggle,
   MenuToggleElement,
@@ -520,6 +521,7 @@ export const ResourceLog: FC<ResourceLogProps> = ({
   const [namespaceUID, setNamespaceUID] = useState('');
   const [podLogLinks, setPodLogLinks] = useState();
   const [content, setContent] = useState('');
+  const [rawLogDataUrl, setRawLogDataUrl] = useState('');
 
   const [showErrorAlert, setShowErrorAlert] = useState(true);
   const [showStaleAlert, setShowStaleAlert] = useState(true);
@@ -707,6 +709,12 @@ export const ResourceLog: FC<ResourceLogProps> = ({
     }
   };
 
+  // reset raw logs url if modal is closed
+  if (!isDownloading && rawLogDataUrl) {
+    URL.revokeObjectURL(rawLogDataUrl);
+    setRawLogDataUrl('');
+  }
+
   /** detect encoding in raw pod logs to support multi-language characters */
   const handleRawLogs = useCallback<MouseEventHandler<HTMLButtonElement>>((e) => {
     e.preventDefault();
@@ -715,11 +723,12 @@ export const ResourceLog: FC<ResourceLogProps> = ({
 
   /** callback for FetchProgressModal to process fetched log data */
   const handleFetchedLogData = useCallback((arrayBuffer: ArrayBuffer) => {
-    const encoding = detect(new Uint8Array(arrayBuffer));
+    const encoding = detect(new Uint8Array(arrayBuffer)) || 'utf-8';
     const text = new TextDecoder(encoding).decode(arrayBuffer);
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+    const blob = new Blob([text], { type: `text/plain;charset=${encoding}` });
+    const blobLink = URL.createObjectURL(blob);
+    setRawLogDataUrl(blobLink);
+    window.open(blobLink, '_blank');
   }, []);
 
   const errorAlert = (
@@ -850,14 +859,24 @@ export const ResourceLog: FC<ResourceLogProps> = ({
         downloadingText={t('Preparing log...')}
         downloadedText={
           <Trans ns="public" t={t}>
-            Log is ready. <ExternalLink href={linkURL}>Open log manually</ExternalLink> if it does
-            not open automatically.
+            Log is ready. <ExternalLink href={rawLogDataUrl}>Open log manually</ExternalLink> if it
+            does not open automatically.
           </Trans>
         }
         downloadFailedText={t('Could not download log. Check your connection and try again.')}
         isDownloading={isDownloading}
         setIsDownloading={setIsDownloading}
         callback={handleFetchedLogData}
+        footer={
+          !rawLogDataUrl && (
+            <Content>
+              <Trans ns="public" t={t}>
+                You can also <ExternalLink href={linkURL}>open the raw log</ExternalLink> without
+                waiting. Some characters may not display correctly.
+              </Trans>
+            </Content>
+          )
+        }
       />
     </div>
   );

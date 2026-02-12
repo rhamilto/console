@@ -11,6 +11,7 @@ import {
   EmptyStateBody,
   EmptyStateStatus,
   AlertVariant,
+  EmptyStateFooter,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { coFetch } from '@console/internal/co-fetch';
@@ -36,6 +37,10 @@ export interface FetchProgressModalProps {
   callback: (data: ArrayBuffer) => void;
   /** Optional children to render in the modal body, placed after the status content */
   children?: ReactNode;
+  /** Optional footer content, placed in the modal empty state footer */
+  footer?: ReactNode;
+  /** Maximum number of bytes to fetch (helps prevent browser OOM / tab hanging) */
+  maxBytes?: number;
 }
 
 const getModalContainer = (): HTMLElement =>
@@ -56,6 +61,8 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
   setIsDownloading,
   callback,
   children,
+  footer,
+  maxBytes = 100 * 1024 * 1024, // 100 mb
 }) => {
   const { t } = useTranslation('console-shared');
 
@@ -76,6 +83,9 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
 
   const callbackRef = useRef(callback);
   callbackRef.current = callback;
+
+  const maxBytesRef = useRef(maxBytes);
+  maxBytesRef.current = maxBytes;
 
   const fetchData = useCallback(async () => {
     setBytesDownloaded(0);
@@ -99,8 +109,15 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
           const { done, value } = await reader.read();
           if (done) break;
 
-          chunks.push(value);
           received += value.length;
+          if (received > maxBytesRef.current) {
+            throw new Error(
+              t('The download exceeds the {{size}} processing limit.', {
+                size: units.humanize(maxBytesRef.current, 'binaryBytes', true).string,
+              }),
+            );
+          }
+          chunks.push(value);
           setBytesDownloaded(received);
         }
 
@@ -199,6 +216,7 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
                   })}
             </Content>
           </EmptyStateBody>
+          {footer && <EmptyStateFooter>{footer}</EmptyStateFooter>}
         </EmptyState>
         {children}
       </ModalBody>
