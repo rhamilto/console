@@ -2,6 +2,14 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { coFetch } from '@console/internal/co-fetch';
 import { FetchProgressModal, FetchProgressModalProps } from '../FetchProgressModal';
 
+const addToastMock = jest.fn();
+
+jest.mock('../../toast', () => ({
+  useToast: () => ({
+    addToast: addToastMock,
+  }),
+}));
+
 jest.mock('@console/internal/co-fetch', () => ({
   coFetch: jest.fn(),
 }));
@@ -40,6 +48,7 @@ const defaultProps: FetchProgressModalProps = {
 describe('FetchProgressModal', () => {
   afterEach(() => {
     jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
 
   it('should call coFetch when isDownloading is true', async () => {
@@ -152,7 +161,7 @@ describe('FetchProgressModal', () => {
     expect(screen.getByText('Could not fetch data')).toBeVisible();
   });
 
-  it('should show downloadFailedText when download is cancelled', async () => {
+  it('should show toast when download is cancelled', async () => {
     const setIsDownloading = jest.fn();
     coFetchMock.mockImplementation(
       (_url: string, options: { signal: AbortSignal }) =>
@@ -181,40 +190,7 @@ describe('FetchProgressModal', () => {
       />,
     );
 
-    expect(screen.getByText('Download failed.')).toBeVisible();
-    expect(screen.getByText('Download canceled')).toBeVisible();
-  });
-
-  it('should show Close button only when download is failed or complete', async () => {
-    const setIsDownloading = jest.fn();
-    const mockReader = createMockReader();
-    coFetchMock.mockResolvedValue({
-      body: { getReader: () => mockReader },
-    });
-
-    const { rerender } = render(
-      <FetchProgressModal {...defaultProps} isDownloading setIsDownloading={setIsDownloading} />,
-    );
-
-    // During download: Cancel button visible, no Close button
-    expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
-    expect(screen.getByTestId('fetch-progress-modal-cancel')).toHaveTextContent('Cancel');
-
-    await waitFor(() => {
-      expect(setIsDownloading).toHaveBeenCalledWith(false);
-    });
-
-    rerender(
-      <FetchProgressModal
-        {...defaultProps}
-        isDownloading={false}
-        setIsDownloading={setIsDownloading}
-      />,
-    );
-
-    // After completion: Close button visible, Cancel button gone
-    expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument();
-    expect(screen.getByTestId('fetch-progress-modal-cancel')).toHaveTextContent('Close');
+    expect(addToastMock).toHaveBeenCalled();
   });
 
   it('should abort the fetch when Cancel button is clicked', () => {

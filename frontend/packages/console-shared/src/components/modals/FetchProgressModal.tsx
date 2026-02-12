@@ -10,10 +10,12 @@ import {
   Spinner,
   EmptyStateBody,
   EmptyStateStatus,
+  AlertVariant,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { coFetch } from '@console/internal/co-fetch';
 import { units } from '@console/internal/components/utils/units';
+import { useToast } from '../toast';
 
 export interface FetchProgressModalProps {
   /** URL to fetch */
@@ -57,12 +59,17 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
 }) => {
   const { t } = useTranslation('console-shared');
 
+  const toaster = useToast();
+
   const [endState, setEndState] = useState<'complete' | 'failed' | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [bytesDownloaded, setBytesDownloaded] = useState(0);
 
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  const addToastRef = useRef(toaster.addToast);
+  addToastRef.current = toaster.addToast;
 
   const urlRef = useRef(url);
   urlRef.current = url;
@@ -111,17 +118,23 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
       }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') {
-        setErrorMessage(t('Download canceled'));
-        // Download was cancelled, do nothing
+        addToastRef.current({
+          variant: AlertVariant.info,
+          title: t('Download canceled'),
+          content: t('The download was canceled.'),
+          timeout: true,
+          dismissible: true,
+        });
+        setEndState(undefined);
         return;
       }
       // eslint-disable-next-line no-console
       console.error('Failed to fetch:', error);
       setErrorMessage(error?.message || t('Could not fetch data'));
+      setEndState('failed');
     } finally {
       abortControllerRef.current = null;
       setIsDownloading(false);
-      setEndState((prev) => (prev === 'complete' ? 'complete' : 'failed'));
     }
   }, [setIsDownloading, t]);
 
@@ -169,7 +182,7 @@ export const FetchProgressModal: FC<FetchProgressModalProps> = ({
   return (
     <Modal
       isOpen={isDownloading || !!endState}
-      onClose={endState ? handleClose : undefined}
+      onClose={handleClose}
       variant="small"
       appendTo={getModalContainer}
     >

@@ -211,6 +211,7 @@
   "Stack trace:": "Stack trace:",
   "Show details": "Show details",
   "Download canceled": "Download canceled",
+  "The download was canceled.": "The download was canceled.",
   "Could not fetch data": "Could not fetch data",
   "Downloaded: {{size}}": "Downloaded: {{size}}",
   "This field is required": "This field is required",
