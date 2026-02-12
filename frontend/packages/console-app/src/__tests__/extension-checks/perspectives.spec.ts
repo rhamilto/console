@@ -1,11 +1,13 @@
+import { useExtensions } from '@openshift/dynamic-plugin-sdk';
 import * as _ from 'lodash';
 import { isPerspective } from '@console/dynamic-plugin-sdk';
-import { getTestedExtensions } from '../plugin-test-utils';
+import { renderHookWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 
 describe('Perspective', () => {
   it('duplicate ids are not allowed', async () => {
-    const testedExtensions = await getTestedExtensions();
-    const perspectives = testedExtensions.toArray().filter(isPerspective);
+    const { result } = renderHookWithProviders(() => useExtensions(isPerspective));
+    const perspectives = result.current;
+
     const dedupedPerspectives = _.uniqWith(
       perspectives,
       (a, b) => a.properties.id === b.properties.id,
@@ -15,9 +17,10 @@ describe('Perspective', () => {
     expect(duplicatePerspectives).toEqual([]);
   });
 
-  xit('exactly one default perspective is allowed', async () => {
-    const testedExtensions = await getTestedExtensions();
-    const perspectives = testedExtensions.toArray().filter(isPerspective);
+  it('exactly one default perspective is allowed', async () => {
+    const { result } = renderHookWithProviders(() => useExtensions(isPerspective));
+    const perspectives = result.current;
+
     const defaultPerspectives = perspectives.filter((p) => p.properties.default);
 
     expect(defaultPerspectives.length).toBe(1);

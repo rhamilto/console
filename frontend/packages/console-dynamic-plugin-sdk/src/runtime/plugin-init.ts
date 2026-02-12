@@ -1,4 +1,5 @@
 import type { PluginStore } from '@openshift/dynamic-plugin-sdk';
+import { consoleLogger } from '@openshift/dynamic-plugin-sdk';
 import * as _ from 'lodash';
 import {
   initSharedScope,
@@ -85,8 +86,8 @@ const registerLegacyPluginEntryCallback = () => {
     window[REMOTE_ENTRY_CALLBACK](patchedPluginName, entryModule);
   };
 
-  // eslint-disable-next-line no-console
-  console.info(
+  // consoleLogger is suppressed in unit tests and in production
+  consoleLogger.info(
     `Legacy plugin entry callback "${previousConsoleCallbackName}" has been registered.`,
   );
 };

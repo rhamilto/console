@@ -1,6 +1,5 @@
-import { act, fireEvent, render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import store from '@console/internal/redux';
+import { act, fireEvent } from '@testing-library/react';
+import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import {
   newPluginCSPViolationEvent,
   useCSPViolationDetector,
@@ -77,11 +76,7 @@ describe('useCSPViolationDetector', () => {
 
   it('records a new CSP violation', () => {
     mockCacheEvent.mockReturnValue(true);
-    render(
-      <Provider store={store}>
-        <TestComponent />
-      </Provider>,
-    );
+    renderWithProviders(<TestComponent />);
     act(() => {
       fireEvent(document, testEvent);
     });
@@ -91,11 +86,7 @@ describe('useCSPViolationDetector', () => {
 
   it('does not update store when matching event exists', () => {
     mockCacheEvent.mockReturnValue(false);
-    render(
-      <Provider store={store}>
-        <TestComponent />
-      </Provider>,
-    );
+    renderWithProviders(<TestComponent />);
 
     act(() => {
       fireEvent(document, testEvent);
@@ -111,11 +102,7 @@ describe('useCSPViolationDetector', () => {
       'http://localhost/api/plugins/foo',
     );
     const expected = newPluginCSPViolationEvent('foo', testEventWithPlugin);
-    render(
-      <Provider store={store}>
-        <TestComponent />
-      </Provider>,
-    );
+    renderWithProviders(<TestComponent />);
     act(() => {
       fireEvent(document, testEventWithPlugin);
     });
@@ -130,11 +117,7 @@ describe('useCSPViolationDetector', () => {
       'http://localhost/api/plugins/foo',
     );
     const expected = newPluginCSPViolationEvent('foo', testEventWithPlugin);
-    render(
-      <Provider store={store}>
-        <TestComponent />
-      </Provider>,
-    );
+    renderWithProviders(<TestComponent />);
     act(() => {
       fireEvent(document, testEventWithPlugin);
     });

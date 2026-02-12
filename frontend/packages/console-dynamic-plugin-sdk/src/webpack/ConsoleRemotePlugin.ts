@@ -407,6 +407,7 @@ export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
         name,
         version,
         dependencies,
+        optionalDependencies,
         customProperties: _.merge({}, customProperties, {
           console: { displayName, description, disableStaticPlugins },
         }),
@@ -421,7 +422,6 @@ export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
         process.env.NODE_ENV === 'production'
           ? 'plugin-entry.[fullhash].min.js'
           : 'plugin-entry.js',
-      transformPluginManifest: (manifest) => ({ ...manifest, optionalDependencies }),
     }).apply(compiler);
 
     validateConsoleBuildMetadata(pluginMetadata).report();

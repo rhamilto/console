@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import type { LocalPluginManifest } from '@openshift/dynamic-plugin-sdk';
 import * as _ from 'lodash';
 import {
   isEncodedCodeRef,
@@ -8,7 +7,7 @@ import {
 } from '@console/dynamic-plugin-sdk/src/coderefs/coderef-resolver';
 import { extensionsFile } from '@console/dynamic-plugin-sdk/src/constants';
 import { ConsoleExtensionsJSON } from '@console/dynamic-plugin-sdk/src/schema/console-extensions';
-import { Extension, EncodedCodeRef } from '@console/dynamic-plugin-sdk/src/types';
+import { EncodedCodeRef } from '@console/dynamic-plugin-sdk/src/types';
 import { parseJSONC } from '@console/dynamic-plugin-sdk/src/utils/jsonc';
 import { guessModuleFilePath } from '@console/dynamic-plugin-sdk/src/validation/ExtensionValidator';
 import { ValidationResult } from '@console/dynamic-plugin-sdk/src/validation/ValidationResult';
@@ -19,14 +18,14 @@ import { consolePkgScope, PluginPackage } from './plugin-resolver';
 export const getExtensionsFilePath = (pkg: PluginPackage) =>
   path.resolve(pkg._path, extensionsFile);
 
-export type LocalPluginsModuleData = {
+interface LocalPluginsModuleData {
   /** Generated module source code. */
   code: string;
   /** Diagnostics collected while generating module source code. */
   diagnostics: { errors: string[]; warnings: string[] };
   /** Absolute file paths representing webpack file dependencies of the generated module. */
   fileDependencies: string[];
-};
+}
 
 const getExposedModuleFilePath = (
   pkg: PluginPackage,
@@ -46,6 +45,7 @@ export const getLocalPluginsModule = (
   pluginPackages: PluginPackage[],
   moduleHook: () => string = _.constant(''),
   extensionHook: (pkg: PluginPackage) => string = _.constant('[]'),
+  format: 'esm' | 'cjs' = 'esm',
 ) => {
   let output = `
     ${moduleHook()}
@@ -64,35 +64,20 @@ export const getLocalPluginsModule = (
     `;
   }
 
-  output = `
+  if (format === 'esm') {
+    output = `
     ${output}
     export default localPlugins;
   `;
-
-  return trimStartMultiLine(output);
-};
-
-/**
- * Important: keep this in sync with `getLocalPluginsModule` above.
- */
-export const loadLocalPluginsForTestPurposes = (
-  pluginPackages: PluginPackage[],
-  moduleHook: VoidFunction = _.noop,
-  extensionHook: (pkg: PluginPackage) => Extension[] = _.constant([]),
-) => {
-  moduleHook();
-  const localPlugins: LocalPluginManifest[] = [];
-
-  for (const pkg of pluginPackages) {
-    localPlugins.push({
-      name: pkg.name,
-      version: pkg.version,
-      extensions: extensionHook(pkg),
-      registrationMethod: 'local',
-    });
+  }
+  if (format === 'cjs') {
+    output = `
+    ${output}
+    module.exports = { default: localPlugins };
+  `;
   }
 
-  return localPlugins;
+  return trimStartMultiLine(output);
 };
 
 /**
@@ -177,6 +162,7 @@ export const getDynamicExtensions = (
  */
 export const getLocalPluginsModuleData = (
   pluginPackages: PluginPackage[],
+  format: 'esm' | 'cjs' = 'esm',
 ): LocalPluginsModuleData => {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -184,8 +170,13 @@ export const getLocalPluginsModuleData = (
 
   const code = getLocalPluginsModule(
     pluginPackages,
-    () => `
+    () =>
+      format === 'esm'
+        ? `
       import { applyCodeRefSymbol } from '@openshift/dynamic-plugin-sdk';
+    `
+        : `
+      const { applyCodeRefSymbol } = require('@openshift/dynamic-plugin-sdk');
     `,
     (pkg) =>
       getDynamicExtensions(
@@ -196,6 +187,7 @@ export const getLocalPluginsModuleData = (
         },
         (codeRefSource) => `applyCodeRefSymbol(${codeRefSource})`,
       ),
+    format,
   );
 
   for (const pkg of pluginPackages) {
