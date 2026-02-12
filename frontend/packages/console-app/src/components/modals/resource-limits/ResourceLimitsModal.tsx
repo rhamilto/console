@@ -1,13 +1,10 @@
 import type { FC } from 'react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@patternfly/react-core';
 import { FormikProps, FormikValues } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import ResourceLimitSection from '@console/dev-console/src/components/import/advanced/ResourceLimitSection';
-import {
-  ModalTitle,
-  ModalBody,
-  ModalSubmitFooter,
-} from '@console/internal/components/factory/modal';
+import { ModalErrorContent } from '@console/shared/src/components/modal-error-content';
 
 interface ResourceLimitsModalProps {
   cancel?: () => void;
@@ -18,24 +15,33 @@ type Props = FormikProps<FormikValues> & ResourceLimitsModalProps;
 const ResourceLimitsModal: FC<Props> = ({ handleSubmit, cancel, isSubmitting, status, errors }) => {
   const { t } = useTranslation();
   return (
-    <form
-      className="modal-content"
-      onSubmit={handleSubmit}
-      aria-label={t('console-app~Edit resource limits modal')}
-    >
-      <ModalTitle>{t('console-app~Edit resource limits')}</ModalTitle>
+    <>
+      <ModalHeader title={t('console-app~Edit resource limits')} />
       <ModalBody>
-        <ResourceLimitSection hideTitle />
+        <Form
+          id="resource-limits-form"
+          onSubmit={handleSubmit}
+          aria-label={t('console-app~Edit resource limits modal')}
+        >
+          <ResourceLimitSection hideTitle />
+        </Form>
       </ModalBody>
-      <ModalSubmitFooter
-        submitDisabled={!_.isEmpty(errors) || isSubmitting}
-        inProgress={isSubmitting}
-        errorMessage={status?.submitError}
-        submitText={t('console-app~Save')}
-        cancel={cancel}
-        ariaLabel={t('console-app~Save')}
-      />
-    </form>
+      <ModalFooter className="pf-v6-u-flex-wrap">
+        <ModalErrorContent errorMessage={status?.submitError} />
+        <Button
+          variant="primary"
+          type="submit"
+          form="resource-limits-form"
+          isLoading={isSubmitting}
+          isDisabled={!_.isEmpty(errors) || isSubmitting}
+        >
+          {t('console-app~Save')}
+        </Button>
+        <Button variant="link" onClick={cancel}>
+          {t('console-app~Cancel')}
+        </Button>
+      </ModalFooter>
+    </>
   );
 };
 
