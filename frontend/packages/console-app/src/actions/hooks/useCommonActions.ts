@@ -4,10 +4,9 @@ import { Action } from '@console/dynamic-plugin-sdk';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { useDeepCompareMemoize } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useDeepCompareMemoize';
 import {
-  annotationsModalLauncher,
+  LazyAnnotationsModalOverlay,
   LazyDeleteModalOverlay,
-  labelsModalLauncher,
-  podSelectorModal,
+  LazyLabelsModalOverlay,
   taintsModal,
   tolerationsModal,
 } from '@console/internal/components/modals';
@@ -100,10 +99,9 @@ export const useCommonActions = <T extends readonly CommonActionCreator[]>(
         id: 'edit-labels',
         label: t('console-app~Edit labels'),
         cta: () =>
-          labelsModalLauncher({
+          launchModal(LazyLabelsModalOverlay, {
             kind,
             resource,
-            blocking: true,
           }),
         accessReview: asAccessReview(kind as K8sModel, resource as K8sResourceKind, 'patch'),
       }),
@@ -111,10 +109,9 @@ export const useCommonActions = <T extends readonly CommonActionCreator[]>(
         id: 'edit-annotations',
         label: t('console-app~Edit annotations'),
         cta: () =>
-          annotationsModalLauncher({
+          launchModal(LazyAnnotationsModalOverlay, {
             kind,
             resource,
-            blocking: true,
           }),
         accessReview: asAccessReview(kind as K8sModel, resource as K8sResourceKind, 'patch'),
       }),
@@ -128,17 +125,6 @@ export const useCommonActions = <T extends readonly CommonActionCreator[]>(
           'patch',
           'scale',
         ),
-      }),
-      [CommonActionCreator.ModifyPodSelector]: (): Action => ({
-        id: 'edit-pod-selector',
-        label: t('console-app~Edit Pod selector'),
-        cta: () =>
-          podSelectorModal({
-            kind,
-            resource,
-            blocking: true,
-          }),
-        accessReview: asAccessReview(kind as K8sModel, resource as K8sResourceKind, 'patch'),
       }),
       [CommonActionCreator.ModifyTolerations]: (): Action => ({
         id: 'edit-toleration',
@@ -173,8 +159,8 @@ export const useCommonActions = <T extends readonly CommonActionCreator[]>(
         accessReview: asAccessReview(kind as K8sModel, resource as K8sResourceKind, 'patch'),
       }),
     }),
-    // Excluding stable modal launcher functions (labelsModalLauncher, annotationsModalLauncher, podSelectorModal,
-    // tolerationsModal, taintsModal, launchCountModal) to prevent unnecessary re-renders
+    // Excluding stable modal launcher functions (tolerationsModal, taintsModal)
+    // to prevent unnecessary re-renders
     // TODO: remove once all Modals have been updated to useOverlay
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [kind, resource, t, message, actualEditPath, launchModal],

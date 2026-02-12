@@ -21,7 +21,8 @@ import type {
   ResourceFilters,
   ConsoleDataViewProps,
 } from '@console/dynamic-plugin-sdk/src/api/internal-types';
-import { createColumnManagementModal } from '@console/internal/components/modals';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
+import { LazyColumnManagementModalOverlay } from '@console/internal/components/modals';
 import { EmptyBox } from '@console/shared/src/components/empty-state/EmptyBox';
 import { StatusBox } from '@console/shared/src/components/status/StatusBox';
 import { DataViewLabelFilter } from './DataViewLabelFilter';
@@ -77,6 +78,7 @@ export const ConsoleDataView = <
   mock,
 }: ConsoleDataViewProps<TData, TCustomRowData, TFilters>) => {
   const { t } = useTranslation();
+  const launchModal = useOverlay();
 
   const { filters, onSetFilters, clearAllFilters, filteredData } = useConsoleDataViewFilters<
     TData,
@@ -176,7 +178,7 @@ export const ConsoleDataView = <
                   isPersistent
                   variant="plain"
                   onClick={() =>
-                    createColumnManagementModal({
+                    launchModal(LazyColumnManagementModalOverlay, {
                       columnLayout,
                       noLimit: true,
                     })

@@ -3,7 +3,9 @@ import { useState } from 'react';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 
-import { createModalLauncher, ModalTitle, ModalBody, ModalSubmitFooter } from '../factory/modal';
+import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '../factory/modal';
+import { ModalTitle, ModalBody, ModalSubmitFooter, ModalWrapper } from '../factory/modal';
 import { K8sResourceKind } from '../../module/k8s';
 import { AlertmanagerConfig } from '../monitoring/alertmanager/alertmanager-config';
 import { patchAlertmanagerConfig } from '../monitoring/alertmanager/alertmanager-utils';
@@ -122,13 +124,13 @@ export const AlertRoutingModal: FC<AlertRoutingModalProps> = ({
   );
 };
 
-export const createAlertRoutingModal = createModalLauncher<AlertRoutingModalProps>(
-  AlertRoutingModal,
+export const AlertRoutingModalOverlay: OverlayComponent<AlertRoutingModalProps> = (props) => (
+  <ModalWrapper blocking onClose={props.closeOverlay}>
+    <AlertRoutingModal {...props} cancel={props.closeOverlay} close={props.closeOverlay} />
+  </ModalWrapper>
 );
 
-export type AlertRoutingModalProps = {
-  cancel: () => void;
-  close: () => void;
+type AlertRoutingModalProps = {
   config: AlertmanagerConfig;
   secret: K8sResourceKind;
-};
+} & ModalComponentProps;

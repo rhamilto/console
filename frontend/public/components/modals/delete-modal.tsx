@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import type { FC, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useState, useCallback, useEffect } from 'react';
-import { Alert, Backdrop, Checkbox, Modal, ModalVariant } from '@patternfly/react-core';
+import { Alert, Checkbox } from '@patternfly/react-core';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
@@ -166,18 +166,6 @@ export const DeleteModal = (props: DeleteModalProps) => {
       />
     </form>
   );
-};
-
-export const DeleteOverlay: FC<DeleteModalProps> = (props) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const closeModal = () => setIsOpen(false);
-  return isOpen ? (
-    <Backdrop>
-      <Modal variant={ModalVariant.small} isOpen>
-        <DeleteModal cancel={closeModal} close={closeModal} {...props} />
-      </Modal>
-    </Backdrop>
-  ) : null;
 };
 
 export const DeleteModalOverlay: OverlayComponent<DeleteModalProps> = (props) => {

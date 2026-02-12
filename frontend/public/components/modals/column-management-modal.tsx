@@ -22,7 +22,9 @@ import {
   WithUserSettingsCompatibilityProps,
   withUserSettingsCompatibility,
 } from '@console/shared/src/hoc/withUserSettingsCompatibility';
-import { createModalLauncher, ModalTitle, ModalBody, ModalSubmitFooter } from '../factory';
+import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '../factory';
+import { ModalTitle, ModalBody, ModalSubmitFooter, ModalWrapper } from '../factory';
 
 export const MAX_VIEW_COLS = 9;
 
@@ -195,16 +197,26 @@ export const ColumnManagementModal: FC<
   );
 };
 
-export const createColumnManagementModal = createModalLauncher<ColumnManagementModalProps>(
-  withUserSettingsCompatibility<
-    ColumnManagementModalProps & WithUserSettingsCompatibilityProps<object>,
-    object
-  >(
-    COLUMN_MANAGEMENT_CONFIGMAP_KEY,
-    COLUMN_MANAGEMENT_LOCAL_STORAGE_KEY,
-    undefined,
-    true,
-  )(ColumnManagementModal),
+const ColumnManagementModalWithSettings = withUserSettingsCompatibility<
+  ColumnManagementModalProps & WithUserSettingsCompatibilityProps<object>,
+  object
+>(
+  COLUMN_MANAGEMENT_CONFIGMAP_KEY,
+  COLUMN_MANAGEMENT_LOCAL_STORAGE_KEY,
+  undefined,
+  true,
+)(ColumnManagementModal);
+
+export const ColumnManagementModalOverlay: OverlayComponent<ColumnManagementModalProps> = (
+  props,
+) => (
+  <ModalWrapper blocking onClose={props.closeOverlay}>
+    <ColumnManagementModalWithSettings
+      {...props}
+      cancel={props.closeOverlay}
+      close={props.closeOverlay}
+    />
+  </ModalWrapper>
 );
 
 ColumnManagementModal.displayName = 'ColumnManagementModal';
@@ -216,9 +228,7 @@ type DataListRowProps = {
   checkedColumns: Set<string>;
 };
 
-export type ColumnManagementModalProps = {
-  cancel?: () => void;
-  close?: () => void;
+type ColumnManagementModalProps = {
   columnLayout: ColumnLayout;
   noLimit?: boolean;
-};
+} & ModalComponentProps;

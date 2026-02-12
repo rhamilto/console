@@ -30,6 +30,7 @@ import {
   TopologyComponentFactory,
 } from '@console/dynamic-plugin-sdk/src/extensions/topology';
 import { RootState } from '@console/internal/redux';
+import { SyncPubSubModalLauncher } from '@console/knative-plugin/src/components/pub-sub/PubSubController';
 import {
   useQueryParams,
   withUserSettingsCompatibility,
@@ -354,13 +355,16 @@ const Topology: FC<
   }, [selectedId, visualization]);
 
   return (
-    <TopologyGraphView
-      visualizationReady={visualizationReady}
-      visualization={visualization}
-      controlsDisabled={!model?.nodes.length}
-      dragHint={dragHint}
-      selectedId={selectedId}
-    />
+    <>
+      <SyncPubSubModalLauncher />
+      <TopologyGraphView
+        visualizationReady={visualizationReady}
+        visualization={visualization}
+        controlsDisabled={!model?.nodes.length}
+        dragHint={dragHint}
+        selectedId={selectedId}
+      />
+    </>
   );
 };
 

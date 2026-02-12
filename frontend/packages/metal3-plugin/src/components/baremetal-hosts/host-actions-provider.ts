@@ -9,7 +9,7 @@ import {
   useK8sModel,
   useOverlay,
 } from '@console/dynamic-plugin-sdk/src/lib-core';
-import { DeleteOverlay } from '@console/internal/components/modals/delete-modal';
+import { DeleteModalOverlay } from '@console/internal/components/modals/delete-modal';
 import { asAccessReview } from '@console/internal/components/utils';
 import { MachineModel, MachineSetModel } from '@console/internal/models';
 import { k8sPatch, referenceFor, referenceForModel } from '@console/internal/module/k8s';
@@ -46,7 +46,7 @@ import { useStopNodeMaintenanceModal } from '../modals/StopNodeMaintenanceModal'
 
 const useDeleteAction = (kindObj: K8sKind, host, status) => {
   const { t } = useTranslation();
-  const launcher = useOverlay();
+  const launchModal = useOverlay();
   const hidden = ![
     HOST_STATUS_UNKNOWN,
     HOST_STATUS_READY,
@@ -60,14 +60,14 @@ const useDeleteAction = (kindObj: K8sKind, host, status) => {
         id: 'delete-host',
         label: t('metal3-plugin~Delete Bare Metal Host'),
         cta: () =>
-          launcher(DeleteOverlay, {
+          launchModal(DeleteModalOverlay, {
             kind: kindObj,
             resource: host,
           }),
         accessReview: asAccessReview(BareMetalHostModel, host, 'delete'),
       }),
     }),
-    [t, kindObj, host, launcher],
+    [t, kindObj, host, launchModal],
   );
   const action = useMemo<Action[]>(() => (!hidden ? [factory.delete()] : []), [factory, hidden]);
   return action;
