@@ -1,3 +1,4 @@
+import { ComponentType } from 'react';
 import { ValidatedOptions } from '@patternfly/react-core';
 import { WatchK8sResultsObject } from '@console/dynamic-plugin-sdk';
 import { GitProvider } from '@console/git-service/src';
@@ -349,7 +350,7 @@ export interface ImportData {
   type: ImportTypes;
   title: string;
   buildStrategy: string;
-  loader: LazyLoader<GitImportFormProps | SourceToImageFormProps>;
+  loader: LazyLoader<ComponentType<GitImportFormProps> | ComponentType<SourceToImageFormProps>>;
 }
 
 export enum TerminationType {

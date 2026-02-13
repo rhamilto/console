@@ -456,7 +456,7 @@ const EnvironmentPage = (props: {
 }) => (
   <AsyncComponent
     loader={() => import('./environment').then((c) => c.EnvironmentPage)}
-    {...(props as Record<string, unknown>)}
+    {...props}
   />
 );
 

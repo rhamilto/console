@@ -18,7 +18,7 @@ import { getPDBResource } from './utils/get-pdb-resources';
 
 const LAST_VIEWED_EDITOR_TYPE_USERSETTING_KEY = 'console.pdbForm.editor.lastView';
 
-export const PDBFormPage: FC<{}> = () => {
+export const PDBFormPage: FC = () => {
   const { t } = useTranslation();
   const params = useParams();
   const location = useLocation();
