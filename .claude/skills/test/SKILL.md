@@ -1,7 +1,10 @@
 ---
+name: test
 description: Run tests (frontend, backend, unit, or all)
 argument-hint: "[frontend|backend|unit <name>|all]"
 ---
+
+# /test
 
 Run tests based on the arguments provided:
 - If `$ARGUMENTS` contains "frontend", run `./test-frontend.sh`

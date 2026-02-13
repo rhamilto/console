@@ -1,3 +1,9 @@
+---
+name: pre-push-review
+description: Comprehensive local code review using both Claude AI and CodeRabbit AI before pushing changes to GitHub. This command analyzes your local changes and provides actionable feedback without posting anything to GitHub.
+argument-hint: "[--staged] [--base <branch>]"
+---
+
 # /pre-push-review
 
 ## Usage

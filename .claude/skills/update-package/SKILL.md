@@ -1,9 +1,10 @@
-# Console Assist - Package Update
+---
+name: update-package
+description: Expert package update assistant for OpenShift Console. Update packages safely with automated testing, building, and fixing.
+argument-hint: "[package-name]"
+---
 
-Expert package update assistant for OpenShift Console. Update packages safely with automated testing, building, and fixing.
-
-## Command
-`/console-assist update <package>`
+# /update-package
 
 ## Mission
 Update the specified package to its reasonably latest stable version or to the version specified by the user, ensuring builds and tests pass through automated fixing of breaking changes.
@@ -58,8 +59,7 @@ Update the specified package to its reasonably latest stable version or to the v
 ## Guidelines
 
 **Code Standards**:
-- For coding patterns and project structure: Read [`.ai/context.md`](../../.ai/context.md), [`.ai/README.md`](../../.ai/README.md), and [`README.md`](../../README.md)
-- For style conventions: Consult [`STYLEGUIDE.md`](../../STYLEGUIDE.md) and [`CONTRIBUTING.md`](../../CONTRIBUTING.md)
+- For coding patterns and project structure: Read `ARCHITECTURE.md`, `STYLEGUIDE.md`, and `AGENTS.md`
 - Follow existing code patterns found in the codebase
 
 **Package Update Rules**:
@@ -97,7 +97,7 @@ Assistant: Current version: 6.2.2, Latest: 6.3.0
 
 Before I proceed, do you have:
 1. Migration guide URL? (optional)
-2. Changelog/release notes URL? (optional)  
+2. Changelog/release notes URL? (optional)
 3. Known breaking changes? (optional)
 
 User: Yes, https://github.com/patternfly/patternfly-react/releases/tag/v6.3.0
