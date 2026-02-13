@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import { compare, gte, parse, SemVer } from 'semver';
 import { k8sGet, k8sList, k8sListResourceItems } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { getActiveUserName } from '@console/internal/actions/ui';
-import { errorModal } from '@console/internal/components/modals/error-modal';
 import {
   ClusterServiceVersionModel,
   RouteModel,
@@ -28,6 +27,7 @@ import {
   NameValueFromPair,
   NameValuePair,
 } from '@console/shared/src/components/formik-fields/field-types';
+import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
 import { getRandomChars } from '@console/shared/src/utils/utils';
 import { TektonResourceLabel } from '@console/shipwright-plugin/src/components/logs/TektonTaskRunLog';
 import {
@@ -928,7 +928,7 @@ export const exposeRoute = async (elName: string, ns: string, iteration = 0) => 
     );
     await k8sCreate(RouteModel, route, { ns });
   } catch (e) {
-    errorModal({
+    launchErrorModal({
       title: 'Error Exposing Route',
       error: e.message || 'Unknown error exposing the Webhook route',
     });
