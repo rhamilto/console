@@ -285,4 +285,19 @@ module.exports = {
   // The spread operator/rest parameters should be preferred in Typescript.
   'prefer-rest-params': 'error',
   'prefer-spread': 'error',
+
+  // Prevent imports from @patternfly/react-icons CJS distribution
+  'import/no-restricted-paths': [
+    'error',
+    {
+      zones: [
+        {
+          target: './',
+          from: 'node_modules/@patternfly/react-icons/dist/js',
+          except: ['./index.js'],
+          message: 'Import from the ESM entry point instead: @patternfly/react-icons',
+        },
+      ],
+    },
+  ],
 };

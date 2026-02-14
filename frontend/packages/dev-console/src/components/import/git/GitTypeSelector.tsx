@@ -1,12 +1,7 @@
 import type { FC } from 'react';
 import { Flex, FlexItem, FormGroup } from '@patternfly/react-core';
 import { Tile } from '@patternfly/react-core/deprecated';
-import {
-  GithubIcon,
-  GitlabIcon,
-  BitbucketIcon,
-  GitAltIcon,
-} from '@patternfly/react-icons/dist/esm/icons';
+import { GithubIcon, GitlabIcon, BitbucketIcon, GitAltIcon } from '@patternfly/react-icons';
 import { FormikValues, useFormikContext } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';

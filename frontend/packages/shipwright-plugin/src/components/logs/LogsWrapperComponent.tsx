@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useRef, useState, useCallback } from 'react';
 import { Button, Flex, FlexItem } from '@patternfly/react-core';
-import { CompressIcon, DownloadIcon, ExpandIcon } from '@patternfly/react-icons/dist/js/icons';
+import { CompressIcon, DownloadIcon, ExpandIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import { saveAs } from 'file-saver';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +43,9 @@ const LogsWrapperComponent: FC<LogsWrapperComponentProps> = ({
   }
 
   const downloadLogs = () => {
-    if (!currentLogGetterRef.current) return;
+    if (!currentLogGetterRef.current) {
+      return;
+    }
     const logString = currentLogGetterRef.current();
     const blob = new Blob([logString], {
       type: 'text/plain;charset=utf-8',
