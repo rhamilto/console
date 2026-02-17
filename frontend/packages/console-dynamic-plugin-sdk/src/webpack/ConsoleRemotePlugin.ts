@@ -10,7 +10,7 @@ import * as glob from 'glob';
 import * as _ from 'lodash';
 import * as readPkg from 'read-pkg';
 import * as semver from 'semver';
-import type * as webpack from 'webpack';
+import type { Compiler, WebpackPluginInstance } from 'webpack';
 import type { ConsolePluginBuildMetadata, ConsolePluginPackageJSON } from '../build-types';
 import { extensionsFile, REMOTE_ENTRY_CALLBACK } from '../constants';
 import {
@@ -287,7 +287,7 @@ export type ConsoleRemotePluginOptions = Partial<{
  * @see {@link sharedPluginModules}
  * @see {@link getSharedModuleMetadata}
  */
-export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
+export class ConsoleRemotePlugin implements WebpackPluginInstance {
   private readonly adaptedOptions: Required<ConsoleRemotePluginOptions>;
 
   private readonly baseDir = process.cwd();
@@ -351,7 +351,7 @@ export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
     );
   }
 
-  apply(compiler: webpack.Compiler) {
+  apply(compiler: Compiler) {
     const {
       pluginMetadata,
       extensions,

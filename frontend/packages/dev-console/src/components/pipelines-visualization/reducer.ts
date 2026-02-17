@@ -6,7 +6,7 @@ import { chart_color_blue_300 as runningColor } from '@patternfly/react-tokens/d
 import { chart_color_green_400 as successColor } from '@patternfly/react-tokens/dist/js/chart_color_green_400';
 import type { Graph, LayoutFactory } from '@patternfly/react-topology';
 import { DagreLayout, PipelineDagreLayout } from '@patternfly/react-topology';
-import type * as dagre from 'dagre';
+import type { GraphLabel } from 'dagre';
 import i18next from 'i18next';
 import { ComputedStatus } from '@console/shipwright-plugin/src/components/logs/log-snippet-types';
 import { pipelineRunStatus } from '@console/shipwright-plugin/src/components/logs/logs-utils';
@@ -183,7 +183,7 @@ export const getRunStatusColor = (status: string): StatusMessage => {
   }
 };
 
-export const getLayoutData = (layout: PipelineLayout): dagre.GraphLabel => {
+export const getLayoutData = (layout: PipelineLayout): GraphLabel => {
   switch (layout) {
     case PipelineLayout.DAGRE_BUILDER:
       return DAGRE_BUILDER_PROPS;
