@@ -16,7 +16,8 @@ import {
   HelperTextItem,
 } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons/dist/esm/icons/help-icon';
-import { FormikValues, useFormikContext } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import { Base64 } from 'js-base64';
 import * as _ from 'lodash';
@@ -24,9 +25,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { generateSecret } from '@console/dev-console/src/components/import/import-submit-utils';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';
 import { GitProvider } from '@console/git-service/src';
-import { FirehoseResource } from '@console/internal/components/utils';
+import type { FirehoseResource } from '@console/internal/components/utils';
 import { SecretModel } from '@console/internal/models';
-import { ConfigMapKind } from '@console/internal/module/k8s/types';
+import type { ConfigMapKind } from '@console/internal/module/k8s/types';
 import {
   RadioGroupField,
   InputField,

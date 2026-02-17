@@ -13,11 +13,13 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { Trans, useTranslation } from 'react-i18next';
-import { OverlayComponent, useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
-import { ModalComponentProps } from '@console/internal/components/factory';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import { ErrorMessage } from '@console/internal/components/utils/button-bar';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { referenceForModel, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { useMaintenanceCapability } from '../../hooks/useMaintenanceCapability';
 import { startNodeMaintenance } from '../../k8s/requests/node-maintenance';

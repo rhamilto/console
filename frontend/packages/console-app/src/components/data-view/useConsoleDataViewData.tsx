@@ -1,15 +1,20 @@
 import type { ReactNode } from 'react';
 import { useRef, useEffect, useMemo } from 'react';
-import { useDataViewPagination, DataViewTh } from '@patternfly/react-data-view';
-import { SortByDirection, ThProps } from '@patternfly/react-table';
+import type { DataViewTh } from '@patternfly/react-data-view';
+import { useDataViewPagination } from '@patternfly/react-data-view';
+import type { ThProps } from '@patternfly/react-table';
+import { SortByDirection } from '@patternfly/react-table';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom-v5-compat';
-import { ConsoleDataViewTh } from '@console/dynamic-plugin-sdk/src/api/internal-types';
-import { TableColumn, RowProps } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
+import type { ConsoleDataViewTh } from '@console/dynamic-plugin-sdk/src/api/internal-types';
+import type {
+  TableColumn,
+  RowProps,
+} from '@console/dynamic-plugin-sdk/src/extensions/console-types';
 import { useActiveColumns } from '@console/internal/components/factory/Table/active-columns-hook';
 import { sortResourceByValue } from '@console/internal/components/factory/Table/sort';
-import { ConsoleDataViewColumn, GetDataViewRows, ResourceFilters } from './types';
+import type { ConsoleDataViewColumn, GetDataViewRows, ResourceFilters } from './types';
 import { useConsoleDataViewSort, getSortByDirection } from './useConsoleDataViewSort';
 
 const isDataViewConfigurableColumn = (

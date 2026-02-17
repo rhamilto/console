@@ -3,10 +3,8 @@ import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
 import { Firehose } from '@console/internal/components/utils';
 import { SecretModel } from '@console/internal/models';
-import {
-  ResourceDropdown,
-  ResourceDropdownProps,
-} from '@console/shared/src/components/dropdown/ResourceDropdown';
+import type { ResourceDropdownProps } from '@console/shared/src/components/dropdown/ResourceDropdown';
+import { ResourceDropdown } from '@console/shared/src/components/dropdown/ResourceDropdown';
 
 interface PushSecretDropdownProps
   extends Omit<

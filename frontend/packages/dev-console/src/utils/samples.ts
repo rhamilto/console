@@ -2,12 +2,8 @@ import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/lib
 import { k8sGetResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ConsoleSampleModel } from '../models/samples';
-import {
-  ConsoleSample,
-  ConsoleSampleGitImportSourceRepository,
-  isContainerImportSource,
-  isGitImportSource,
-} from '../types/samples';
+import type { ConsoleSample, ConsoleSampleGitImportSourceRepository } from '../types/samples';
+import { isContainerImportSource, isGitImportSource } from '../types/samples';
 
 const LOCALIZATION_NAME_LABEL = 'console.openshift.io/name';
 const LOCALIZATION_LANGUAGE_LABEL = 'console.openshift.io/lang';

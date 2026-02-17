@@ -1,4 +1,4 @@
-import * as Ajv from 'ajv';
+import type * as Ajv from 'ajv';
 import { SchemaValidator } from '../SchemaValidator';
 
 const getAjvMocks = (): [Ajv.Ajv, jest.Mock<any>] => {

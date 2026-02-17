@@ -3,17 +3,17 @@ import { useState, useCallback } from 'react';
 import { Alert, Form, FormGroup } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@console/internal/components/checkbox';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   ModalTitle,
   ModalBody,
   createModalLauncher,
-  ModalComponentProps,
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
 import { k8sPatch } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { OperatorHubModel } from '../../models';
-import { OperatorHubKind } from '../operator-hub';
+import type { OperatorHubKind } from '../operator-hub';
 
 const EditDefaultSourcesModal: FC<EditDefaultSourcesModalProps> = ({
   cancel,

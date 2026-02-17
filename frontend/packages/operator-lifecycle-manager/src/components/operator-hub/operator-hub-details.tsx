@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { DescriptionList, Grid, GridItem } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { DetailsPage, DetailsPageProps } from '@console/internal/components/factory';
+import type { DetailsPageProps } from '@console/internal/components/factory';
+import { DetailsPage } from '@console/internal/components/factory';
 import {
   navFactory,
   SectionHeading,
@@ -11,9 +12,10 @@ import {
 } from '@console/internal/components/utils';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { OperatorHubModel } from '../../models';
-import { CatalogSourceListPage, CatalogSourceListPageProps } from '../catalog-source';
+import type { CatalogSourceListPageProps } from '../catalog-source';
+import { CatalogSourceListPage } from '../catalog-source';
 import { editDefaultSourcesModal } from '../modals/edit-default-sources-modal';
-import { OperatorHubKind } from '.';
+import type { OperatorHubKind } from '.';
 
 const OperatorHubDetails: FC<OperatorHubDetailsProps> = ({ obj: operatorHub }) => {
   const { t } = useTranslation();

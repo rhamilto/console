@@ -1,14 +1,9 @@
 import type { FC, Ref } from 'react';
 import { useState, useCallback } from 'react';
-import {
-  MenuToggle,
-  MenuToggleElement,
-  Select,
-  SelectOption,
-  Skeleton,
-} from '@patternfly/react-core';
+import type { MenuToggleElement } from '@patternfly/react-core';
+import { MenuToggle, Select, SelectOption, Skeleton } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { Perspective } from '@console/dynamic-plugin-sdk/src/extensions';
+import type { Perspective } from '@console/dynamic-plugin-sdk/src/extensions';
 import type { LoadedExtension } from '@console/dynamic-plugin-sdk/src/types';
 import { usePerspectiveExtension, usePerspectives } from '@console/shared/src';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';

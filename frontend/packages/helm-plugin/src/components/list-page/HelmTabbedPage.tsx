@@ -9,8 +9,10 @@ import CreateProjectListPage, {
 } from '@console/dev-console/src/components/projects/CreateProjectListPage';
 import { useAccessReview, useActivePerspective } from '@console/dynamic-plugin-sdk/src';
 import { withStartGuide } from '@console/internal/components/start-guide';
-import { LoadingBox, Page } from '@console/internal/components/utils';
-import { MenuActions, MultiTabListPage, useFlag } from '@console/shared';
+import type { Page } from '@console/internal/components/utils';
+import { LoadingBox } from '@console/internal/components/utils';
+import type { MenuActions } from '@console/shared';
+import { MultiTabListPage, useFlag } from '@console/shared';
 import { HelmChartRepositoryModel, ProjectHelmChartRepositoryModel } from '../../models';
 import HelmReleaseList from './HelmReleaseList';
 import HelmReleaseListPage from './HelmReleaseListPage';

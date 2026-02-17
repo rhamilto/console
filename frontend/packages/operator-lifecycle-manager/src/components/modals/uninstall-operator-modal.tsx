@@ -12,16 +12,16 @@ import {
 } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { k8sGetResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { settleAllPromises } from '@console/dynamic-plugin-sdk/src/utils/promise';
 import { getActiveNamespace } from '@console/internal/actions/ui';
 import { coFetchJSON } from '@console/internal/co-fetch';
 import { Checkbox } from '@console/internal/components/checkbox';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   createModalLauncher,
-  ModalComponentProps,
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
@@ -37,15 +37,8 @@ import {
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { useAccessReview } from '@console/internal/components/utils/rbac';
 import { ConsoleOperatorConfigModel } from '@console/internal/models';
-import {
-  K8sKind,
-  K8sResourceCommon,
-  K8sResourceKind,
-  modelFor,
-  referenceFor,
-  k8sPatch,
-  referenceForModel,
-} from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceCommon, K8sResourceKind } from '@console/internal/module/k8s';
+import { modelFor, referenceFor, k8sPatch, referenceForModel } from '@console/internal/module/k8s';
 import { YellowExclamationTriangleIcon } from '@console/shared';
 import { CONSOLE_OPERATOR_CONFIG_NAME } from '@console/shared/src/constants';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';

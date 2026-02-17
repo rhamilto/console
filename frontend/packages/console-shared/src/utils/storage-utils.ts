@@ -1,4 +1,4 @@
-import { StorageClass } from '@console/internal/components/storage-class-form';
+import type { StorageClass } from '@console/internal/components/storage-class-form';
 
 export const cephStorageProvisioners = [
   'ceph.rook.io/block',

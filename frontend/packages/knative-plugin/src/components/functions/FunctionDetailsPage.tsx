@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import NamespacedPage, {
   NamespacedPageVariants,
 } from '@console/dev-console/src/components/NamespacedPage';
-import { DetailsPage } from '@console/internal/components/factory';
+import type { DetailsPage } from '@console/internal/components/factory';
 import { history } from '@console/internal/components/utils';
 import { referenceForModel } from '@console/internal/module/k8s';
 import { ALL_NAMESPACES_KEY } from '@console/shared';

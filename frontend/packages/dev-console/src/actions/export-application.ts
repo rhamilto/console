@@ -1,4 +1,4 @@
-import { ToastContextType } from '@console/shared/src/components/toast/ToastContext';
+import type { ToastContextType } from '@console/shared/src/components/toast/ToastContext';
 import { handleExportApplication } from '@console/topology/src/components/export-app/ExportApplicationModal';
 import { EXPORT_CR_NAME } from '@console/topology/src/const';
 

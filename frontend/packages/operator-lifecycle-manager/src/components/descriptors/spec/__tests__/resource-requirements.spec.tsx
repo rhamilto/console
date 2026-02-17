@@ -2,14 +2,11 @@ import { screen, waitFor, fireEvent } from '@testing-library/react';
 import { Map as ImmutableMap } from 'immutable';
 import * as k8sResourceModule from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource';
 import * as modal from '@console/internal/components/factory/modal';
-import { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import { testResourceInstance, testModel } from '../../../../../mocks';
-import {
-  ResourceRequirementsModal,
-  ResourceRequirementsModalProps,
-  ResourceRequirementsModalLink,
-} from '../resource-requirements';
+import type { ResourceRequirementsModalProps } from '../resource-requirements';
+import { ResourceRequirementsModal, ResourceRequirementsModalLink } from '../resource-requirements';
 
 jest.mock('@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource', () => ({
   ...jest.requireActual('@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource'),

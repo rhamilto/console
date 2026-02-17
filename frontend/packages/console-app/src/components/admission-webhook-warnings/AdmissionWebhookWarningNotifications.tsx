@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { AlertVariant } from '@patternfly/react-core';
-import { Map } from 'immutable';
+import type { Map } from 'immutable';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AdmissionWebhookWarning, SDKStoreState } from '@console/dynamic-plugin-sdk/src';
 import {
-  AdmissionWebhookWarning,
   getAdmissionWebhookWarnings,
   removeAdmissionWebhookWarning,
-  SDKStoreState,
 } from '@console/dynamic-plugin-sdk/src';
 import {
   documentationURLs,

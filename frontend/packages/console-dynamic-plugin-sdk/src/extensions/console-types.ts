@@ -6,11 +6,16 @@ import type {
   SetStateAction,
   Dispatch,
 } from 'react';
-import { QuickStartContextValues } from '@patternfly/quickstarts';
-import { CodeEditorProps as PfCodeEditorProps } from '@patternfly/react-code-editor';
-import { ButtonProps } from '@patternfly/react-core';
-import { ICell, OnSelect, SortByDirection, TableGridBreakpoint } from '@patternfly/react-table';
-import { LocationDescriptor } from 'history';
+import type { QuickStartContextValues } from '@patternfly/quickstarts';
+import type { CodeEditorProps as PfCodeEditorProps } from '@patternfly/react-code-editor';
+import type { ButtonProps } from '@patternfly/react-core';
+import type {
+  ICell,
+  OnSelect,
+  SortByDirection,
+  TableGridBreakpoint,
+} from '@patternfly/react-table';
+import type { LocationDescriptor } from 'history';
 import type { TFunction } from 'i18next';
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import type {
@@ -25,7 +30,7 @@ import type {
   Selector,
 } from '../api/common-types';
 import type { Extension, ExtensionTypeGuard } from '../types';
-import { CustomDataSource } from './dashboard-data-source';
+import type { CustomDataSource } from './dashboard-data-source';
 
 export type OwnerReference = {
   name: string;

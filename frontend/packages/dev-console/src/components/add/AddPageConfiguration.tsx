@@ -4,22 +4,18 @@ import { FormHelperText, FormSection } from '@patternfly/react-core';
 import { DualListSelector } from '@patternfly/react-core/deprecated';
 import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
-import {
-  AddAction,
-  isAddAction,
-  ResolvedExtension,
-  useResolvedExtensions,
-} from '@console/dynamic-plugin-sdk/src';
+import type { AddAction, ResolvedExtension } from '@console/dynamic-plugin-sdk/src';
+import { isAddAction, useResolvedExtensions } from '@console/dynamic-plugin-sdk/src';
 import './AddCardItem.scss';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { useTelemetry } from '@console/shared/src';
+import type { SaveStatusProps } from '@console/shared/src/components/cluster-configuration';
 import {
   useDebounceCallback,
   useConsoleOperatorConfig,
   patchConsoleOperatorConfig,
   LoadError,
   SaveStatus,
-  SaveStatusProps,
 } from '@console/shared/src/components/cluster-configuration';
 
 type SoftwareCatalogAddPageConfig = K8sResourceKind & {

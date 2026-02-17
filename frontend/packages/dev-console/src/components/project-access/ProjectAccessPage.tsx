@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { useProjectAccessRoles } from './hooks';
-import { RoleBinding } from './project-access-form-utils-types';
+import type { RoleBinding } from './project-access-form-utils-types';
 import ProjectAccess from './ProjectAccess';
 
 const ProjectAccessPage: FC = (props) => {

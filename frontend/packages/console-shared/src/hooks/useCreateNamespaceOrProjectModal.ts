@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { CreateProjectModalProps } from '@console/dynamic-plugin-sdk/src';
+import type { CreateProjectModalProps } from '@console/dynamic-plugin-sdk/src';
 import { useModal } from '@console/dynamic-plugin-sdk/src/app/modal-support/useModal';
 import { FLAGS } from '@console/shared/src/constants/common';
 import { useFlag } from '@console/shared/src/hooks/flag';

@@ -1,5 +1,6 @@
 import type { FC, Ref } from 'react';
 import { useState } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   Alert,
   DescriptionListDescription,
@@ -11,7 +12,6 @@ import {
   Grid,
   GridItem,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import { ResourceSummary } from '@console/internal/components/utils/details-page
 import { SectionHeading } from '@console/internal/components/utils/headings';
 import { resourcePathFromModel } from '@console/internal/components/utils/resource-link';
 import { ClusterOperatorModel } from '@console/internal/models';
-import { OAuthKind } from '@console/internal/module/k8s';
+import type { OAuthKind } from '@console/internal/module/k8s';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { IDP_TYPES } from '@console/shared/src/constants/auth';
 import { useQueryParams } from '@console/shared/src/hooks/useQueryParams';

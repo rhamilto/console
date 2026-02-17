@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import * as _ from 'lodash';
-import { CatalogItemType, isCatalogItemType } from '@console/dynamic-plugin-sdk';
-import {
+import type { CatalogItemType } from '@console/dynamic-plugin-sdk';
+import { isCatalogItemType } from '@console/dynamic-plugin-sdk';
+import type {
   CatalogItem,
   CatalogItemDetails,
   CatalogItemMetadataProviderFunction,
@@ -10,7 +11,8 @@ import { normalizeIconClass } from '@console/internal/components/catalog/catalog
 import { history } from '@console/internal/components/utils/router';
 import catalogImg from '@console/internal/imgs/logos/catalog-icon.svg';
 import { useExtensions } from '@console/plugin-sdk/src/api/useExtensions';
-import { CatalogSortOrder, CatalogType, CatalogTypeCounts } from './types';
+import type { CatalogType, CatalogTypeCounts } from './types';
+import { CatalogSortOrder } from './types';
 
 enum CatalogVisibilityState {
   Enabled = 'Enabled',

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 
 export const cloudShellReducerName = 'cloudShell';
 

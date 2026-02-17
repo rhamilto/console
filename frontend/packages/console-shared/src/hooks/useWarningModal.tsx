@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState, useCallback } from 'react';
-import { WarningModal, WarningModalProps } from '@patternfly/react-component-groups';
+import type { WarningModalProps } from '@patternfly/react-component-groups';
+import { WarningModal } from '@patternfly/react-component-groups';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 
 /**

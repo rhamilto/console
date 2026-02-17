@@ -9,15 +9,15 @@ import {
 } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
 import { AlertSeverity } from '@console/dynamic-plugin-sdk';
-import { WorkloadNodeProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { WorkloadNodeProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { getImageForIconClass } from '@console/internal/components/catalog/catalog-item-icon';
+import type { PodRCData } from '@console/shared';
 import {
   AllPodStatus,
   calculateRadius,
   getFiringAlerts,
   getPodStatus,
   getSeverityAlertType,
-  PodRCData,
   useBuildConfigsWatcher,
   usePodsWatcher,
 } from '@console/shared';

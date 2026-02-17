@@ -29,7 +29,7 @@ import { ExternalLink } from '@console/shared/src/components/links/ExternalLink'
 import { DefaultCatalogSource } from '../../const';
 import { useCurrentCSVDescription } from '../../hooks/useCurrentCSVDescription';
 import { ClusterServiceVersionModel, SubscriptionModel } from '../../models';
-import { ClusterServiceVersionKind, SubscriptionKind } from '../../types';
+import type { ClusterServiceVersionKind, SubscriptionKind } from '../../types';
 import { MarkdownView } from '../clusterserviceversion';
 import { DeprecatedOperatorWarningAlert } from '../deprecated-operator-warnings/deprecated-operator-warnings';
 import { useDeprecatedOperatorWarnings } from '../deprecated-operator-warnings/use-deprecated-operator-warnings';
@@ -41,7 +41,8 @@ import {
   isGCPWIFCluster,
   getInfrastructureFeatures,
 } from './operator-hub-utils';
-import { InfrastructureFeature, OperatorHubItem } from './index';
+import type { OperatorHubItem } from './index';
+import { InfrastructureFeature } from './index';
 
 // t('olm~Basic Install'),
 // t('olm~Seamless Upgrades'),

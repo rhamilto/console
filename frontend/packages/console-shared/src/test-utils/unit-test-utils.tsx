@@ -1,24 +1,18 @@
 import type { FC, ReactElement, ReactNode } from 'react';
-import { PluginStore, PluginStoreProvider } from '@openshift/dynamic-plugin-sdk';
+import type { PluginStore } from '@openshift/dynamic-plugin-sdk';
+import { PluginStoreProvider } from '@openshift/dynamic-plugin-sdk';
 import { Form } from '@patternfly/react-core';
-import {
-  render,
-  renderHook,
-  RenderOptions,
-  screen,
-  fireEvent,
-  waitFor,
-  within,
-  BoundFunctions,
-  Queries,
-} from '@testing-library/react';
-import { Formik, FormikValues } from 'formik';
+import type { RenderOptions, BoundFunctions, Queries } from '@testing-library/react';
+import { render, renderHook, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import type { FormikValues } from 'formik';
+import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { combineReducers, createStore } from 'redux';
 import storeHandler from '@console/dynamic-plugin-sdk/src/app/storeHandler';
 import { pluginStore as defaultPluginStore } from '@console/internal/plugins';
-import { RootState, baseReducers } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
+import { baseReducers } from '@console/internal/redux';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   initialState?: Partial<RootState>;

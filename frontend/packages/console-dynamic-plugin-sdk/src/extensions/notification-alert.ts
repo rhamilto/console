@@ -1,6 +1,6 @@
-import { Alert } from '../api/common-types';
-import { LaunchModal } from '../app/modal-support/ModalProvider';
-import { Extension, CodeRef } from '../types';
+import type { Alert } from '../api/common-types';
+import type { LaunchModal } from '../app/modal-support/ModalProvider';
+import type { Extension, CodeRef } from '../types';
 
 /** This extension can be used to trigger a specific action when a specific Prometheus alert is observed by the Console based on its `rule.name` value. */
 export type AlertAction = Extension<

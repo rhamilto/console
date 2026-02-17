@@ -8,7 +8,8 @@ import { ConsoleSelect } from '@console/internal/components/utils/console-select
 import { OLMv1Switch } from '@console/operator-lifecycle-manager-v1/src/components/OLMv1Switch';
 import { useDebounceCallback, useFlag } from '@console/shared/src/hooks';
 import { NO_GROUPING } from '../utils/category-utils';
-import { CatalogSortOrder, CatalogStringMap } from '../utils/types';
+import type { CatalogStringMap } from '../utils/types';
+import { CatalogSortOrder } from '../utils/types';
 import CatalogPageHeader from './CatalogPageHeader';
 import CatalogPageHeading from './CatalogPageHeading';
 import CatalogPageNumItems from './CatalogPageNumItems';

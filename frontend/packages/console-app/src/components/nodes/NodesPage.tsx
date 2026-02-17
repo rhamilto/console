@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useMemo, useCallback, useEffect, Suspense } from 'react';
 import { DataViewCheckboxFilter } from '@patternfly/react-data-view';
-import { DataViewFilterOption } from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
+import type { DataViewFilterOption } from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,19 +12,19 @@ import {
   initialFiltersDefault,
   ConsoleDataView,
 } from '@console/app/src/components/data-view/ConsoleDataView';
-import {
+import type {
   ConsoleDataViewColumn,
   ConsoleDataViewRow,
   ResourceFilters,
 } from '@console/app/src/components/data-view/types';
+import type { K8sModel } from '@console/dynamic-plugin-sdk/src/api/dynamic-core-api';
 import {
   getGroupVersionKindForResource,
-  K8sModel,
   ListPageBody,
   useAccessReview,
   useFlag,
 } from '@console/dynamic-plugin-sdk/src/api/dynamic-core-api';
-import {
+import type {
   K8sGroupVersionKind,
   K8sResourceCommon,
   K8sResourceKind,
@@ -33,7 +33,8 @@ import {
   RowProps,
   TableColumn,
 } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
-import { NodeMetrics, setNodeMetrics } from '@console/internal/actions/ui';
+import type { NodeMetrics } from '@console/internal/actions/ui';
+import { setNodeMetrics } from '@console/internal/actions/ui';
 import { coFetchJSON } from '@console/internal/co-fetch';
 import ListPageHeader from '@console/internal/components/factory/ListPage/ListPageHeader';
 import { PROMETHEUS_BASE_PATH } from '@console/internal/components/graphs';
@@ -51,19 +52,17 @@ import {
   ControlPlaneMachineSetModel,
   CertificateSigningRequestModel,
 } from '@console/internal/models';
-import {
+import type {
   NodeKind,
-  referenceForModel,
   CertificateSigningRequestKind,
-  referenceFor,
   Selector,
   MachineKind,
   MachineConfigPoolKind,
-  LabelSelector,
   MachineSetKind,
   ControlPlaneMachineSetKind,
 } from '@console/internal/module/k8s';
-import { RootState } from '@console/internal/redux';
+import { referenceForModel, referenceFor, LabelSelector } from '@console/internal/module/k8s';
+import type { RootState } from '@console/internal/redux';
 import LazyActionMenu from '@console/shared/src/components/actions/LazyActionMenu';
 import { Timestamp } from '@console/shared/src/components/datetime/Timestamp';
 import {
@@ -92,14 +91,15 @@ import {
   nodeRoles as nodeRolesSort,
   sortWithCSRResource,
 } from '@console/shared/src/sorts/nodes';
-import { TableColumnsType } from '@console/shared/src/types/tableColumn';
+import type { TableColumnsType } from '@console/shared/src/types/tableColumn';
 import { nodeStatus } from '../../status';
 import { getNodeClientCSRs, isCSRResource } from './csr';
 import NodeUptime from './node-dashboard/NodeUptime';
 import NodeRoles from './NodeRoles';
 import { NodeStatusWithExtensions } from './NodeStatus';
 import ClientCSRStatus from './status/CSRStatus';
-import { GetNodeStatusExtensions, useNodeStatusExtensions } from './useNodeStatusExtensions';
+import type { GetNodeStatusExtensions } from './useNodeStatusExtensions';
+import { useNodeStatusExtensions } from './useNodeStatusExtensions';
 
 // TODO: Remove VMI retrieval and VMs count column if/when the plugin is able to add the VMs count column
 const VirtualMachineInstanceGroupVersionKind: K8sGroupVersionKind = {

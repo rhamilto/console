@@ -1,5 +1,6 @@
 import type { LegacyRef, FC } from 'react';
-import { Modal as PfModal, ModalProps as PfModalProps } from '@patternfly/react-core/deprecated';
+import type { ModalProps as PfModalProps } from '@patternfly/react-core/deprecated';
+import { Modal as PfModal } from '@patternfly/react-core/deprecated';
 import { css } from '@patternfly/react-styles';
 import './Modal.scss';
 

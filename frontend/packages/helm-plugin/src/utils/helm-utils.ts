@@ -1,23 +1,22 @@
 import * as fuzzy from 'fuzzysearch';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { loadAll, safeDump, DEFAULT_SAFE_SCHEMA } from 'js-yaml';
 import * as _ from 'lodash';
 import { coFetchJSON } from '@console/internal/co-fetch';
-import { Flatten } from '@console/internal/components/factory/list-page';
-import { RowFilter } from '@console/internal/components/filter-toolbar';
-import { K8sResourceKind, modelFor, referenceFor } from '@console/internal/module/k8s';
+import type { Flatten } from '@console/internal/components/factory/list-page';
+import type { RowFilter } from '@console/internal/components/filter-toolbar';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { modelFor, referenceFor } from '@console/internal/module/k8s';
 import { toTitleCase, WORKLOAD_TYPES } from '@console/shared';
 import { CHART_NAME_ANNOTATION, PROVIDER_NAME_ANNOTATION } from '../catalog/utils/const';
-import {
+import type {
   HelmRelease,
   HelmChart,
-  HelmReleaseStatus,
   HelmChartMetaData,
-  HelmActionType,
   HelmActionConfigType,
-  HelmActionOrigins,
   HelmChartEntries,
 } from '../types/helm-types';
+import { HelmReleaseStatus, HelmActionType, HelmActionOrigins } from '../types/helm-types';
 
 export const HelmReleaseStatusLabels = {
   [HelmReleaseStatus.Deployed]: 'Deployed',

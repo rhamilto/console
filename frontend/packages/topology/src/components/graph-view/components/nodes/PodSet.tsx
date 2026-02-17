@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PodSetProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { PodSetProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { RevisionModel } from '@console/knative-plugin/src/models';
+import type { PodRCData } from '@console/shared';
 import {
-  PodRCData,
   PodStatus,
   calculateRadius,
   getPodData,

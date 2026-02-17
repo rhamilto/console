@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { useProjectOrNamespaceModel } from '@console/internal/components/utils/list-dropdown';
 import { ProjectModel } from '@console/internal/models';
-import { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
 import {
   Filter,
   Footer,

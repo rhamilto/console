@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
-import { GraphElement, Node, isGraph } from '@patternfly/react-topology';
-import { K8sModel, Action, SetFeatureFlag } from '@console/dynamic-plugin-sdk';
-import { TopologyApplicationObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { GraphElement, Node } from '@patternfly/react-topology';
+import { isGraph } from '@patternfly/react-topology';
+import type { K8sModel, Action, SetFeatureFlag } from '@console/dynamic-plugin-sdk';
+import type { TopologyApplicationObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { useAccessReview } from '@console/internal/components/utils';
 import {
   BuildConfigModel,
@@ -12,11 +13,8 @@ import {
   SecretModel,
   ServiceModel,
 } from '@console/internal/models';
-import {
-  AccessReviewResourceAttributes,
-  K8sResourceKind,
-  referenceFor,
-} from '@console/internal/module/k8s';
+import type { AccessReviewResourceAttributes, K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import {
   isCatalogTypeEnabled,
   useActiveNamespace,

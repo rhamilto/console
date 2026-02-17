@@ -14,11 +14,11 @@ import {
 import { InfoCircleIcon } from '@patternfly/react-icons/dist/esm/icons/info-circle-icon';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-import { Alert } from '@console/dynamic-plugin-sdk';
+import type { Alert } from '@console/dynamic-plugin-sdk';
 import { sortEvents } from '@console/internal/components/events';
 import { LoadingBox } from '@console/internal/components/utils';
 import { DeploymentConfigModel } from '@console/internal/models';
-import { K8sResourceKind, EventKind, PodKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind, EventKind, PodKind } from '@console/internal/module/k8s';
 import { getFiringAlerts } from '@console/shared';
 import WorkloadGraphs from './MonitoringMetrics';
 import MonitoringOverviewAlerts from './MonitoringOverviewAlerts';

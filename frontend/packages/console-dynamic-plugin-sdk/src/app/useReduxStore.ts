@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import { useStore } from 'react-redux';
-import { applyMiddleware, combineReducers, createStore, compose, Store } from 'redux';
+import type { Store } from 'redux';
+import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { SDKReducers } from './redux';
-import { SDKStoreState } from './redux-types';
+import type { SDKStoreState } from './redux-types';
 import storeHandler from './storeHandler';
 
 const composeEnhancers =

@@ -1,15 +1,17 @@
 import type { ReactNode, FC } from 'react';
 import { useRef, useMemo } from 'react';
 import { Tooltip } from '@patternfly/react-core';
-import {
+import type {
   Node,
-  observer,
   WithSelectionProps,
   WithDndDropProps,
   WithContextMenuProps,
-  useCombineRefs,
   WithDragNodeProps,
   Edge,
+} from '@patternfly/react-topology';
+import {
+  observer,
+  useCombineRefs,
   useAnchor,
   AnchorEnd,
   useHover,
@@ -17,7 +19,7 @@ import {
   ScaleDetailsLevel,
 } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
-import { WithCreateConnectorProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { WithCreateConnectorProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { DeploymentModel } from '@console/internal/models';
 import { referenceForModel, referenceFor } from '@console/internal/module/k8s';
 import { usePodsWatcher } from '@console/shared';

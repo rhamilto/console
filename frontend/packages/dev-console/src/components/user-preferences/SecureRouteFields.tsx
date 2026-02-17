@@ -1,5 +1,6 @@
 import type { FC, FormEvent, Ref, CSSProperties } from 'react';
 import { useState, useMemo, useCallback } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   Checkbox,
   FormGroup,
@@ -10,7 +11,6 @@ import {
   SelectList,
   SelectOption,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';

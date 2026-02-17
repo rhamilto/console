@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { DonutChart } from '@console/internal/components/graphs/donut';
-import { ClusterResourceQuotaKind } from '@console/internal/module/k8s';
+import type { ClusterResourceQuotaKind } from '@console/internal/module/k8s';
 import { getLabelAndUsage } from './utils';
 
 import './resource-quota.scss';

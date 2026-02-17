@@ -1,7 +1,8 @@
 import type { ReactNode, FC } from 'react';
 import { FormGroup, FormHelperText, HelperText, HelperTextItem } from '@patternfly/react-core';
-import { FormikValues, useFormikContext } from 'formik';
-import { BasicCodeEditorProps } from '@console/dynamic-plugin-sdk';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
+import type { BasicCodeEditorProps } from '@console/dynamic-plugin-sdk';
 import { RedExclamationCircleIcon, useDebounceCallback } from '@console/shared/src';
 import { BasicCodeEditor } from '@console/shared/src/components/editor/BasicCodeEditor';
 

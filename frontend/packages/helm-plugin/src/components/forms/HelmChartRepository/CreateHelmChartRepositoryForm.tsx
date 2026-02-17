@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +14,7 @@ import { downloadYaml } from '@console/shared/src/components/editor/yaml-downloa
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { HelmChartRepositoryModel, ProjectHelmChartRepositoryModel } from '../../../models';
-import { HelmChartRepositoryType } from '../../../types/helm-types';
+import type { HelmChartRepositoryType } from '../../../types/helm-types';
 import CreateHelmChartRepositoryFormEditor from './CreateHelmChartRepositoryFormEditor';
 import { convertToForm, convertToHelmChartRepository } from './helmchartrepository-create-utils';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import type { ButtonProps } from '@patternfly/react-core';
 import {
   Button,
-  ButtonProps,
   Form,
   FormGroup,
   FormHelperText,
@@ -16,7 +16,7 @@ import Modal from '@console/shared/src/components/modal/Modal';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { useUserSettingsCompatibility } from '@console/shared/src/hooks/useUserSettingsCompatibility';
 import { FAVORITES_CONFIG_MAP_KEY, FAVORITES_LOCAL_STORAGE_KEY } from '../../consts';
-import { FavoritesType } from '../../types';
+import type { FavoritesType } from '../../types';
 
 const MAX_FAVORITE_COUNT = 10;
 

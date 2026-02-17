@@ -26,7 +26,7 @@ import { k8sCreateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { NsDropdown, resourcePathFromModel } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { NamespaceModel, ServiceAccountModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import SwitchToYAMLAlert from '@console/shared/src/components/alerts/SwitchToYAMLAlert';
 import { SchemaFieldHelp } from '@console/shared/src/components/utils';
 import { useTextInputModal } from '@console/shared/src/hooks';

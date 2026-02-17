@@ -1,5 +1,5 @@
-import { FeatureState } from '@console/internal/reducers/features';
-import { Step } from '../type';
+import type { FeatureState } from '@console/internal/reducers/features';
+import type { Step } from '../type';
 import { filterTourBasedonPermissionAndFlag } from '../utils';
 
 describe('guided-tour-utils', () => {

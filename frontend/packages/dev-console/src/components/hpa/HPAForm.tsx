@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { FormikProps } from 'formik';
+import type { FormikProps } from 'formik';
 import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { HorizontalPodAutoscalerModel } from '@console/internal/models';
-import { HorizontalPodAutoscalerKind, K8sResourceCommon } from '@console/internal/module/k8s';
+import type { HorizontalPodAutoscalerKind, K8sResourceCommon } from '@console/internal/module/k8s';
 import {
   FlexForm,
   FormBody,
@@ -15,7 +15,7 @@ import {
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { sanitizeHPAToForm } from './hpa-utils';
 import HPADetailsForm from './HPADetailsForm';
-import { HPAFormValues } from './types';
+import type { HPAFormValues } from './types';
 
 type HPAFormProps = {
   existingHPA?: HorizontalPodAutoscalerKind;

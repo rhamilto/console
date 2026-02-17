@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useUserSettings } from '@console/shared';
 
 export const PREFERRED_SECURE_ROUTING_OPTIONS_USER_SETTING_KEY =

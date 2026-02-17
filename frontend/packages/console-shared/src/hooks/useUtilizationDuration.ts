@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { UseUtilizationDuration } from '@console/dynamic-plugin-sdk/src/api/internal-types';
+import type { UseUtilizationDuration } from '@console/dynamic-plugin-sdk/src/api/internal-types';
 import * as UIActions from '@console/internal/actions/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { DEFAULT_DURATION, DEFAULT_DURATION_KEY } from '../constants';
 
 export const useUtilizationDuration: UseUtilizationDuration = (

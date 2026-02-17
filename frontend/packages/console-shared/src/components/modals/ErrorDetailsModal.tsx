@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import type { ErrorBoundaryFallbackProps } from '@console/dynamic-plugin-sdk';
 import { CopyToClipboard } from '@console/internal/components/utils/copy-to-clipboard';
 import { getReportBugLink } from '@console/internal/module/k8s/cluster-settings';
-import { ClusterVersionKind } from '@console/internal/module/k8s/types';
+import type { ClusterVersionKind } from '@console/internal/module/k8s/types';
 import { ExternalLinkButton } from '@console/shared/src/components/links/ExternalLinkButton';
 import { useClusterVersion } from '@console/shared/src/hooks/version';
 

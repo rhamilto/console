@@ -1,7 +1,8 @@
 import { submitButton } from '@console/cypress-integration-tests/views/form';
 import { checkErrors, testName } from '../../../integration-tests-cypress/support';
 import { modal } from '../../../integration-tests-cypress/views/modal';
-import { operator, TestOperandProps } from '../views/operator.view';
+import type { TestOperandProps } from '../views/operator.view';
+import { operator } from '../views/operator.view';
 
 const testOperator = {
   name: 'Data Grid',

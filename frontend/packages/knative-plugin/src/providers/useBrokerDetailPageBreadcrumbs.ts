@@ -1,6 +1,6 @@
 import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { useActivePerspective } from '@console/dynamic-plugin-sdk';
-import { K8sKind } from '@console/internal/module/k8s';
+import type { K8sKind } from '@console/internal/module/k8s';
 import { useTabbedTableBreadcrumbsFor } from '@console/shared';
 import { EventingBrokerModel } from '../models';
 import { serverlessTab } from '../utils/serverless-tab-utils';

@@ -1,9 +1,10 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getImpersonate, getUser, K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
+import type { K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
+import { getImpersonate, getUser } from '@console/dynamic-plugin-sdk/src';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ConfigMapModel } from '@console/internal/models';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { USER_SETTING_CONFIGMAP_NAMESPACE } from '../utils/user-settings';
 
 export const useGetUserSettingConfigMap = () => {

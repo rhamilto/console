@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import type * as webpack from 'webpack';
-import { ConsolePluginBuildMetadata } from '../build-types';
+import type { ConsolePluginBuildMetadata } from '../build-types';
 import { isEncodedCodeRef, parseEncodedCodeRefValue } from '../coderefs/coderef-resolver';
-import { Extension, EncodedCodeRef } from '../types';
+import type { Extension, EncodedCodeRef } from '../types';
 import { deepForOwn } from '../utils/object';
 import { BaseValidator } from './BaseValidator';
 

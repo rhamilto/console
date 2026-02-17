@@ -1,4 +1,4 @@
-import { HelmRelease, HelmReleaseStatus } from '../types/helm-types';
+import type { HelmRelease, HelmReleaseStatus } from '../types/helm-types';
 
 type HelmActionObj = {
   name: string;

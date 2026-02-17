@@ -12,10 +12,10 @@ import {
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { VolumeModeSelector } from '@console/app/src/components/volume-modes/volume-mode';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import {
   ModalBody,
-  ModalComponentProps,
   ModalSubmitFooter,
   ModalTitle,
   ModalWrapper,
@@ -42,12 +42,12 @@ import {
   VolumeSnapshotModel,
   StorageClassModel,
 } from '@console/internal/models';
-import {
-  k8sCreate,
+import type {
   VolumeSnapshotKind,
   StorageClassResourceKind,
   PersistentVolumeClaimKind,
 } from '@console/internal/module/k8s';
+import { k8sCreate } from '@console/internal/module/k8s';
 import { Timestamp } from '@console/shared/src/components/datetime/Timestamp';
 import { Status } from '@console/shared/src/components/status/Status';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';

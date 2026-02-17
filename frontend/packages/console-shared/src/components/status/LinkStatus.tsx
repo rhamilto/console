@@ -1,5 +1,5 @@
 import type { FC, ComponentProps } from 'react';
-import * as History from 'history';
+import type * as History from 'history';
 import { Link } from 'react-router-dom-v5-compat';
 import { StatusIconAndText } from '@console/dynamic-plugin-sdk';
 

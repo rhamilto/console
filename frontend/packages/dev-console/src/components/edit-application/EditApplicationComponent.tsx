@@ -1,8 +1,8 @@
 import type { FunctionComponent } from 'react';
-import { WatchK8sResultsObject } from '@console/dynamic-plugin-sdk';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { WatchK8sResultsObject } from '@console/dynamic-plugin-sdk';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { INSTANCE_LABEL, NAME_LABEL } from '../../const';
-import { PipelineKind } from '../../types/pipeline';
+import type { PipelineKind } from '../../types/pipeline';
 import EditApplication from './EditApplication';
 
 type AppResources = {

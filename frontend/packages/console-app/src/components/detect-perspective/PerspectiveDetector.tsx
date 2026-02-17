@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, createPath } from 'react-router-dom-v5-compat';
-import { Perspective, ResolvedExtension } from '@console/dynamic-plugin-sdk';
+import type { Perspective, ResolvedExtension } from '@console/dynamic-plugin-sdk';
 import { usePerspectives } from '@console/shared/src';
 
 type DetectorProps = {

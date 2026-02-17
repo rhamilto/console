@@ -7,7 +7,8 @@ import { typeFilter, getLastTime } from '@console/internal/components/events';
 import { timeFormatter } from '@console/internal/components/utils/datetime';
 import { ResourceIcon } from '@console/internal/components/utils/resource-icon';
 import { ResourceLink } from '@console/internal/components/utils/resource-link';
-import { EventKind, referenceFor } from '@console/internal/module/k8s';
+import type { EventKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { YellowExclamationTriangleIcon } from '../../status';
 
 const propsAreEqual = (prevProps: EventItemProps, nextProps: EventItemProps) =>

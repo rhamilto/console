@@ -1,9 +1,9 @@
 import * as path from 'path';
 import type * as webpack from 'webpack';
 import { getExtensionsFilePath } from '@console/plugin-sdk/src/codegen/local-plugins';
-import { PluginPackage } from '@console/plugin-sdk/src/codegen/plugin-resolver';
-import { ConsolePluginPackageJSON } from '../build-types';
-import { ConsoleExtensionsJSON } from '../schema/console-extensions';
+import type { PluginPackage } from '@console/plugin-sdk/src/codegen/plugin-resolver';
+import type { ConsolePluginPackageJSON } from '../build-types';
+import type { ConsoleExtensionsJSON } from '../schema/console-extensions';
 import { parseJSONC } from '../utils/jsonc';
 import { ExtensionValidator } from '../validation/ExtensionValidator';
 

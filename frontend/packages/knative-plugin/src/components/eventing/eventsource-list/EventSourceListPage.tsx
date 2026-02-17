@@ -1,14 +1,10 @@
 import type { ComponentProps, FC } from 'react';
 import { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RowFilter } from '@console/dynamic-plugin-sdk';
+import type { RowFilter } from '@console/dynamic-plugin-sdk';
 import { MultiListPage } from '@console/internal/components/factory';
-import {
-  K8sResourceCommon,
-  modelFor,
-  referenceFor,
-  referenceForModel,
-} from '@console/internal/module/k8s';
+import type { K8sResourceCommon } from '@console/internal/module/k8s';
+import { modelFor, referenceFor, referenceForModel } from '@console/internal/module/k8s';
 import { useFlag } from '@console/shared';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { FLAG_CAMEL_KAMELETS } from '../../../const';

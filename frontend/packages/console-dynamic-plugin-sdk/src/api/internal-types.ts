@@ -1,9 +1,9 @@
 import type { ReactNode, ComponentType, SetStateAction, Dispatch } from 'react';
-import { QuickStart } from '@patternfly/quickstarts';
+import type { QuickStart } from '@patternfly/quickstarts';
 import type { DataViewTh } from '@patternfly/react-data-view';
 import type { SortByDirection, ThProps } from '@patternfly/react-table';
-import { Map as ImmutableMap } from 'immutable';
-import {
+import type { Map as ImmutableMap } from 'immutable';
+import type {
   HealthState,
   K8sResourceCommon,
   LIMIT_STATE,
@@ -11,9 +11,10 @@ import {
   QueryParams,
   StatusGroupMapper,
   TopConsumerPopoverProps,
+  ColumnLayout,
+  RowProps,
 } from '../extensions/console-types';
-import type { ColumnLayout, RowProps } from '../extensions/console-types';
-import { Alert, K8sModel } from './common-types';
+import type { Alert, K8sModel } from './common-types';
 
 type WithClassNameProps<R = {}> = R & {
   className?: string;

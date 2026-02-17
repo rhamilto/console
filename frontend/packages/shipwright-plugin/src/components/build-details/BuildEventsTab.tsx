@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { ResourcesEventStream } from '@console/internal/components/events';
-import { EventInvolvedObject } from '@console/internal/module/k8s';
-import { Build } from '../../types';
+import type { EventInvolvedObject } from '@console/internal/module/k8s';
+import type { Build } from '../../types';
 
 type BuildEventsTabProps = {
   obj: Build;

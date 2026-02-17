@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {
+import type {
   CloudCredentialKind,
   InfrastructureKind,
   AuthenticationKind,
@@ -8,7 +8,7 @@ import {
 } from '@console/internal/module/k8s';
 import { parseJSONAnnotation } from '@console/shared/src/utils/annotations';
 import { DefaultCatalogSource, DefaultClusterCatalog, OperatorSource } from '../../const';
-import { PackageManifestKind } from '../../types';
+import type { PackageManifestKind } from '../../types';
 import {
   CapabilityLevel,
   InfrastructureFeature,

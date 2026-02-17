@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react';
-import {
-  isTopologyDataModelFactory,
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
+import type {
   ResolvedExtension,
   TopologyDataModelFactory,
-  useResolvedExtensions,
   WatchK8sResourcesGeneric,
 } from '@console/dynamic-plugin-sdk';
+import { isTopologyDataModelFactory, useResolvedExtensions } from '@console/dynamic-plugin-sdk';
 import DataModelExtension from './DataModelExtension';
 import { ModelContext, ExtensibleModel } from './ModelContext';
 import TopologyDataRetriever from './TopologyDataRetriever';

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { DASH } from '@console/dynamic-plugin-sdk/src/app/constants';
-import { DetailsItemComponentProps } from '@console/dynamic-plugin-sdk/src/extensions/details-item';
+import type { DetailsItemComponentProps } from '@console/dynamic-plugin-sdk/src/extensions/details-item';
 import { usePluginInfo } from '@console/plugin-sdk/src/api/usePluginInfo';
 import {
   ConsolePluginEnabledStatus,

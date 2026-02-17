@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import { useFavoritesOptions } from '@console/internal/components/useFavoritesOptions';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { ConfigMapKind } from '@console/internal/module/k8s';
+import type { ConfigMapKind } from '@console/internal/module/k8s';
 import {
   createConfigMap,
   updateConfigMap,

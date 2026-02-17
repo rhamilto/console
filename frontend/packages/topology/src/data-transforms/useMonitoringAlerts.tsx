@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Alert } from '@console/dynamic-plugin-sdk';
+import type { Alert } from '@console/dynamic-plugin-sdk';
 import { usePrometheusRulesPoll } from '@console/internal/components/graphs/prometheus-rules-hook';
 import { getAlertsAndRules } from '@console/internal/components/monitoring/utils';
 import { useDeepCompareMemoize } from '@console/shared';

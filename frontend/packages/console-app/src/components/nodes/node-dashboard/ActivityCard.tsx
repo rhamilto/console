@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom-v5-compat';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { resourcePathFromModel } from '@console/internal/components/utils/resource-link';
 import { EventModel, NodeModel } from '@console/internal/models';
-import { EventKind, NodeKind } from '@console/internal/module/k8s';
+import type { EventKind, NodeKind } from '@console/internal/module/k8s';
 import ActivityBody, {
   RecentEventsBody,
   OngoingActivityBody,

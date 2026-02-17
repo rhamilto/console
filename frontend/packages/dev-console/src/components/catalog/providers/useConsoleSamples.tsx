@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CatalogItem, ConsoleTFunction } from '@console/dynamic-plugin-sdk';
+import type { CatalogItem, ConsoleTFunction } from '@console/dynamic-plugin-sdk';
 import { useActiveNamespace } from '@console/shared/src';
-import { ConsoleSample } from '../../../types/samples';
+import type { ConsoleSample } from '../../../types/samples';
 import {
   createSampleLink,
   getBestMatch,

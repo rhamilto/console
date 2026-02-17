@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ListDropdown, ListDropdownProps } from '@console/internal/components/utils/list-dropdown';
+import type { ListDropdownProps } from '@console/internal/components/utils/list-dropdown';
+import { ListDropdown } from '@console/internal/components/utils/list-dropdown';
 import { ServiceAccountModel } from '@console/internal/models';
 import { useCreateServiceAccountModal } from '../../hooks/useCreateServiceAccountModal';
 

@@ -3,11 +3,9 @@ import * as _ from 'lodash';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import { testSubscription, testPackageManifest } from '../../../../mocks';
 import { SubscriptionModel } from '../../../models';
-import { SubscriptionKind, PackageManifestKind } from '../../../types';
-import {
-  SubscriptionChannelModal,
-  SubscriptionChannelModalProps,
-} from '../subscription-channel-modal';
+import type { SubscriptionKind, PackageManifestKind } from '../../../types';
+import type { SubscriptionChannelModalProps } from '../subscription-channel-modal';
+import { SubscriptionChannelModal } from '../subscription-channel-modal';
 
 describe('SubscriptionChannelModal', () => {
   let subscriptionChannelModalProps: SubscriptionChannelModalProps;

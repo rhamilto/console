@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 
-import {
+import type {
   AnyObject,
-  applyCodeRefSymbol,
   ExtractExtensionProperties,
   ResolvedExtension,
 } from '@openshift/dynamic-plugin-sdk';
+import { applyCodeRefSymbol } from '@openshift/dynamic-plugin-sdk';
 import { isPlainObject, isEqual, isFunction, isNil, cloneDeep } from 'lodash';
 import type { Extension, EncodedCodeRef, CodeRef } from '../types';
 import { deepForOwn } from '../utils/object';

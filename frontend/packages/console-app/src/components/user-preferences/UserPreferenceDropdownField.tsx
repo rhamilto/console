@@ -1,18 +1,12 @@
 import type { FC, Ref } from 'react';
 import { useState, useMemo } from 'react';
-import {
-  MenuToggle,
-  MenuToggleElement,
-  Skeleton,
-  Select,
-  SelectList,
-  SelectOption,
-} from '@patternfly/react-core';
+import type { MenuToggleElement } from '@patternfly/react-core';
+import { MenuToggle, Skeleton, Select, SelectList, SelectOption } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { UserPreferenceDropdownField as DropdownFieldType } from '@console/dynamic-plugin-sdk/src';
+import type { UserPreferenceDropdownField as DropdownFieldType } from '@console/dynamic-plugin-sdk/src';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { useUserSettings } from '@console/shared/src/hooks/useUserSettings';
-import { UserPreferenceFieldProps } from './types';
+import type { UserPreferenceFieldProps } from './types';
 
 import './UserPreferenceField.scss';
 

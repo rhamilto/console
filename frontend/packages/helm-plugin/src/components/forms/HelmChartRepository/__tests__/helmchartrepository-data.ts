@@ -1,4 +1,7 @@
-import { HelmChartRepositoryFormData, HelmChartRepositoryType } from '../../../../types/helm-types';
+import type {
+  HelmChartRepositoryFormData,
+  HelmChartRepositoryType,
+} from '../../../../types/helm-types';
 
 export const sampleProjectHelmChartRepository: HelmChartRepositoryType = {
   apiVersion: 'helm.openshift.io/v1beta1',

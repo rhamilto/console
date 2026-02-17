@@ -4,7 +4,7 @@ import { useResolvedExtensions } from '@console/dynamic-plugin-sdk/src/api/useRe
 import { useUserSettingsCompatibility } from '@console/shared/src/hooks/useUserSettingsCompatibility';
 import { TourActions } from '../const';
 import { tourReducer, useTourValuesForContext, useTourStateForPerspective } from '../tour-context';
-import { TourDataType } from '../type';
+import type { TourDataType } from '../type';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),

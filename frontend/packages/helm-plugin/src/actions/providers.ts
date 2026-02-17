@@ -1,11 +1,14 @@
 import { useMemo } from 'react';
-import { GraphElement, isGraph, Node } from '@patternfly/react-topology';
+import type { GraphElement, Node } from '@patternfly/react-topology';
+import { isGraph } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
 import { useCommonResourceActions } from '@console/app/src/actions//hooks/useCommonResourceActions';
 import { getDisabledAddActions } from '@console/dev-console/src/utils/useAddActionExtensions';
-import { Action } from '@console/dynamic-plugin-sdk';
-import { SetFeatureFlag, useK8sModel } from '@console/dynamic-plugin-sdk/src/lib-core';
-import { K8sResourceKind, referenceFor } from '@console/internal/module/k8s';
+import type { Action } from '@console/dynamic-plugin-sdk';
+import type { SetFeatureFlag } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useK8sModel } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { isCatalogTypeEnabled, useActiveNamespace } from '@console/shared';
 import { getResource } from '@console/topology/src/utils';
 import {
@@ -22,7 +25,7 @@ import {
   getHelmUpgradeAction,
   editChartRepository,
 } from './creators';
-import { HelmActionsScope } from './types';
+import type { HelmActionsScope } from './types';
 
 export const useHelmActionProvider = (scope: HelmActionsScope) => {
   const { t } = useTranslation();

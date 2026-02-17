@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { useUserSettings } from '@console/shared/src/hooks/useUserSettings';
 
 export const PREFERRED_NAMESPACE_USER_SETTING_KEY: string = 'console.namespace.favorite';

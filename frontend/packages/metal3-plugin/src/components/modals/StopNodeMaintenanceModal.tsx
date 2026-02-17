@@ -1,7 +1,8 @@
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { Trans, useTranslation } from 'react-i18next';
 import { confirmModal } from '@console/internal/components/modals/confirm-modal';
-import { k8sKill, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sKill } from '@console/internal/module/k8s';
 import { useWarningModal } from '@console/shared/src/hooks/useWarningModal';
 import {
   NodeMaintenanceModel,

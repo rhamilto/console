@@ -13,12 +13,8 @@ import {
   ResourceSummary,
   SectionHeading,
 } from '@console/internal/components/utils';
-import {
-  K8sKind,
-  K8sResourceKind,
-  referenceForModel,
-  RouteKind,
-} from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind, RouteKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import {
   ActionMenu,
   ActionMenuVariant,

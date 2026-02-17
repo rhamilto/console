@@ -8,7 +8,8 @@ import { referenceForModel } from '@console/internal/module/k8s';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import { testInstallPlan } from '../../../mocks';
 import { InstallPlanModel, ClusterServiceVersionModel, OperatorGroupModel } from '../../models';
-import { InstallPlanKind, InstallPlanApproval } from '../../types';
+import type { InstallPlanKind } from '../../types';
+import { InstallPlanApproval } from '../../types';
 import {
   InstallPlanTableRow,
   InstallPlansList,

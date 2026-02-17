@@ -1,15 +1,17 @@
 import type { FC } from 'react';
 import { css } from '@patternfly/react-styles';
-import {
-  Layer,
-  useHover,
+import type {
   Node,
-  createSvgIdUrl,
-  useDragNode,
   WithSelectionProps,
   WithDndDropProps,
   WithDragNodeProps,
   WithContextMenuProps,
+} from '@patternfly/react-topology';
+import {
+  Layer,
+  useHover,
+  createSvgIdUrl,
+  useDragNode,
   observer,
   useCombineRefs,
   NodeLabel,

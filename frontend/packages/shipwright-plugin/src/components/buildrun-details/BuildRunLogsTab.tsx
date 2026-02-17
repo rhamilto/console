@@ -6,7 +6,7 @@ import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/uti
 import { LoadingBox } from '@console/internal/components/utils';
 import { StatusBox } from '@console/internal/components/utils/status-box';
 import { TaskRunModel } from '../../models';
-import { BuildRun, TaskRunKind } from '../../types';
+import type { BuildRun, TaskRunKind } from '../../types';
 import { isV1Alpha1Resource } from '../../utils';
 import BuildRunLog from './BuildRunLog';
 

@@ -3,20 +3,16 @@ import { Spinner } from '@patternfly/react-core';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import {
-  useActiveNamespace,
-  CatalogItem,
-  CatalogItemBadge,
-} from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { CatalogItem, CatalogItemBadge } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useActiveNamespace } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { parseList, strConcat } from '@console/shared/src';
 import { iconFor } from '../components';
 import { subscriptionFor } from '../components/operator-group';
+import type { CSVAnnotations, TokenizedAuthProvider } from '../components/operator-hub/index';
 import {
   InstalledState,
   OLMAnnotation,
-  CSVAnnotations,
   InfrastructureFeature,
-  TokenizedAuthProvider,
 } from '../components/operator-hub/index';
 import { OperatorCapability } from '../components/operator-hub/operator-capability';
 import {
@@ -39,7 +35,7 @@ import { OperatorRepository } from '../components/operator-hub/operator-reposito
 import { OperatorSupport } from '../components/operator-hub/operator-support';
 import { OperatorValidSubscriptions } from '../components/operator-hub/operator-valid-subscriptions';
 import { PackageManifestModel, SubscriptionModel } from '../models';
-import { PackageManifestKind } from '../types';
+import type { PackageManifestKind } from '../types';
 import { clusterServiceVersionFor } from '../utils/clusterserviceversions';
 import { getCurrentCSVDescription } from '../utils/packagemanifests';
 import { useClusterAuthenticationConfig } from './useClusterAuthenticationConfig';

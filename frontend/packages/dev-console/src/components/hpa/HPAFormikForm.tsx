@@ -1,20 +1,20 @@
 import type { FC } from 'react';
-import { Formik, FormikHelpers, FormikProps } from 'formik';
+import type { FormikHelpers, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { history } from '@console/internal/components/utils';
 import { HorizontalPodAutoscalerModel } from '@console/internal/models';
-import {
+import type {
   HorizontalPodAutoscalerKind,
-  k8sCreate,
   K8sKind,
   K8sResourceKind,
-  k8sUpdate,
 } from '@console/internal/module/k8s';
+import { k8sCreate, k8sUpdate } from '@console/internal/module/k8s';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeYAMLToJS } from '@console/shared/src/utils/yaml';
 import { getFormData, getYAMLData, hasCustomMetrics, sanityForSubmit } from './hpa-utils';
 import HPAForm from './HPAForm';
-import { HPAFormValues } from './types';
+import type { HPAFormValues } from './types';
 import { hpaValidationSchema } from './validation-utils';
 
 type HPAFormikFormProps = {

@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ClusterVersionKind } from '@console/internal/module/k8s';
+import type { ClusterVersionKind } from '@console/internal/module/k8s';
 import ActivityItem from '@console/shared/src/components/dashboard/activity-card/ActivityItem';
 
 const getVersion = (cv: ClusterVersionKind) =>

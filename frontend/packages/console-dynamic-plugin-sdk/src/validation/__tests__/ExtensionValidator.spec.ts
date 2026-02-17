@@ -1,7 +1,7 @@
 import type * as webpack from 'webpack';
 import type { Extension } from '../../types';
 import { collectCodeRefData, findWebpackModules, ExtensionValidator } from '../ExtensionValidator';
-import { ValidationResult } from '../ValidationResult';
+import type { ValidationResult } from '../ValidationResult';
 
 const getWebpackCompilationMocks = (
   webpackModules: {}[],

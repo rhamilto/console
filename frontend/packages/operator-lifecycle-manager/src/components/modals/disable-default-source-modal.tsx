@@ -2,17 +2,18 @@ import type { FC, FormEvent } from 'react';
 import { useCallback } from 'react';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   createModalLauncher,
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
-  ModalComponentProps,
 } from '@console/internal/components/factory/modal';
-import { k8sPatch, K8sKind } from '@console/internal/module/k8s';
+import type { K8sKind } from '@console/internal/module/k8s';
+import { k8sPatch } from '@console/internal/module/k8s';
 import { YellowExclamationTriangleIcon } from '@console/shared';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
-import { OperatorHubKind } from '../operator-hub';
+import type { OperatorHubKind } from '../operator-hub';
 
 const DisableDefaultSourceModal: FC<DisableSourceModalProps> = ({
   kind,

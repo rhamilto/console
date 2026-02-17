@@ -2,16 +2,16 @@ import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { useK8sWatchResources } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useK8sWatchResources';
 import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-ref';
 import { PodModel, ReplicationControllerModel } from '@console/internal/models';
-import { K8sResourceCommon, K8sResourceKind, PodKind } from '@console/internal/module/k8s';
+import type { K8sResourceCommon, K8sResourceKind, PodKind } from '@console/internal/module/k8s';
 import {
   getReplicationControllersForResource,
   useDebounceCallback,
   useDeepCompareMemoize,
 } from '@console/shared';
 import { VirtualMachineInstanceModel } from './kubevirt-models';
-import { VMIKind } from './kubevirt-types';
+import type { VMIKind } from './kubevirt-types';
 import { findVMIPod } from './kubevirt-utils';
-import { PodRCData } from './pod-utils';
+import type { PodRCData } from './pod-utils';
 
 export const usePodsForVm = (
   vm: K8sResourceKind,

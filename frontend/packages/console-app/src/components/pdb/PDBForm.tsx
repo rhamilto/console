@@ -1,5 +1,6 @@
 import type { FC, FormEvent, Ref } from 'react';
 import { useState, useMemo, useCallback, useEffect } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   ActionGroup,
   Button,
@@ -22,12 +23,11 @@ import {
   FormAlert,
   Alert,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
 import i18next from 'i18next';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { MatchLabels } from '@console/dynamic-plugin-sdk/src/api/common-types';
+import type { MatchLabels } from '@console/dynamic-plugin-sdk/src/api/common-types';
 import { ButtonBar } from '@console/internal/components/utils/button-bar';
 import { FieldLevelHelp } from '@console/internal/components/utils/field-level-help';
 import { resourcePathFromModel } from '@console/internal/components/utils/resource-link';
@@ -37,8 +37,9 @@ import { k8sCreate } from '@console/internal/module/k8s';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { PodDisruptionBudgetModel } from '../../models';
 import AvailabilityRequirementPopover from './AvailabilityRequirementPopover';
-import { pdbToK8sResource, initialValuesFromK8sResource, patchPDB, FormValues } from './pdb-models';
-import { PodDisruptionBudgetKind } from './types';
+import type { FormValues } from './pdb-models';
+import { pdbToK8sResource, initialValuesFromK8sResource, patchPDB } from './pdb-models';
+import type { PodDisruptionBudgetKind } from './types';
 
 const getSelectedRequirement = (requirement: string, items: RequirementItems): string => {
   if (requirement === 'minAvailable') {

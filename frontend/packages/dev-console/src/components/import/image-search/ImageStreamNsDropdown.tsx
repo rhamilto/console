@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useContext, useCallback, useEffect } from 'react';
-import { useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { ResourceDropdownField } from '@console/shared';

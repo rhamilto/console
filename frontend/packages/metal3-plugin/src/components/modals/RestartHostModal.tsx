@@ -8,12 +8,13 @@ import {
   Button,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { OverlayComponent, useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
-import { ModalComponentProps } from '@console/internal/components/factory';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import { ErrorMessage } from '@console/internal/components/utils';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { restartHost } from '../../k8s/requests/bare-metal-host';
-import { BareMetalHostKind } from '../../types';
+import type { BareMetalHostKind } from '../../types';
 import { PowerOffWarning } from './PowerOffHostModal';
 
 export type RestartHostModalProps1 = {

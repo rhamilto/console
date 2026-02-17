@@ -1,10 +1,10 @@
-import { RunStatus, WhenStatus } from '@patternfly/react-topology';
-import { NodeModel } from '@patternfly/react-topology/src/types';
-import * as dagre from 'dagre';
-import { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src/extensions';
-import { ComputedStatus } from '@console/shipwright-plugin/src/components/logs/log-snippet-types';
-import { TektonTaskSpec } from '../../types/coreTekton';
-import { PipelineKind, PipelineRunKind, PipelineTask } from '../../types/pipeline';
+import type { RunStatus, WhenStatus } from '@patternfly/react-topology';
+import type { NodeModel } from '@patternfly/react-topology/src/types';
+import type * as dagre from 'dagre';
+import type { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src/extensions';
+import type { ComputedStatus } from '@console/shipwright-plugin/src/components/logs/log-snippet-types';
+import type { TektonTaskSpec } from '../../types/coreTekton';
+import type { PipelineKind, PipelineRunKind, PipelineTask } from '../../types/pipeline';
 
 export const NODE_WIDTH = 120;
 export const NODE_HEIGHT = 30;

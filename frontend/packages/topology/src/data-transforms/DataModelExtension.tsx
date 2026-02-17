@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useContext, useRef, useEffect, useMemo } from 'react';
-import {
+import type {
   WatchK8sResources,
   WatchK8sResourcesGeneric,
   TopologyDataModelFactory,
@@ -12,7 +12,8 @@ import {
   referenceForExtensionModel,
 } from '@console/internal/module/k8s';
 import { useDeepCompareMemoize } from '@console/shared';
-import { ModelContext, ExtensibleModel, ModelExtensionContext } from './ModelContext';
+import type { ExtensibleModel, ModelExtensionContext } from './ModelContext';
+import { ModelContext } from './ModelContext';
 
 interface DataModelExtensionProps {
   dataModelFactory: ResolvedExtension<TopologyDataModelFactory>['properties'];

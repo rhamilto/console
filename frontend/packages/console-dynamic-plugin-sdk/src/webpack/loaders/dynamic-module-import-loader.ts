@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import type * as webpack from 'webpack';
-import { DynamicModuleMap } from '../../utils/dynamic-module-parser';
+import type { DynamicModuleMap } from '../../utils/dynamic-module-parser';
 
 export type DynamicModuleImportLoaderOptions = {
   dynamicModuleMaps: Record<string, DynamicModuleMap>;

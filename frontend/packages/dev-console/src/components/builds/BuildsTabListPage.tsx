@@ -3,14 +3,10 @@ import { useMemo, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { withStartGuide } from '@console/internal/components/start-guide';
-import { Page, AsyncComponent } from '@console/internal/components/utils';
-import {
-  useFlag,
-  MenuActions,
-  MultiTabListPage,
-  getBadgeFromType,
-  useUserSettings,
-} from '@console/shared';
+import type { Page } from '@console/internal/components/utils';
+import { AsyncComponent } from '@console/internal/components/utils';
+import type { MenuActions } from '@console/shared';
+import { useFlag, MultiTabListPage, getBadgeFromType, useUserSettings } from '@console/shared';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { useResourceListPages } from '@console/shared/src/hooks/useResourceListPages';
 import { LAST_BUILD_PAGE_TAB_STORAGE_KEY } from '../../const';

@@ -1,14 +1,13 @@
 import type { FC, MouseEvent, ReactElement } from 'react';
 import { useState, useMemo, createRef } from 'react';
 import { IconStatus, Status } from '@patternfly/react-component-groups/dist/dynamic/Status';
+import type { TabProps, TabContentProps } from '@patternfly/react-core';
 import {
   Tabs,
   Tab,
-  TabProps,
   EmptyState,
   EmptyStateBody,
   TabContent,
-  TabContentProps,
   TabTitleText,
   PageSection,
 } from '@patternfly/react-core';
@@ -23,7 +22,7 @@ import { PageHeading } from '@console/shared/src/components/heading/PageHeading'
 import { isModifiedEvent } from '@console/shared/src/utils/utils';
 import ClusterConfigurationForm from './ClusterConfigurationForm';
 import { getClusterConfigurationGroups } from './getClusterConfigurationGroups';
-import { ClusterConfigurationTabGroup } from './types';
+import type { ClusterConfigurationTabGroup } from './types';
 import useClusterConfigurationGroups from './useClusterConfigurationGroups';
 import useClusterConfigurationItems from './useClusterConfigurationItems';
 

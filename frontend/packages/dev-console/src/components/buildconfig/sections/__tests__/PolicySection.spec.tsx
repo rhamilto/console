@@ -1,11 +1,13 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
 import { BuildConfigRunPolicy } from '../../types';
-import PolicySection, { PolicySectionFormData } from '../PolicySection';
+import type { PolicySectionFormData } from '../PolicySection';
+import PolicySection from '../PolicySection';
 
 interface WrapperProps extends FormikConfig<PolicySectionFormData> {
   children?: ReactNode;

@@ -1,4 +1,4 @@
-import { PodKind } from '@console/internal/module/k8s';
+import type { PodKind } from '@console/internal/module/k8s';
 
 export const mockPods: PodKind[] = [
   {

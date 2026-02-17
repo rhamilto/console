@@ -1,23 +1,16 @@
 import type { FC } from 'react';
 import { Component } from 'react';
 import * as fuzzy from 'fuzzysearch';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
-import {
-  ConsoleSelect,
-  ConsoleSelectProps,
-} from '@console/internal/components/utils/console-select';
+import type { ConsoleSelectProps } from '@console/internal/components/utils/console-select';
+import { ConsoleSelect } from '@console/internal/components/utils/console-select';
 import { ResourceIcon } from '@console/internal/components/utils/resource-icon';
 import { LoadingInline } from '@console/internal/components/utils/status-box';
-import { FirehoseResult } from '@console/internal/components/utils/types';
-import {
-  K8sResourceKind,
-  referenceForModel,
-  K8sKind,
-  modelFor,
-  referenceFor,
-} from '@console/internal/module/k8s';
+import type { FirehoseResult } from '@console/internal/components/utils/types';
+import type { K8sResourceKind, K8sKind } from '@console/internal/module/k8s';
+import { referenceForModel, modelFor, referenceFor } from '@console/internal/module/k8s';
 
 type DropdownItemProps = {
   model: K8sKind;

@@ -12,16 +12,18 @@ import {
   HelperTextItem,
   ValidatedOptions,
 } from '@patternfly/react-core';
-import { useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   RegistryType,
   BuilderImagesNamespace,
   getImageStreamTags,
 } from '../../../utils/imagestream-utils';
-import { ImageStreamState, ImageStreamAction, ImageStreamActions } from '../import-types';
+import type { ImageStreamState, ImageStreamAction } from '../import-types';
+import { ImageStreamActions } from '../import-types';
 import { ImageStreamContext } from './ImageStreamContext';
 import ImageStreamDropdown from './ImageStreamDropdown';
 import ImageStreamNsDropdown from './ImageStreamNsDropdown';

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Action, ExtensionHook, K8sResourceCommon } from '@console/dynamic-plugin-sdk';
+import type { Action, ExtensionHook, K8sResourceCommon } from '@console/dynamic-plugin-sdk';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { NodeKind } from '@console/internal/module/k8s';
+import type { NodeKind } from '@console/internal/module/k8s';
 import { useMaintenanceCapability } from '../../hooks/useMaintenanceCapability';
 import { findNodeMaintenance } from '../../selectors';
 import { useStartNodeMaintenanceModalLauncher } from '../modals/StartNodeMaintenanceModal';

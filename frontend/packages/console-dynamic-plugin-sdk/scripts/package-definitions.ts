@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as glob from 'glob';
 import * as _ from 'lodash';
-import * as readPkg from 'read-pkg';
+import type * as readPkg from 'read-pkg';
 import * as semver from 'semver';
 import {
   sharedPluginModules,

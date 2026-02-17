@@ -1,9 +1,9 @@
 import type { FC, ReactElement } from 'react';
-import { AddActionGroup, ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
+import type { AddActionGroup, ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
 import type { LoadedExtension } from '@console/dynamic-plugin-sdk/src/types';
 import { orderExtensionBasedOnInsertBeforeAndAfter } from '@console/shared/';
 import { getAddGroups } from '../../utils/add-page-utils';
-import { AddGroup } from '../types';
+import type { AddGroup } from '../types';
 import AddCard from './AddCard';
 import AddCardSectionEmptyState from './AddCardSectionEmptyState';
 import AddCardSectionSkeleton from './AddCardSectionSkeleton';

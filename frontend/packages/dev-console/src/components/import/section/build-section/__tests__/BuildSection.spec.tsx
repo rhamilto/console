@@ -1,12 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import { useBuilderImageEnvironments } from '../../../builder/builderImageHooks';
-import {
-  BuildData,
-  BuildOptions,
-  DetectedStrategyFormData,
-  GitImportFormData,
-} from '../../../import-types';
+import type { BuildData, DetectedStrategyFormData, GitImportFormData } from '../../../import-types';
+import { BuildOptions } from '../../../import-types';
 import { BuildSection } from '../BuildSection';
 
 jest.mock('react', () => ({

@@ -1,14 +1,14 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
-  ModalComponentProps,
   ModalWrapper,
 } from '@console/internal/components/factory/modal';
-import { NodeKind } from '@console/internal/module/k8s';
+import type { NodeKind } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { makeNodeUnschedulable } from '../../../k8s/requests/nodes';
 

@@ -24,13 +24,8 @@ import { useParams, Link } from 'react-router-dom-v5-compat';
 import { getUser, GreenCheckCircleIcon } from '@console/dynamic-plugin-sdk';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { Conditions } from '@console/internal/components/conditions';
-import {
-  MultiListPage,
-  DetailsPage,
-  Table,
-  TableData,
-  RowFunctionArgs,
-} from '@console/internal/components/factory';
+import type { RowFunctionArgs } from '@console/internal/components/factory';
+import { MultiListPage, DetailsPage, Table, TableData } from '@console/internal/components/factory';
 import { ErrorModal } from '@console/internal/components/modals/error-modal';
 import {
   SectionHeading,
@@ -43,6 +38,7 @@ import {
   useAccessReview,
 } from '@console/internal/components/utils';
 import { authSvc } from '@console/internal/module/auth';
+import type { UserInfo } from '@console/internal/module/k8s';
 import {
   apiGroupForReference,
   referenceFor,
@@ -50,9 +46,8 @@ import {
   referenceForOwnerRef,
   k8sPatch,
   apiVersionForReference,
-  UserInfo,
 } from '@console/internal/module/k8s';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import LazyActionMenu, {
   KEBAB_COLUMN_CLASS,
 } from '@console/shared/src/components/actions/LazyActionMenu';
@@ -67,7 +62,8 @@ import {
   OperatorGroupModel,
   CatalogSourceModel,
 } from '../models';
-import { InstallPlanKind, InstallPlanApproval, Step } from '../types';
+import type { InstallPlanKind, Step } from '../types';
+import { InstallPlanApproval } from '../types';
 import { installPlanPreviewModal } from './modals/installplan-preview-modal';
 import { requireOperatorGroup } from './operator-group';
 import { InstallPlanReview, referenceForStepResource } from './index';

@@ -2,10 +2,11 @@ import type { ReactNode, FC } from 'react';
 import { useCallback } from 'react';
 import { Button } from '@patternfly/react-core';
 import { useTranslation, Trans } from 'react-i18next';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { FLAGS, useActiveNamespace, useFlag } from '@console/shared';
 import { useCreateNamespaceOrProjectModal } from '@console/shared/src/hooks/useCreateNamespaceOrProjectModal';
-import ProjectListPage, { ProjectListPageProps } from './ProjectListPage';
+import type { ProjectListPageProps } from './ProjectListPage';
+import ProjectListPage from './ProjectListPage';
 
 type LazySubTitleRender = (openProjectModal: () => void) => ReactNode;
 export interface CreateProjectListPageProps extends ProjectListPageProps {

@@ -1,9 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import {
-  useResolvedExtensions,
-  ResolvedExtension,
-  TelemetryListener,
-} from '@console/dynamic-plugin-sdk';
+import type { ResolvedExtension, TelemetryListener } from '@console/dynamic-plugin-sdk';
+import { useResolvedExtensions } from '@console/dynamic-plugin-sdk';
 import {
   CLUSTER_TELEMETRY_ANALYTICS,
   USER_TELEMETRY_ANALYTICS,

@@ -1,5 +1,6 @@
 import type { FC, RefObject } from 'react';
 import { useState } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   FormGroup,
   FormHelperText,
@@ -9,7 +10,6 @@ import {
   SelectList,
   SelectOption,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {

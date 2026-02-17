@@ -1,6 +1,8 @@
-import { FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { createPath, useLocation } from 'react-router-dom-v5-compat';
-import { Perspective, PerspectiveContext } from '@console/dynamic-plugin-sdk';
+import type { Perspective } from '@console/dynamic-plugin-sdk';
+import { PerspectiveContext } from '@console/dynamic-plugin-sdk';
 import { usePerspectives } from '@console/shared/src';
 import { LoadingBox } from '@console/shared/src/components/loading/LoadingBox';
 import PerspectiveDetector from './PerspectiveDetector';

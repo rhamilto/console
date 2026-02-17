@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 import { TextInputTypes } from '@patternfly/react-core';
-import { FormikValues, useFormikContext } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';
-import { HelmChartRepositoryType } from '@console/helm-plugin/src/types/helm-types';
+import type { HelmChartRepositoryType } from '@console/helm-plugin/src/types/helm-types';
 import { ExpandCollapse } from '@console/internal/components/utils';
 import { ConfigMapModel, SecretModel } from '@console/internal/models';
 import {

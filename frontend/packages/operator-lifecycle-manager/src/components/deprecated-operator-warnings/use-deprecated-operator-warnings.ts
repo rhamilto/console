@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as UIActions from '@console/internal/actions/ui';
-import { RootState } from '@console/internal/redux';
-import { DeprecatedOperatorWarning } from '@console/operator-lifecycle-manager/src/types';
+import type { RootState } from '@console/internal/redux';
+import type { DeprecatedOperatorWarning } from '@console/operator-lifecycle-manager/src/types';
 
 export const useDeprecatedOperatorWarnings = () => {
   const dispatch = useDispatch();

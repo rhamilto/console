@@ -9,15 +9,15 @@ import {
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import {
   ModalBody,
-  ModalComponentProps,
   ModalSubmitFooter,
   ModalTitle,
   ModalWrapper,
 } from '@console/internal/components/factory';
-import { DataPoint } from '@console/internal/components/graphs';
+import type { DataPoint } from '@console/internal/components/graphs';
 import { PrometheusEndpoint } from '@console/internal/components/graphs/helpers';
 import { usePrometheusPoll } from '@console/internal/components/graphs/prometheus-poll-hook';
 import { getInstantVectorStats } from '@console/internal/components/graphs/utils';
@@ -39,12 +39,11 @@ import {
   PersistentVolumeClaimModel,
   StorageClassModel,
 } from '@console/internal/models';
-import {
-  k8sCreate,
-  referenceFor,
+import type {
   PersistentVolumeClaimKind,
   StorageClassResourceKind,
 } from '@console/internal/module/k8s';
+import { k8sCreate, referenceFor } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { getName, getRequestedPVCSize, onlyPvcSCs } from '@console/shared/src/selectors';
 import { isCephProvisioner } from '@console/shared/src/utils/storage-utils';

@@ -3,11 +3,12 @@ import {
   getNameCellProps,
   actionsCellProps,
 } from '@console/app/src/components/data-view/ConsoleDataView';
-import { GetDataViewRows } from '@console/app/src/components/data-view/types';
+import type { GetDataViewRows } from '@console/app/src/components/data-view/types';
 import { ResourceIcon, ResourceLink } from '@console/internal/components/utils';
 import { DASH, LazyActionMenu, Status } from '@console/shared';
 import { Timestamp } from '@console/shared/src/components/datetime/Timestamp';
-import { HelmRelease, HelmActionOrigins } from '../../types/helm-types';
+import type { HelmRelease } from '../../types/helm-types';
+import { HelmActionOrigins } from '../../types/helm-types';
 import { HelmReleaseStatusLabels, releaseStatus } from '../../utils/helm-utils';
 
 export const tableColumnInfo = [

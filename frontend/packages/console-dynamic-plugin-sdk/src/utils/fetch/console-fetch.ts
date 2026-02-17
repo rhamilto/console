@@ -2,7 +2,11 @@ import * as _ from 'lodash';
 import { getUtilsConfig } from '../../app/configSetup';
 import { setAdmissionWebhookWarning } from '../../app/core/actions';
 import storeHandler from '../../app/storeHandler';
-import { ConsoleFetchText, ConsoleFetchJSON, ConsoleFetch } from '../../extensions/console-types';
+import type {
+  ConsoleFetchText,
+  ConsoleFetchJSON,
+  ConsoleFetch,
+} from '../../extensions/console-types';
 import { TimeoutError } from '../error/http-error';
 import { getConsoleRequestHeaders, normalizeConsoleHeaders } from './console-fetch-utils';
 

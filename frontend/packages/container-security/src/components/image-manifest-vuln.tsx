@@ -10,21 +10,22 @@ import {
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { css } from '@patternfly/react-styles';
 import { sortable, Table as PfTable, Thead, Th, Tbody, Td, Tr } from '@patternfly/react-table';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom-v5-compat';
 import { DASH } from '@console/dynamic-plugin-sdk/src/app/constants';
 import { DefaultList } from '@console/internal/components/default-resource';
+import type { RowFunctionArgs } from '@console/internal/components/factory';
 import {
   MultiListPage,
   Table,
   TableData,
   DetailsPage,
   ListPage,
-  RowFunctionArgs,
 } from '@console/internal/components/factory';
 import { ContainerLink } from '@console/internal/components/pod';
+import type { FirehoseResult } from '@console/internal/components/utils';
 import {
   ResourceLink,
   navFactory,
@@ -32,16 +33,16 @@ import {
   ResourceSummary,
   DetailsItem,
   Firehose,
-  FirehoseResult,
   Loading,
 } from '@console/internal/components/utils';
-import { referenceForModel, PodKind, ContainerStatus } from '@console/internal/module/k8s';
+import type { PodKind, ContainerStatus } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { EmptyStateResourceBadge, GreenCheckCircleIcon } from '@console/shared/';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { ExternalLink } from '@console/shared/src/components/links/ExternalLink';
 import { vulnPriority, totalFor, priorityFor } from '../const';
 import { ImageManifestVulnModel } from '../models';
-import { ImageManifestVuln } from '../types';
+import type { ImageManifestVuln } from '../types';
 import ImageVulnerabilitiesList from './ImageVulnerabilitiesList';
 import ImageVulnerabilityToggleGroup from './ImageVulnerabilityToggleGroup';
 import { quayURLFor } from './summary';

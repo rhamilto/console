@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import type { QuickStartContextValues } from '@patternfly/quickstarts';
 import {
-  QuickStartContextValues,
   getDefaultQuickStartState,
   QuickStartStatus,
   QuickStartTaskStatus,

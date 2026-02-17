@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { useState } from 'react';
-import { Alert, AlertActionCloseButton, AlertVariant } from '@patternfly/react-core';
+import type { AlertVariant } from '@patternfly/react-core';
+import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
 
 export const DismissableAlert = ({
   title,

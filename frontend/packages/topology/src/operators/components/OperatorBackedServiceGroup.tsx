@@ -2,12 +2,15 @@ import type { FC } from 'react';
 import { useRef, useCallback } from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import {
+import type {
   Node,
-  observer,
   WithSelectionProps,
   WithDndDropProps,
   WithDragNodeProps,
+  WithContextMenuProps,
+} from '@patternfly/react-topology';
+import {
+  observer,
   useDragNode,
   Layer,
   useHover,
@@ -15,7 +18,6 @@ import {
   useCombineRefs,
   useAnchor,
   RectAnchor,
-  WithContextMenuProps,
   NodeLabel,
 } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';

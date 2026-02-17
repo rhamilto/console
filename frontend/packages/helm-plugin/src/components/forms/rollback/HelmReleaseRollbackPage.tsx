@@ -8,7 +8,8 @@ import NamespacedPage, {
 } from '@console/dev-console/src/components/NamespacedPage';
 import { history, getQueryArgument } from '@console/internal/components/utils';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
-import { HelmRelease, HelmActionType, HelmActionOrigins } from '../../../types/helm-types';
+import type { HelmRelease, HelmActionOrigins } from '../../../types/helm-types';
+import { HelmActionType } from '../../../types/helm-types';
 import { fetchHelmReleaseHistory, getHelmActionConfig } from '../../../utils/helm-utils';
 import HelmReleaseRollbackForm from './HelmReleaseRollbackForm';
 

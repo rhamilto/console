@@ -4,7 +4,8 @@ import { breadcrumbsForGlobalConfig } from '@console/internal/components/cluster
 import { DetailsForKind } from '@console/internal/components/default-resource';
 import { DetailsPage } from '@console/internal/components/factory';
 import { navFactory } from '@console/internal/components/utils';
-import { K8sResourceKindReference, referenceForModel } from '@console/internal/module/k8s';
+import type { K8sResourceKindReference } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { KnativeServingModel } from '../../models';
 
 const knativeServingReference: K8sResourceKindReference = referenceForModel(KnativeServingModel);

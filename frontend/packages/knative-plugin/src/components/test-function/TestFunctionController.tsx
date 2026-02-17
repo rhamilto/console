@@ -1,12 +1,13 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
-import { ModalComponentProps, ModalWrapper } from '@console/internal/components/factory';
+import type { ModalComponentProps } from '@console/internal/components/factory';
+import { ModalWrapper } from '@console/internal/components/factory';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { referenceForModel } from '@console/internal/module/k8s';
 import { ServiceModel } from '../../models';
-import { ServiceKind } from '../../types';
+import type { ServiceKind } from '../../types';
 import TestFunction from './TestFunction';
 
 type TestFunctionControllerProps = {

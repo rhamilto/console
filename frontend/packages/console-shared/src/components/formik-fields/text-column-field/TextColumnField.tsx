@@ -4,7 +4,7 @@ import { FieldArray, useField } from 'formik';
 import { useFormikValidationFix } from '../../../hooks/formik-validation-fix';
 import { getFieldId } from '../field-utils';
 import MultiColumnFieldFooter from '../multi-column-field/MultiColumnFieldFooter';
-import { TextColumnFieldProps, TextColumnItemProps } from './text-column-types';
+import type { TextColumnFieldProps, TextColumnItemProps } from './text-column-types';
 import TextColumnItem from './TextColumnItem';
 import TextColumnItemWithDnd from './TextColumnItemWithDnd';
 

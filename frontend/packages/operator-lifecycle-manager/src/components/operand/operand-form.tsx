@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useState, useMemo } from 'react';
 import { Grid, GridItem } from '@patternfly/react-core';
-import { JSONSchema7 } from 'json-schema';
+import type { JSONSchema7 } from 'json-schema';
 import * as _ from 'lodash';
 import { useParams } from 'react-router-dom-v5-compat';
 import { SyncMarkdownView } from '@console/internal/components/markdown-view';
@@ -10,12 +10,13 @@ import {
   resourcePathFromModel,
   useScrollToTopOnMount,
 } from '@console/internal/components/utils';
-import { k8sCreate, K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sCreate } from '@console/internal/module/k8s';
 import { DynamicForm } from '@console/shared/src/components/dynamic-form';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { useResourceConnectionHandler } from '@console/shared/src/hooks/useResourceConnectionHandler';
 import { ClusterServiceVersionModel } from '../../models';
-import { ClusterServiceVersionKind, CRDDescription, APIServiceDefinition } from '../../types';
+import type { ClusterServiceVersionKind, CRDDescription, APIServiceDefinition } from '../../types';
 import { ClusterServiceVersionLogo } from '../cluster-service-version-logo';
 import { getUISchema } from './utils';
 

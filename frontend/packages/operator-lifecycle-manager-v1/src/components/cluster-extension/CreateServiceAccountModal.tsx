@@ -11,8 +11,8 @@ import {
   ModalFooter,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { k8sCreateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { LoadingInline } from '@console/internal/components/utils/status-box';
 import { ServiceAccountModel } from '@console/internal/models';

@@ -1,4 +1,4 @@
-import {
+import type {
   GraphElement,
   Graph,
   Edge,
@@ -6,21 +6,22 @@ import {
   DropTargetSpec,
   DragSourceSpec,
   DragObjectWithType,
-  CREATE_CONNECTOR_DROP_TYPE,
-  CREATE_CONNECTOR_OPERATION,
   DragSpecOperationType,
   DragEvent,
+} from '@patternfly/react-topology';
+import {
+  CREATE_CONNECTOR_DROP_TYPE,
+  CREATE_CONNECTOR_OPERATION,
   isGraph,
 } from '@patternfly/react-topology';
 import i18next from 'i18next';
 import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
-import {
+import type {
   NodeComponentProps,
-  NODE_DRAG_TYPE,
-  EDGE_DRAG_TYPE,
   EdgeComponentProps,
   EditableDragOperationType,
 } from '@console/topology/src/components/graph-view';
+import { NODE_DRAG_TYPE, EDGE_DRAG_TYPE } from '@console/topology/src/components/graph-view';
 import { EventingBrokerModel } from '../../models';
 import {
   TYPE_EVENT_SOURCE_LINK,

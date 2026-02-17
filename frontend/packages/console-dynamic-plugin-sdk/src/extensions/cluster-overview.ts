@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
-import { Extension, CodeRef } from '../types';
-import { Humanize, TopConsumerPopoverProps, QueryWithDescription } from './console-types';
+import type { Extension, CodeRef } from '../types';
+import type { Humanize, TopConsumerPopoverProps, QueryWithDescription } from './console-types';
 
 /** Adds a new inventory item into cluster overview page. */
 export type ClusterOverviewInventoryItem = Extension<

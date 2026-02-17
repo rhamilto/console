@@ -1,14 +1,10 @@
 import type { FunctionComponent } from 'react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
-import {
-  ModalTitle,
-  ModalBody,
-  ModalComponentProps,
-  ModalWrapper,
-} from '@console/internal/components/factory';
+import type { ModalComponentProps } from '@console/internal/components/factory';
+import { ModalTitle, ModalBody, ModalWrapper } from '@console/internal/components/factory';
 import { SyncMarkdownView } from '@console/internal/components/markdown-view';
 
 type HelmReadmeModalProps = {

@@ -11,7 +11,7 @@ import {
   useCombineRefs,
   StatusModifier,
 } from '@patternfly/react-topology';
-import { BaseNodeProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { BaseNodeProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { useAccessReview } from '@console/internal/components/utils';
 import { modelFor, referenceFor } from '@console/internal/module/k8s';
 import { RESOURCE_NAME_TRUNCATE_LENGTH } from '@console/shared';

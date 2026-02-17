@@ -23,7 +23,7 @@ import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-ci
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
 import { css } from '@patternfly/react-styles';
 import * as Immutable from 'immutable';
-import { JSONSchema6, JSONSchema6TypeName } from 'json-schema';
+import type { JSONSchema6, JSONSchema6TypeName } from 'json-schema';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom-v5-compat';
@@ -39,18 +39,20 @@ import {
 } from '@console/internal/components/utils';
 import { ConsoleSelect } from '@console/internal/components/utils/console-select';
 import { ExpandCollapse } from '@console/internal/components/utils/expand-collapse';
-import {
+import type {
   GroupVersionKind,
+  K8sResourceKind,
+  NodeAffinity as NodeAffinityType,
+} from '@console/internal/module/k8s';
+import {
   ImagePullPolicy,
   k8sCreate,
-  K8sResourceKind,
   kindForReference,
   modelFor,
-  NodeAffinity as NodeAffinityType,
 } from '@console/internal/module/k8s';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { useResourceConnectionHandler } from '@console/shared/src/hooks/useResourceConnectionHandler';
-import { ProvidedAPI } from '../../types';
+import type { ProvidedAPI } from '../../types';
 import { ClusterServiceVersionLogo } from '../cluster-service-version-logo';
 import {
   NodeAffinity,
@@ -59,8 +61,9 @@ import {
   DEFAULT_POD_AFFINITY,
 } from '../descriptors/spec/affinity';
 import { ResourceRequirements } from '../descriptors/spec/resource-requirements';
-import { Descriptor, SpecCapability, StatusCapability } from '../descriptors/types';
-import { OperandFormProps } from './operand-form';
+import type { Descriptor, StatusCapability } from '../descriptors/types';
+import { SpecCapability } from '../descriptors/types';
+import type { OperandFormProps } from './operand-form';
 
 /*
  * Matches a path that contains an array index. Use Sting.match against an OperandField 'path'

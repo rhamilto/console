@@ -4,22 +4,22 @@ import { Button, AlertVariant, Flex, FlexItem } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation, Trans } from 'react-i18next';
 import { getGroupVersionKindForResource } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-ref';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   ModalTitle,
   ModalBody,
-  ModalComponentProps,
   ModalFooter,
   createModalLauncher,
 } from '@console/internal/components/factory/modal';
 import { dateTimeFormatter } from '@console/internal/components/utils/datetime';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   USERSETTINGS_PREFIX,
   useUserSettings,
   TOAST_TIMEOUT_DEFAULT,
   TOAST_TIMEOUT_LONG,
 } from '@console/shared/src';
-import { ToastContextType } from '@console/shared/src/components/toast/ToastContext';
+import type { ToastContextType } from '@console/shared/src/components/toast/ToastContext';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import {
   createExportResource,
@@ -28,7 +28,7 @@ import {
   killExportResource,
 } from '../../utils/export-app-utils';
 import ExportViewLogButton from './ExportViewLogButton';
-import { ExportAppUserSettings } from './types';
+import type { ExportAppUserSettings } from './types';
 
 export type ExportApplicationModalProps = ModalComponentProps & {
   name: string;

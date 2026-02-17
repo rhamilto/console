@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
-import { GraphElement, observer } from '@patternfly/react-topology';
-import {
+import type { GraphElement } from '@patternfly/react-topology';
+import { observer } from '@patternfly/react-topology';
+import type {
   DetailsResourceAlert,
   DetailsResourceAlertContent,
-  isDetailsResourceAlert,
-  useResolvedExtensions,
 } from '@console/dynamic-plugin-sdk';
+import { isDetailsResourceAlert, useResolvedExtensions } from '@console/dynamic-plugin-sdk';
 import { USERSETTINGS_PREFIX } from '@console/shared';
 import { useGetUserSettingConfigMap } from '@console/shared/src/hooks/useGetUserSettingConfigMap';
 import { useUserSettingsLocalStorage } from '@console/shared/src/hooks/useUserSettingsLocalStorage';

@@ -11,7 +11,7 @@ import {
 } from '@console/internal/components/factory/modal';
 import { VolumeAttributesClassDropdown } from '@console/internal/components/utils/volume-attributes-class-dropdown';
 import { PersistentVolumeClaimModel } from '@console/internal/models';
-import { PersistentVolumeClaimKind } from '@console/internal/module/k8s';
+import type { PersistentVolumeClaimKind } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 
 const ModifyVACModalComponent: FC<ModifyVACModalComponentProps> = ({ resource, close, cancel }) => {

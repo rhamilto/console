@@ -4,7 +4,7 @@ import { Alert, Button } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { LoadingBox } from '@console/internal/components/utils/status-box';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { safeJSToYAML, asyncYAMLToJS } from '../../utils/yaml';
 import { EditorType, EditorToggle } from './editor-toggle';
 import { useEditorType } from './useEditorType';

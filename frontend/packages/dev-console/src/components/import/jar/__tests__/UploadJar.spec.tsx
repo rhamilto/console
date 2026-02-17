@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ImageTag } from '@console/dev-console/src/utils/imagestream-utils';
+import type { ImageTag } from '@console/dev-console/src/utils/imagestream-utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import UploadJar from '../UploadJar';
 

@@ -12,14 +12,15 @@ import {
   ModalBody as PfModalBody,
   ModalFooter as PfModalFooter,
 } from '@patternfly/react-core';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { Trans, useTranslation } from 'react-i18next';
-import { OverlayComponent, useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
-import { ModalComponentProps } from '@console/internal/components/factory';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import { ErrorMessage, LoadingBox } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { PodModel } from '@console/internal/models';
-import { PodKind } from '@console/internal/module/k8s';
+import type { PodKind } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import {
   NODE_STATUS_UNDER_MAINTENANCE,
@@ -30,8 +31,8 @@ import {
 } from '../../constants';
 import { useMaintenanceCapability } from '../../hooks/useMaintenanceCapability';
 import { powerOffHost } from '../../k8s/requests/bare-metal-host';
-import { BareMetalHostKind } from '../../types';
-import { StatusProps } from '../types';
+import type { BareMetalHostKind } from '../../types';
+import type { StatusProps } from '../types';
 import { StatusValidations, getStaticPods, getDaemonSetsOfPods } from './PowerOffStatusValidations';
 import { useStartNodeMaintenanceModalLauncher } from './StartNodeMaintenanceModal';
 

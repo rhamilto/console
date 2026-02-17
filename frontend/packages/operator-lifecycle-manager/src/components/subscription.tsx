@@ -23,18 +23,11 @@ import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom-v5-compat';
 import { ResourceStatus, StatusIconAndText } from '@console/dynamic-plugin-sdk';
-import {
-  getGroupVersionKindForModel,
-  K8sResourceKind,
-} from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { K8sResourceKind } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { Conditions } from '@console/internal/components/conditions';
-import {
-  DetailsPage,
-  MultiListPage,
-  Table,
-  TableData,
-  RowFunctionArgs,
-} from '@console/internal/components/factory';
+import type { RowFunctionArgs } from '@console/internal/components/factory';
+import { DetailsPage, MultiListPage, Table, TableData } from '@console/internal/components/factory';
 import {
   LoadingInline,
   ConsoleEmptyState,
@@ -45,13 +38,11 @@ import {
   SectionHeading,
 } from '@console/internal/components/utils';
 import { useQueryParamsMutator } from '@console/internal/components/utils/router';
+import type { K8sKind, K8sModel, K8sResourceCommon } from '@console/internal/module/k8s';
 import {
   k8sGet,
   k8sKill,
-  K8sKind,
-  K8sModel,
   k8sPatch,
-  K8sResourceCommon,
   k8sUpdate,
   referenceFor,
   referenceForModel,
@@ -80,17 +71,15 @@ import {
   PackageManifestModel,
   OperatorGroupModel,
 } from '../models';
-import {
+import type {
   SubscriptionKind,
-  SubscriptionState,
   PackageManifestKind,
-  InstallPlanApproval,
   ClusterServiceVersionKind,
   OperatorGroupKind,
   InstallPlanKind,
-  InstallPlanPhase,
   CatalogSourceKind,
 } from '../types';
+import { SubscriptionState, InstallPlanApproval, InstallPlanPhase } from '../types';
 import { upgradeRequiresApproval } from '../utils';
 import {
   DeprecatedOperatorWarningAlert,

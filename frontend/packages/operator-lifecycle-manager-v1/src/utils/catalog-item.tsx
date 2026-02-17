@@ -1,4 +1,4 @@
-import { CatalogItem } from '@console/dynamic-plugin-sdk';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk';
 import { SyncMarkdownView } from '@console/internal/components/markdown-view';
 import { CapabilityLevel } from '@console/operator-lifecycle-manager/src/components/operator-hub/operator-hub-item-details';
 import {
@@ -9,7 +9,7 @@ import {
 import { Timestamp } from '@console/shared/src/components/datetime/Timestamp';
 import { ExternalLink } from '@console/shared/src/components/links/ExternalLink';
 import PlainList from '@console/shared/src/components/lists/PlainList';
-import { OLMCatalogItem, OLMCatalogItemData } from '../types';
+import type { OLMCatalogItem, OLMCatalogItemData } from '../types';
 
 type NormalizeExtensionCatalogItem = (item: OLMCatalogItem) => CatalogItem<OLMCatalogItemData>;
 export const normalizeCatalogItem: NormalizeExtensionCatalogItem = (item) => {

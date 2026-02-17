@@ -7,6 +7,17 @@ import type {
 } from 'react';
 import { isValidElement, useState, useRef, useMemo, useCallback } from 'react';
 import { css } from '@patternfly/react-styles';
+import type {
+  Graph,
+  GraphElement,
+  Node,
+  DragEvent,
+  DragObjectWithType,
+  DragOperationWithType,
+  DragSourceMonitor,
+  DragSourceSpec,
+  DragSpecOperationType,
+} from '@patternfly/react-topology';
 import {
   hullPath,
   DefaultCreateConnector,
@@ -15,18 +26,9 @@ import {
   ContextMenu,
   ContextMenuItem,
   AnchorEnd,
-  Graph,
-  GraphElement,
   isGraph,
   isNode,
   LabelPosition,
-  Node,
-  DragEvent,
-  DragObjectWithType,
-  DragOperationWithType,
-  DragSourceMonitor,
-  DragSourceSpec,
-  DragSpecOperationType,
   useDndDrag,
   TOP_LAYER,
   useCombineRefs,
@@ -34,7 +36,7 @@ import {
 } from '@patternfly/react-topology';
 import styles from '@patternfly/react-topology/dist/js/css/topology-components';
 import { observer } from 'mobx-react';
-import {
+import type {
   ElementProps,
   WithCreateConnectorProps,
 } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';

@@ -10,8 +10,9 @@ import { SidebarSectionHeading } from '@console/internal/components/utils/headin
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
 import { ResourceLink, resourcePath } from '@console/internal/components/utils/resource-link';
 import { LoadingBox } from '@console/internal/components/utils/status-box';
-import { podPhase, PodKind, K8sResourceKind, referenceFor } from '@console/internal/module/k8s';
-import { BuildConfigData } from '@console/shared/src/hooks/useBuildConfigsWatcher';
+import type { PodKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { podPhase, referenceFor } from '@console/internal/module/k8s';
+import type { BuildConfigData } from '@console/shared/src/hooks/useBuildConfigsWatcher';
 import { usePodsWatcher } from '@console/shared/src/hooks/usePodsWatcher';
 import { getResourcesToWatchForPods } from '@console/shared/src/utils/pod-resource-utils';
 import { getPodsForResource } from '@console/shared/src/utils/resource-utils';

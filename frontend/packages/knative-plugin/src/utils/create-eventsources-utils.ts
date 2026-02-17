@@ -3,16 +3,11 @@ import {
   getAppLabels,
   getCommonAnnotations,
 } from '@console/dev-console/src/utils/resource-label-utils';
-import { Perspective } from '@console/dynamic-plugin-sdk';
+import type { Perspective } from '@console/dynamic-plugin-sdk';
 import { checkAccess, history } from '@console/internal/components/utils';
-import {
-  K8sResourceKind,
-  referenceForModel,
-  referenceFor,
-  modelFor,
-  K8sKind,
-} from '@console/internal/module/k8s';
-import {
+import type { K8sResourceKind, K8sKind } from '@console/internal/module/k8s';
+import { referenceForModel, referenceFor, modelFor } from '@console/internal/module/k8s';
+import type {
   Descriptor,
   SpecCapability,
 } from '@console/operator-lifecycle-manager/src/components/descriptors/types';
@@ -21,14 +16,13 @@ import { UNASSIGNED_APPLICATIONS_KEY } from '@console/shared/src/constants';
 import { safeYAMLToJS } from '@console/shared/src/utils/yaml';
 import { CREATE_APPLICATION_KEY } from '@console/topology/src/const';
 import { getEventSourceCatalogProviderData } from '../catalog/event-source-data';
-import {
-  EventSources,
+import type {
   EventSourceFormData,
   EventSourceSyncFormData,
-  SinkType,
   KnEventCatalogMetaData,
   YamlFormSyncData,
 } from '../components/add/import-types';
+import { EventSources, SinkType } from '../components/add/import-types';
 import { craftResourceKey } from '../components/pub-sub/pub-sub-utils';
 import { CAMEL_K_PROVIDER_ANNOTATION } from '../const';
 import { CamelKameletModel } from '../models';

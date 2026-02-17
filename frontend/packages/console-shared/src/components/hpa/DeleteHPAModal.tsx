@@ -4,20 +4,17 @@ import { Form } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { t_global_icon_color_status_warning_default as warningColor } from '@patternfly/react-tokens';
 import { useTranslation } from 'react-i18next';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   createModalLauncher,
   ModalBody,
-  ModalComponentProps,
   ModalSubmitFooter,
   ModalTitle,
 } from '@console/internal/components/factory/modal';
 import { LoadingInline } from '@console/internal/components/utils/status-box';
 import { HorizontalPodAutoscalerModel } from '@console/internal/models';
-import {
-  HorizontalPodAutoscalerKind,
-  k8sKill,
-  K8sResourceCommon,
-} from '@console/internal/module/k8s';
+import type { HorizontalPodAutoscalerKind, K8sResourceCommon } from '@console/internal/module/k8s';
+import { k8sKill } from '@console/internal/module/k8s';
 
 type DeleteHPAModalProps = ModalComponentProps & {
   hpa: HorizontalPodAutoscalerKind;

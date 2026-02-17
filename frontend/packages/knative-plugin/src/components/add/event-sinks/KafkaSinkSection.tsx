@@ -3,7 +3,7 @@ import { TextInputTypes } from '@patternfly/react-core';
 import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';
-import { FirehoseResource } from '@console/internal/components/utils';
+import type { FirehoseResource } from '@console/internal/components/utils';
 import { SecretModel } from '@console/internal/models';
 import { InputField, ResourceDropdownField, MultiTypeaheadField } from '@console/shared';
 import { EVENT_SINK_KAFKA_KIND } from '../../../const';

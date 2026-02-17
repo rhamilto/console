@@ -8,7 +8,8 @@ import {
   resourcePath,
   SidebarSectionHeading,
 } from '@console/internal/components/utils';
-import { K8sResourceKind, referenceFor, JobKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind, JobKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { PodStatus, usePodsWatcher } from '@console/shared';
 import './JobsOverview.scss';
 

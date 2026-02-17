@@ -8,7 +8,7 @@ import {
   SyncAltIcon,
   UnknownIcon,
 } from '@patternfly/react-icons';
-import { StatusComponentProps } from '../../../extensions/console-types';
+import type { StatusComponentProps } from '../../../extensions/console-types';
 import { DASH } from '../../constants';
 import { YellowExclamationTriangleIcon } from './icons';
 import { ErrorStatus, InfoStatus, ProgressStatus, SuccessStatus } from './statuses';

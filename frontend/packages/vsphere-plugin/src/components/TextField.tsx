@@ -1,12 +1,12 @@
 import type { ReactNode, Ref } from 'react';
 import { forwardRef } from 'react';
+import type { TextInputProps } from '@patternfly/react-core';
 import {
   FormGroup,
   FormHelperText,
   HelperText,
   HelperTextItem,
   TextInput,
-  TextInputProps,
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { useField } from 'formik';

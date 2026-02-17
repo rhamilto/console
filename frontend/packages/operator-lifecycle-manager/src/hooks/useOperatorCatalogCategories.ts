@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as _ from 'lodash';
-import { CatalogCategory } from '@console/dynamic-plugin-sdk/src';
+import type { CatalogCategory } from '@console/dynamic-plugin-sdk/src';
 import { useActiveNamespace } from '@console/shared/src/hooks/useActiveNamespace';
 import { OLMAnnotation } from '../components/operator-hub';
 import { getCurrentCSVDescription } from '../utils/packagemanifests';

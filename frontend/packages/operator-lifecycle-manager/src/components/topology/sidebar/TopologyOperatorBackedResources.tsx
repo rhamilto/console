@@ -1,20 +1,21 @@
 import type { ReactElement, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-import { TopologyDataObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { TopologyDataObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { Firehose, ResourceIcon, StatusBox } from '@console/internal/components/utils';
+import type { GroupVersionKind, K8sResourceKind } from '@console/internal/module/k8s';
 import {
-  GroupVersionKind,
-  K8sResourceKind,
   modelFor,
   referenceFor,
   referenceForGroupVersionKind,
   referenceForModel,
 } from '@console/internal/module/k8s';
-import {
+import type {
   ClusterServiceVersionKind,
-  ClusterServiceVersionModel,
   CRDDescription,
+} from '@console/operator-lifecycle-manager/src';
+import {
+  ClusterServiceVersionModel,
   providedAPIForReference,
 } from '@console/operator-lifecycle-manager/src';
 import {
@@ -22,7 +23,7 @@ import {
   linkForCsvResource,
 } from '@console/operator-lifecycle-manager/src/components/k8s-resource';
 import TopologyGroupResourcesPanel from '@console/topology/src/components/side-bar/TopologyGroupResourcesPanel';
-import { OperatorGroupData } from './types';
+import type { OperatorGroupData } from './types';
 
 type OperatorResourcesProps = {
   namespace: string;

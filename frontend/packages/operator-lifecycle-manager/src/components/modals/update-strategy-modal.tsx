@@ -12,7 +12,8 @@ import {
   ConfigureUpdateStrategy,
   getNumberOrPercent,
 } from '@console/internal/components/modals/configure-update-strategy-modal';
-import { K8sKind, k8sPatch, K8sResourceKind, Patch } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind, Patch } from '@console/internal/module/k8s';
+import { k8sPatch } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 
 export const UpdateStrategyModal: FC<UpdateStrategyModalProps> = ({

@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { history } from '@console/internal/components/utils';
-import { K8sResourceKind, k8sCreate, modelFor, referenceFor } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sCreate, modelFor, referenceFor } from '@console/internal/module/k8s';
 import { getActiveApplication } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { ALL_APPLICATIONS_KEY, usePerspectives } from '@console/shared';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
@@ -14,7 +15,7 @@ import { sanitizeApplicationValue } from '@console/topology/src/utils/applicatio
 import { getCatalogChannelData, getCreateChannelData } from '../../../utils/create-channel-utils';
 import { handleRedirect } from '../../../utils/create-eventsources-utils';
 import { addChannelValidationSchema } from '../eventSource-validation-utils';
-import { AddChannelFormData, ChannelListProps } from '../import-types';
+import type { AddChannelFormData, ChannelListProps } from '../import-types';
 import ChannelForm from './ChannelForm';
 
 interface ChannelProps {

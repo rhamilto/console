@@ -2,14 +2,16 @@ import type { ReactNode, FC } from 'react';
 import { useRef, useState, useMemo, useCallback, useLayoutEffect, useEffect } from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
-import {
+import type {
   Node,
-  AnchorEnd,
-  observer,
   WithSelectionProps,
   WithContextMenuProps,
   WithDndDropProps,
   WithDragNodeProps,
+} from '@patternfly/react-topology';
+import {
+  AnchorEnd,
+  observer,
   RectAnchor,
   useAnchor,
   useDragNode,
@@ -19,14 +21,14 @@ import {
   NodeLabel,
 } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
-import { WithCreateConnectorProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { WithCreateConnectorProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { getImageForIconClass } from '@console/internal/components/catalog/catalog-item-icon';
 import { useHover } from '@console/topology/src/behavior';
+import type { NodeDragSourceSpecType } from '@console/topology/src/components/graph-view';
 import {
   NodeShadows,
   NODE_SHADOW_FILTER_ID,
   NODE_SHADOW_FILTER_ID_HOVER,
-  NodeDragSourceSpecType,
 } from '@console/topology/src/components/graph-view';
 import { getNodeDecorators } from '@console/topology/src/components/graph-view/components/nodes/decorators/getNodeDecorators';
 import { useSearchFilter } from '@console/topology/src/filters';

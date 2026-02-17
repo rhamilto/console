@@ -1,5 +1,6 @@
 import type { FC, Ref } from 'react';
 import { useState, useMemo, useEffect } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   Skeleton,
   Checkbox,
@@ -7,7 +8,6 @@ import {
   SelectList,
   SelectOption,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';

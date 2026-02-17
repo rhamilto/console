@@ -1,4 +1,4 @@
-import { K8sKind, K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
+import type { K8sKind, K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
 import { useK8sGet } from '@console/internal/components/utils/k8s-get-hook';
 
 const OLSConfigModel: K8sKind = {

@@ -1,13 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
 import { safeLoad } from 'js-yaml';
 import { useTranslation } from 'react-i18next';
-import { ExtensionHook, CatalogItem, WatchK8sResults } from '@console/dynamic-plugin-sdk';
+import type { ExtensionHook, CatalogItem, WatchK8sResults } from '@console/dynamic-plugin-sdk';
 import { coFetch } from '@console/internal/co-fetch';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
-import { K8sResourceKind, referenceForModel } from '@console/internal/module/k8s';
-import { APIError, useActiveNamespace } from '@console/shared';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
+import type { APIError } from '@console/shared';
+import { useActiveNamespace } from '@console/shared';
 import { HelmChartRepositoryModel, ProjectHelmChartRepositoryModel } from '../../models';
-import { HelmChartEntries } from '../../types/helm-types';
+import type { HelmChartEntries } from '../../types/helm-types';
 import { normalizeHelmCharts } from '../utils/catalog-utils';
 
 type WatchResource = {

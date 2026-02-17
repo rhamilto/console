@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Form, TextInputTypes } from '@patternfly/react-core';
-import { FormikProps } from 'formik';
+import type { FormikProps } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { history } from '@console/internal/components/utils';
@@ -12,7 +12,7 @@ import {
   CheckboxField,
   FormSelectField,
 } from '@console/shared/src';
-import { AddBareMetalHostFormValues } from './types';
+import type { AddBareMetalHostFormValues } from './types';
 
 type AddBareMetalHostFormProps = FormikProps<AddBareMetalHostFormValues> & {
   isEditing: boolean;

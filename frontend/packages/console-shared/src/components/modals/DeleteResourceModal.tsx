@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { TextInputTypes } from '@patternfly/react-core';
-import { Formik, FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation, Trans } from 'react-i18next';
 import {
   createModalLauncher,
@@ -9,7 +10,7 @@ import {
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
 import { history } from '@console/internal/components/utils/router';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '../../hooks/promise-handler';
 import { InputField } from '../formik-fields';
 import { YellowExclamationTriangleIcon } from '../status';

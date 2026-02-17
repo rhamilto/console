@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { Extension, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
 import { dynamicPluginNames } from './allowed-plugins';
 
 const pluginOrderMap = new Map(dynamicPluginNames.map((name, index) => [name, index]));

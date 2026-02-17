@@ -1,9 +1,9 @@
 import { nodeStatus } from '@console/app/src/status/node';
-import { NodeKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { NodeKind, K8sResourceKind } from '@console/internal/module/k8s';
 import { isNodeUnschedulable } from '@console/shared/src/selectors/node';
-import { StatusProps } from '../components/types';
+import type { StatusProps } from '../components/types';
 import { isHostPoweredOn, hasPowerManagement, isDetached } from '../selectors';
-import { BareMetalHostKind, CertificateSigningRequestKind } from '../types';
+import type { BareMetalHostKind, CertificateSigningRequestKind } from '../types';
 import { getNodeMaintenanceStatus } from './node-maintenance-status';
 
 export const NODE_STATUS_SERVER_CSR = 'serverCSR';

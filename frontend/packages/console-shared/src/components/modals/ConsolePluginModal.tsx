@@ -8,7 +8,8 @@ import {
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
 import { ConsoleOperatorConfigModel } from '@console/internal/models';
-import { k8sPatch, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sPatch } from '@console/internal/module/k8s';
 import {
   ConsolePluginRadioInputs,
   ConsolePluginWarning,

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { useSelector } from 'react-redux';
-import { K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
+import type { K8sResourceKind } from '@console/dynamic-plugin-sdk/src';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ConfigMapModel } from '@console/internal/models';
 import { USER_SETTING_CONFIGMAP_NAMESPACE } from '../../utils/user-settings';

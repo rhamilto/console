@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
-import { GraphElement } from '@patternfly/react-topology';
-import {
+import type { GraphElement } from '@patternfly/react-topology';
+import type {
   AdapterDataType,
   K8sResourceCommon,
   NetworkAdapterType,
@@ -18,8 +18,8 @@ import {
   CronJobModel,
   PodModel,
 } from '@console/internal/models';
+import type { BuildConfigData } from '@console/shared';
 import {
-  BuildConfigData,
   getPodsForResource,
   getResourcesToWatchForPods,
   useBuildConfigsWatcher,

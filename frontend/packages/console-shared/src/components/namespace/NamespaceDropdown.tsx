@@ -1,14 +1,5 @@
-import {
-  FC,
-  useMemo,
-  useState,
-  MouseEvent as ReactMouseEvent,
-  Ref,
-  MutableRefObject,
-  useRef,
-  useCallback,
-  ChangeEvent,
-} from 'react';
+import type { FC, MouseEvent as ReactMouseEvent, Ref, MutableRefObject, ChangeEvent } from 'react';
+import { useMemo, useState, useRef, useCallback } from 'react';
 import {
   Button,
   Divider,
@@ -31,7 +22,7 @@ import fuzzysearch from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ProjectModel, NamespaceModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   ALL_NAMESPACES_KEY,
   NAMESPACE_USERSETTINGS_PREFIX,

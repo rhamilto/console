@@ -1,46 +1,38 @@
 import type { FC, ComponentProps } from 'react';
 import { useMemo, useState, useCallback } from 'react';
-import { PluginInfoEntry } from '@openshift/dynamic-plugin-sdk';
+import type { PluginInfoEntry } from '@openshift/dynamic-plugin-sdk';
 import { Alert, Button } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons/dist/esm/icons/pencil-alt-icon';
-import {
-  ISortBy,
-  OnSort,
-  SortByDirection,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@patternfly/react-table';
+import type { ISortBy, OnSort } from '@patternfly/react-table';
+import { SortByDirection, Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom-v5-compat';
-import { useAccessReview, WatchK8sResource } from '@console/dynamic-plugin-sdk';
+import type { WatchK8sResource } from '@console/dynamic-plugin-sdk';
+import { useAccessReview } from '@console/dynamic-plugin-sdk';
 import {
   getGroupVersionKindForModel,
   getReferenceForModel,
 } from '@console/dynamic-plugin-sdk/src/utils/k8s';
-import { PluginCSPViolations } from '@console/internal/actions/ui';
+import type { PluginCSPViolations } from '@console/internal/actions/ui';
 import { breadcrumbsForGlobalConfig } from '@console/internal/components/cluster-settings/global-config';
 import { DetailsForKind } from '@console/internal/components/default-resource';
 import { DetailsPage } from '@console/internal/components/factory';
 import { navFactory } from '@console/internal/components/utils/horizontal-nav';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { KebabAction } from '@console/internal/components/utils/kebab';
+import type { KebabAction } from '@console/internal/components/utils/kebab';
 import { asAccessReview, RequireCreatePermission } from '@console/internal/components/utils/rbac';
 import { ResourceLink } from '@console/internal/components/utils/resource-link';
 import { EmptyBox } from '@console/internal/components/utils/status-box';
 import { ConsoleOperatorConfigModel, ConsolePluginModel } from '@console/internal/models';
-import {
+import type {
   ConsolePluginKind,
   K8sResourceKind,
   K8sResourceKindReference,
-  referenceForModel,
 } from '@console/internal/module/k8s';
-import { RootState } from '@console/internal/redux';
+import { referenceForModel } from '@console/internal/module/k8s';
+import type { RootState } from '@console/internal/redux';
 import { usePluginInfo } from '@console/plugin-sdk/src/api/usePluginInfo';
 import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { consolePluginModal } from '@console/shared/src/components/modals/ConsolePluginModal';
@@ -51,11 +43,8 @@ import {
 import { Status } from '@console/shared/src/components/status/Status';
 import { CONSOLE_OPERATOR_CONFIG_NAME } from '@console/shared/src/constants/resource';
 import { DASH } from '@console/shared/src/constants/ui';
-import {
-  boolComparator,
-  localeComparator,
-  Comparator,
-} from '@console/shared/src/utils/comparators';
+import type { Comparator } from '@console/shared/src/utils/comparators';
+import { boolComparator, localeComparator } from '@console/shared/src/utils/comparators';
 
 export const developmentMode = window.SERVER_FLAGS.k8sMode === 'off-cluster';
 const consolePluginGVK = getGroupVersionKindForModel(ConsolePluginModel);

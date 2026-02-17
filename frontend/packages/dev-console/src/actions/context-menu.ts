@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { Action, K8sModel } from '@console/dynamic-plugin-sdk';
+import type { Action, K8sModel } from '@console/dynamic-plugin-sdk';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
-import { TopologyApplicationObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { TopologyApplicationObject } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { LazyDeleteModalOverlay } from '@console/internal/components/modals';
 import { asAccessReview } from '@console/internal/components/utils';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { deleteResourceModal } from '@console/shared';
 import { ApplicationModel } from '@console/topology/src/models';
 import { cleanUpWorkload } from '@console/topology/src/utils';

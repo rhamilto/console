@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { TextInputTypes } from '@patternfly/react-core';
 import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
-import { FirehoseResource } from '@console/internal/components/utils';
+import type { FirehoseResource } from '@console/internal/components/utils';
 import { SecretModel } from '@console/internal/models';
 import { InputField, MultiColumnField, ResourceDropdownField } from '@console/shared';
 import FormSection from '../../import/section/FormSection';

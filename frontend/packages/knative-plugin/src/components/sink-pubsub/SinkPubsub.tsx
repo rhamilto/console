@@ -1,7 +1,9 @@
 import type { FC } from 'react';
-import { Formik, FormikValues, FormikHelpers } from 'formik';
+import type { FormikValues, FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceKind, k8sUpdate, referenceFor, modelFor } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sUpdate, referenceFor, modelFor } from '@console/internal/module/k8s';
 import { getSinkableResources } from '../../utils/get-knative-resources';
 import { craftResourceKey, sanitizeResourceName } from '../pub-sub/pub-sub-utils';
 import SinkPubsubModal from './SinkPubsubModal';

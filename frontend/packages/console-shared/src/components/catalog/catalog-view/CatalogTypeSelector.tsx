@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom-v5-compat';
 import { SyncMarkdownView } from '@console/internal/components/markdown-view';
 import { FieldLevelHelp } from '@console/internal/components/utils/field-level-help';
-import { CatalogQueryParams, CatalogType, CatalogTypeCounts } from '../utils/types';
+import type { CatalogType, CatalogTypeCounts } from '../utils/types';
+import { CatalogQueryParams } from '../utils/types';
 
 interface CatalogTypeSelectorProps {
   catalogTypes: CatalogType[];

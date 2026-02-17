@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { resourcePath, history } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { JobModel, PodModel } from '@console/internal/models';
-import { PodKind, JobKind } from '@console/internal/module/k8s';
+import type { PodKind, JobKind } from '@console/internal/module/k8s';
 import { isModifiedEvent } from '@console/shared';
 import { EXPORT_JOB_PREFIX } from '../../const';
 
