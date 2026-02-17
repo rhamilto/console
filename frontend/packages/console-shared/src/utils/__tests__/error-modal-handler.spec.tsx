@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import {
-  SyncErrorModalLauncher,
+  SyncModalLaunchers,
   useErrorModalLauncher,
   launchErrorModal,
 } from '../error-modal-handler';
@@ -16,9 +16,9 @@ describe('error-modal-handler', () => {
     jest.clearAllMocks();
   });
 
-  describe('SyncErrorModalLauncher', () => {
+  describe('SyncModalLaunchers', () => {
     it('should sync the launcher on mount', () => {
-      render(<SyncErrorModalLauncher />);
+      render(<SyncModalLaunchers />);
 
       // Call the module-level function
       launchErrorModal({ error: 'Test error', title: 'Test' });
@@ -31,20 +31,14 @@ describe('error-modal-handler', () => {
     });
 
     it('should cleanup launcher on unmount', () => {
-      const { unmount } = render(<SyncErrorModalLauncher />);
+      const { unmount } = render(<SyncModalLaunchers />);
 
       unmount();
 
-      // Should log error instead of crashing
-      const consoleError = jest.spyOn(console, 'error').mockImplementation();
-      launchErrorModal({ error: 'Test error' });
-
-      expect(consoleError).toHaveBeenCalledWith(
-        expect.stringContaining('Error modal launcher not initialized'),
-        expect.any(Object),
-      );
-
-      consoleError.mockRestore();
+      // Should throw error when launcher is not initialized
+      expect(() => {
+        launchErrorModal({ error: 'Test error' });
+      }).toThrow('Error modal launcher not initialized');
     });
   });
 
@@ -70,7 +64,7 @@ describe('error-modal-handler', () => {
 
   describe('launchErrorModal', () => {
     it('should launch error modal when launcher is initialized', () => {
-      render(<SyncErrorModalLauncher />);
+      render(<SyncModalLaunchers />);
 
       launchErrorModal({
         error: 'Connection failed',
@@ -83,17 +77,10 @@ describe('error-modal-handler', () => {
       });
     });
 
-    it('should log error when launcher is not initialized', () => {
-      const consoleError = jest.spyOn(console, 'error').mockImplementation();
-
-      launchErrorModal({ error: 'Test error' });
-
-      expect(consoleError).toHaveBeenCalledWith(
-        expect.stringContaining('Error modal launcher not initialized'),
-        { error: 'Test error' },
-      );
-
-      consoleError.mockRestore();
+    it('should throw error when launcher is not initialized', () => {
+      expect(() => {
+        launchErrorModal({ error: 'Test error' });
+      }).toThrow('Error modal launcher not initialized');
     });
   });
 });
