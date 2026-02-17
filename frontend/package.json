@@ -7,6 +7,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "packages/*/integration-tests",
     "public",
     "integration-tests"
   ],
@@ -15,19 +16,18 @@
     "clean": "rm -rf ./public/dist",
     "dev": "yarn clean && yarn generate && REACT_REFRESH=true NODE_OPTIONS=--max-old-space-size=4096 yarn ts-node ./node_modules/.bin/webpack serve --mode=development --progress",
     "dev-once": "yarn clean && yarn generate && NODE_OPTIONS=--max-old-space-size=4096 yarn ts-node ./node_modules/.bin/webpack --mode=development",
-    "dedupe-deps": "yarn-deduplicate --strategy highest",
     "build": "yarn clean && yarn generate && NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 yarn ts-node ./node_modules/.bin/webpack --mode=production",
     "check-cycles": "CHECK_CYCLES=true yarn dev-once",
     "coverage": "jest --coverage .",
-    "eslint": "eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx,.json,.gql,.graphql --color",
+    "eslint": "node ./node_modules/.bin/eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx,.json,.gql,.graphql --color",
     "lint": "NODE_OPTIONS=--max-old-space-size=4096 yarn eslint .",
     "gherkin-lint": "./node_modules/.bin/gherkin-lint -c ./packages/dev-console/integration-tests/.gherkin-lintrc ./packages/*/integration-tests/features",
     "test": "LANG=en_US.UTF-8 jest",
     "debug-test": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test-cypress-console": "cd packages/integration-tests-cypress && cypress open --env openshift=true",
-    "test-cypress-console-headless": "cd packages/integration-tests-cypress && node --max-old-space-size=4096 ../../node_modules/.bin/cypress run --env openshift=true --browser ${BRIDGE_E2E_BROWSER_NAME:=electron}",
+    "test-cypress-console-headless": "cd packages/integration-tests-cypress && node --max-old-space-size=4096 ../../node_modules/.bin/cypress run --env openshift=true --browser ${BRIDGE_E2E_BROWSER_NAME:-electron}",
     "test-cypress-olm": "cd packages/operator-lifecycle-manager/integration-tests-cypress && ../../../node_modules/.bin/cypress open --env openshift=true",
-    "test-cypress-olm-headless": "cd packages/operator-lifecycle-manager/integration-tests-cypress && node --max-old-space-size=4096 ../../../node_modules/.bin/cypress run --env openshift=true --browser ${BRIDGE_E2E_BROWSER_NAME:=electron}",
+    "test-cypress-olm-headless": "cd packages/operator-lifecycle-manager/integration-tests-cypress && node --max-old-space-size=4096 ../../../node_modules/.bin/cypress run --env openshift=true --browser ${BRIDGE_E2E_BROWSER_NAME:-electron}",
     "test-cypress-dev-console": "cd packages/dev-console/integration-tests && yarn run test-cypress",
     "test-cypress-dev-console-headless": "cd packages/dev-console/integration-tests && yarn run test-cypress-headless",
     "test-cypress-dev-console-nightly": "cd packages/dev-console/integration-tests && yarn run test-cypress-nightly",
@@ -57,7 +57,7 @@
     "analyze": "ANALYZE_BUNDLE=true NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 yarn ts-node ./node_modules/.bin/webpack --mode=production",
     "prettier-all": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
     "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
-    "generate": "yarn generate-graphql && yarn build-plugin-sdk",
+    "generate": "yarn generate-graphql & yarn build-plugin-sdk",
     "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
     "generate-plugin-sdk-docs": "yarn --cwd packages/console-dynamic-plugin-sdk generate-doc",
     "build-plugin-sdk": "yarn --cwd packages/console-dynamic-plugin-sdk build",
@@ -264,8 +264,7 @@
     "@types/react-virtualized": "9.x",
     "@types/semver": "^6.0.0",
     "@types/showdown": "1.9.4",
-    "@types/yarnpkg__lockfile": "^1.1.9",
-    "@yarnpkg/lockfile": "^1.1.0",
+    "@yarnpkg/parsers": "^3.0.2",
     "axe-core": "^4.10.2",
     "babel-loader": "^9.2.1",
     "chalk": "2.4.x",
@@ -295,7 +294,6 @@
     "jest-junit": "^16.0.0",
     "jest-resolve": "^30.2.0",
     "lint-staged": "^10.2.2",
-    "node-fetch": "^2.3.0",
     "mini-css-extract-plugin": "^2.9.4",
     "minimist": "^1.2.8",
     "mocha-junit-reporter": "^1.23.3",
@@ -305,6 +303,7 @@
     "mock-socket": "^9.0.3",
     "monaco-editor": "^0.51.0",
     "monaco-editor-webpack-plugin": "^7.1.1",
+    "node-fetch": "^2.3.0",
     "prettier": "2.0.5",
     "puppeteer-core": "^23.9.0",
     "react-refresh": "^0.10.0",
@@ -321,8 +320,7 @@
     "webpack": "^5.100.0",
     "webpack-bundle-analyzer": "^5.1.1",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2",
-    "yarn-deduplicate": "^6.0.2"
+    "webpack-dev-server": "^5.2.2"
   },
   "engines": {
     "node": ">=22.x"
@@ -340,5 +338,11 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,gql,graphql}": "eslint --color --fix"
-  }
+  },
+  "dependenciesMeta": {
+    "cypress": {
+      "built": true
+    }
+  },
+  "packageManager": "yarn@4.12.0"
 }
