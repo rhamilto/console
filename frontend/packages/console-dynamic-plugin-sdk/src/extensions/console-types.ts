@@ -10,9 +10,9 @@ import { QuickStartContextValues } from '@patternfly/quickstarts';
 import { CodeEditorProps as PfCodeEditorProps } from '@patternfly/react-code-editor';
 import { ButtonProps } from '@patternfly/react-core';
 import { ICell, OnSelect, SortByDirection, TableGridBreakpoint } from '@patternfly/react-table';
-import { LocationDescriptor } from 'history';
 import type { TFunction } from 'i18next';
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import { To } from 'react-router-dom-v5-compat';
 import type {
   ExtensionK8sGroupKindModel,
   K8sModel,
@@ -774,7 +774,7 @@ export type UseAnnotationsModal = (resource: K8sResourceCommon) => () => void;
 
 export type UseDeleteModal = (
   resource: K8sResourceCommon,
-  redirectTo?: LocationDescriptor,
+  redirectTo?: To,
   message?: JSX.Element,
   btnText?: ReactNode,
   deleteAllResources?: () => Promise<K8sResourceKind[]>,

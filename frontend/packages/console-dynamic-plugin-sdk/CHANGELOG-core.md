@@ -13,6 +13,7 @@ table in [Console dynamic plugins README](./README.md).
 ## 4.22.0-prerelease.2 - TBD
 
 - **Breaking**: Removed `pluginID` from the result in `useResolvedExtensions` hook ([CONSOLE-3769], [#15904])
+- **Type breaking**: Changed `UseDeleteModal` hook's `redirectTo` parameter type from `LocationDescriptor` (from `history`) to `To` (from `react-router-dom-v5-compat`) ([CONSOLE-4990], [#15959])
 - The following types are now re-exported from `@openshift/dynamic-plugin-sdk` instead of being defined
   by Console: `CodeRef`, `EncodedCodeRef`, `LoadedExtension`, and `ResolvedExtension` ([CONSOLE-3769], [#15904])
 
@@ -178,6 +179,7 @@ table in [Console dynamic plugins README](./README.md).
 [CONSOLE-4796]: https://issues.redhat.com/browse/CONSOLE-4796
 [CONSOLE-4806]: https://issues.redhat.com/browse/CONSOLE-4806
 [CONSOLE-4840]: https://issues.redhat.com/browse/CONSOLE-4840
+[CONSOLE-4990]: https://issues.redhat.com/browse/CONSOLE-4990
 [CONSOLE-5039]: https://issues.redhat.com/browse/CONSOLE-5039
 [CONSOLE-5050]: https://issues.redhat.com/browse/CONSOLE-5050
 [OCPBUGS-19048]: https://issues.redhat.com/browse/OCPBUGS-19048
@@ -250,3 +252,4 @@ table in [Console dynamic plugins README](./README.md).
 [#15893]: https://github.com/openshift/console/pull/15893
 [#15904]: https://github.com/openshift/console/pull/15904
 [#15934]: https://github.com/openshift/console/pull/15934
+[#15959]: https://github.com/openshift/console/pull/15959

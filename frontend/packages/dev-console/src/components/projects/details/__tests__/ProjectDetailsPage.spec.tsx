@@ -36,6 +36,7 @@ jest.mock('@console/internal/module/k8s', () => ({
 }));
 
 jest.mock('@console/internal/models', () => ({
+  ...jest.requireActual('@console/internal/models'),
   ProjectModel: { kind: 'Project' },
   RoleBindingModel: {
     apiGroup: 'rbac.authorization.k8s.io',
@@ -44,6 +45,14 @@ jest.mock('@console/internal/models', () => ({
   UserModel: {
     apiGroup: 'user.openshift.io',
     plural: 'users',
+  },
+  GroupModel: {
+    apiGroup: 'user.openshift.io',
+    plural: 'groups',
+  },
+  VolumeSnapshotContentModel: {
+    apiGroup: 'snapshot.storage.k8s.io',
+    plural: 'volumesnapshotcontents',
   },
 }));
 
