@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { AlertVariant } from '@patternfly/react-core';
-import type { Map } from 'immutable';
+import type { Map as ImmutableMap } from 'immutable';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AdmissionWebhookWarning, SDKStoreState } from '@console/dynamic-plugin-sdk/src';
@@ -14,9 +14,11 @@ import {
 } from '@console/internal/components/utils/documentation';
 import { useToast } from '@console/shared/src';
 
-type UseAdmissionWebhookWarnings = () => Map<string, AdmissionWebhookWarning>;
+type UseAdmissionWebhookWarnings = () => ImmutableMap<string, AdmissionWebhookWarning>;
 const useAdmissionWebhookWarnings: UseAdmissionWebhookWarnings = () =>
-  useSelector<SDKStoreState, Map<string, AdmissionWebhookWarning>>(getAdmissionWebhookWarnings);
+  useSelector<SDKStoreState, ImmutableMap<string, AdmissionWebhookWarning>>(
+    getAdmissionWebhookWarnings,
+  );
 
 export const AdmissionWebhookWarningNotifications = () => {
   const { t } = useTranslation();
