@@ -2,38 +2,51 @@ import { useCallback, useEffect } from 'react';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import type { ErrorModalProps } from '@console/internal/components/modals/error-modal';
 import { ErrorModal } from '@console/internal/components/modals/error-modal';
+import { useSyncWarningModalLauncher } from './warning-modal-handler';
 
 // Module-level reference for non-React contexts
-// This is populated by SyncErrorModalLauncher and should not be set directly
+// This is populated by useSyncErrorModalLauncher and should not be set directly
 let moduleErrorModalLauncher: ((props: ErrorModalProps) => void) | null = null;
 
 /**
- * Component that syncs the error modal launcher to module-level for non-React contexts.
+ * Hook that syncs the error modal launcher to module-level for non-React contexts.
+ * Use SyncModalLaunchers component instead of calling this directly.
+ */
+export const useSyncErrorModalLauncher = () => {
+  const launcher = useOverlay();
+
+  useEffect(() => {
+    const errorModalLauncher = (props: ErrorModalProps) => {
+      launcher<ErrorModalProps>(ErrorModal, props);
+    };
+    moduleErrorModalLauncher = errorModalLauncher;
+
+    return () => {
+      // Only clear if we're still the active launcher
+      if (moduleErrorModalLauncher === errorModalLauncher) {
+        moduleErrorModalLauncher = null;
+      }
+    };
+  }, [launcher]);
+};
+
+/**
+ * Component that syncs both error and warning modal launchers to module-level for non-React contexts.
  * This should be mounted once in the app root, after OverlayProvider.
  *
  * @example
  * ```tsx
  * const App = () => (
  *   <OverlayProvider>
- *     <SyncErrorModalLauncher />
+ *     <SyncModalLaunchers />
  *     <YourApp />
  *   </OverlayProvider>
  * );
  * ```
  */
-export const SyncErrorModalLauncher = () => {
-  const launcher = useOverlay();
-
-  useEffect(() => {
-    moduleErrorModalLauncher = (props: ErrorModalProps) => {
-      launcher<ErrorModalProps>(ErrorModal, props);
-    };
-
-    return () => {
-      moduleErrorModalLauncher = null;
-    };
-  }, [launcher]);
-
+export const SyncModalLaunchers = () => {
+  useSyncErrorModalLauncher();
+  useSyncWarningModalLauncher();
   return null;
 };
 
@@ -70,7 +83,7 @@ export const useErrorModalLauncher = (): ((props: ErrorModalProps) => void) => {
 
 /**
  * Launch an error modal from non-React contexts (callbacks, promises, utilities).
- * The SyncErrorModalLauncher component must be mounted in the app root.
+ * The SyncModalLaunchers component must be mounted in the app root.
  *
  * @deprecated Use React component modals within component code instead.
  * For new code, write modals directly within React components using useOverlay or other modal patterns.
@@ -91,10 +104,8 @@ export const launchErrorModal = (props: ErrorModalProps): void => {
   if (moduleErrorModalLauncher) {
     moduleErrorModalLauncher(props);
   } else {
-    // eslint-disable-next-line no-console
-    console.error(
-      'Error modal launcher not initialized. Ensure SyncErrorModalLauncher is mounted after OverlayProvider.',
-      props,
+    throw new Error(
+      'Error modal launcher not initialized. Ensure SyncModalLaunchers is mounted after OverlayProvider.',
     );
   }
 };

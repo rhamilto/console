@@ -1,7 +1,8 @@
 import type { Node } from '@patternfly/react-topology';
+import i18next from 'i18next';
 import { Trans } from 'react-i18next';
-import { confirmModal } from '@console/internal/components/modals';
 import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
+import { launchWarningModal } from '@console/shared/src/utils/warning-modal-handler';
 import { updateTopologyResourceApplication } from './topology-utils';
 
 export const moveNodeToGroup = (
@@ -37,35 +38,38 @@ export const moveNodeToGroup = (
     // t('topology~Remove')
     const btnTextKey = targetGroup ? 'topology~Move' : 'topology~Remove';
 
-    return new Promise((resolve, reject) => {
-      confirmModal({
-        titleKey,
-        message,
-        btnTextKey,
-        close: () => {
-          reject();
-        },
-        cancel: () => {
-          reject();
-        },
-        executeFn: () => {
-          return updateTopologyResourceApplication(
-            node,
-            targetGroup ? targetGroup.getLabel() : null,
-          )
-            .then(resolve)
-            .catch((err) => {
-              const error = err.message;
-              if (onError) {
-                onError(error);
-              } else {
-                launchErrorModal({ error });
-              }
-              reject(err);
-            });
-        },
+    // Blur active element to prevent aria-hidden focus violations when modal opens
+    // This fixes the browser warning: "Blocked aria-hidden on an element because its
+    // descendant retained focus" when focus remains on SVG elements during drag-drop
+    if (
+      document.activeElement instanceof HTMLElement ||
+      document.activeElement instanceof SVGElement
+    ) {
+      document.activeElement.blur();
+    }
+
+    return launchWarningModal({
+      title: i18next.t(titleKey),
+      children: message,
+      confirmButtonLabel: i18next.t(btnTextKey),
+      titleIconVariant: null,
+    })
+      .then(() =>
+        updateTopologyResourceApplication(node, targetGroup ? targetGroup.getLabel() : null),
+      )
+      .catch((err) => {
+        // Only show error modal if it's not a user cancellation
+        if (err.message && err.message !== 'User cancelled') {
+          const error = err.message;
+          if (onError) {
+            onError(error);
+          } else {
+            launchErrorModal({ error });
+          }
+        }
+        // Always re-throw to signal the operation failed (whether cancelled or errored)
+        throw err;
       });
-    });
   }
 
   return updateTopologyResourceApplication(node, targetGroup.getLabel()).catch((err) => {

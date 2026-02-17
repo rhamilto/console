@@ -1,6 +1,4 @@
-import type { TFunction } from 'i18next';
 import { Trans, useTranslation } from 'react-i18next';
-import { confirmModal } from '@console/internal/components/modals/confirm-modal';
 import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { k8sKill } from '@console/internal/module/k8s';
 import { useWarningModal } from '@console/shared/src/hooks/useWarningModal';
@@ -27,28 +25,11 @@ const getMaintenanceModel = (nodeMaintenance: K8sResourceKind) => {
   return NodeMaintenanceKubevirtAlphaModel;
 };
 
-const stopNodeMaintenanceModal = (nodeMaintenance: K8sResourceKind, t: TFunction) => {
-  const reason = getNodeMaintenanceReason(nodeMaintenance);
-  const reasonLabel = reason ? `(${reason})` : '';
-  const nodeName = getNodeMaintenanceNodeName(nodeMaintenance);
-  return confirmModal({
-    title: t('metal3-plugin~Stop maintenance'),
-    message: (
-      <Trans t={t} ns="metal3-plugin">
-        Are you sure you want to stop maintenance <strong>{reasonLabel}</strong> on node{' '}
-        <strong>{nodeName}</strong>?
-      </Trans>
-    ),
-    btnText: t('metal3-plugin~Stop maintenance'),
-    executeFn: () => k8sKill(getMaintenanceModel(nodeMaintenance), nodeMaintenance),
-  });
-};
-
-export const useStopNodeMaintenanceModal = (nodeMaintenance: K8sResourceKind) => {
+export const useStopNodeMaintenanceModal = (nodeMaintenance: K8sResourceKind | undefined) => {
   const { t } = useTranslation();
-  const reason = getNodeMaintenanceReason(nodeMaintenance);
+  const reason = nodeMaintenance ? getNodeMaintenanceReason(nodeMaintenance) : '';
   const reasonLabel = reason ? `(${reason})` : '';
-  const nodeName = getNodeMaintenanceNodeName(nodeMaintenance);
+  const nodeName = nodeMaintenance ? getNodeMaintenanceNodeName(nodeMaintenance) : '';
   const stopNodeMaintenanceModalLauncher = useWarningModal({
     title: t('metal3-plugin~Stop maintenance'),
     children: (
@@ -58,9 +39,9 @@ export const useStopNodeMaintenanceModal = (nodeMaintenance: K8sResourceKind) =>
       </Trans>
     ),
     confirmButtonLabel: t('metal3-plugin~Stop maintenance'),
-    onConfirm: () => k8sKill(getMaintenanceModel(nodeMaintenance), nodeMaintenance),
+    onConfirm: nodeMaintenance
+      ? () => k8sKill(getMaintenanceModel(nodeMaintenance), nodeMaintenance)
+      : () => Promise.resolve(),
   });
   return stopNodeMaintenanceModalLauncher;
 };
-
-export default stopNodeMaintenanceModal;
