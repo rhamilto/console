@@ -28,13 +28,26 @@ export const MasonryLayout: FC<MasonryLayoutProps> = ({
 }) => {
   const measureRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number>(0);
+  const resizeTimeoutRef = useRef<number>();
+
   const handleResize = useCallback(() => {
-    const newWidth = measureRef.current.getBoundingClientRect().width;
-    if (newWidth) {
-      setWidth((oldWidth) =>
-        Math.abs(oldWidth - newWidth) < resizeThreshold ? oldWidth : newWidth,
-      );
+    if (!measureRef.current) return;
+
+    // Clear any pending resize
+    if (resizeTimeoutRef.current) {
+      clearTimeout(resizeTimeoutRef.current);
     }
+
+    // Debounce resize events
+    resizeTimeoutRef.current = window.setTimeout(() => {
+      if (!measureRef.current) return;
+      const newWidth = measureRef.current.getBoundingClientRect().width;
+      if (newWidth) {
+        setWidth((oldWidth) =>
+          Math.abs(oldWidth - newWidth) < resizeThreshold ? oldWidth : newWidth,
+        );
+      }
+    }, 100);
   }, [resizeThreshold]);
   const columnCount = useMemo(() => (width ? Math.floor(width / columnWidth) || 1 : null), [
     columnWidth,
@@ -42,21 +55,38 @@ export const MasonryLayout: FC<MasonryLayoutProps> = ({
   ]);
 
   useEffect(() => {
-    handleResize();
+    // Ensure initial measurement happens after DOM is ready and painted
+    let rafId: number;
+    const measure = () => {
+      rafId = requestAnimationFrame(() => {
+        handleResize();
+      });
+    };
+    measure();
 
-    // change the column count if the window is resized
+    // Only observe window resizes (not container resizes) to avoid
+    // infinite loops caused by scrollbar appearing/disappearing
     const observer = getResizeObserver(undefined, handleResize, true);
-    return () => observer();
-  }, [handleResize]);
+    return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      observer();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns: ReactElement[] =
     loading && LoadingComponent
-      ? Array.from({ length: columnCount }, (_, i) => <LoadingComponent key={i.toString()} />)
+      ? Array.from({ length: columnCount || 1 }, (_, i) => <LoadingComponent key={i.toString()} />)
       : children;
 
   return (
     <div className="odc-masonry-container" ref={measureRef}>
-      {columnCount ? <Masonry columnCount={columnCount}>{columns}</Masonry> : null}
+      {columnCount && <Masonry columnCount={columnCount}>{columns}</Masonry>}
     </div>
   );
 };
