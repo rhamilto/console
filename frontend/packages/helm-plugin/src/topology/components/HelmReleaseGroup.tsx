@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { css } from '@patternfly/react-styles';
 import {
   Layer,
-  useHover,
   Node,
   createSvgIdUrl,
   useDragNode,
@@ -15,6 +14,7 @@ import {
   NodeLabel,
 } from '@patternfly/react-topology';
 import { getImageForIconClass } from '@console/internal/components/catalog/catalog-item-icon';
+import { useHover } from '@console/topology/src/behavior';
 import {
   NodeShadows,
   NODE_SHADOW_FILTER_ID_HOVER,
@@ -53,12 +53,16 @@ const HelmReleaseGroup: FC<HelmReleaseGroupProps> = ({
   dragging,
   dragNodeRef,
 }) => {
-  const [hover, hoverRef] = useHover();
-  const [innerHover, innerHoverRef] = useHover();
+  const [hover, hoverRef] = useHover(0, 200);
+  const [innerHover, innerHoverRef] = useHover(0, 200);
+  const [labelHover, labelHoverRef] = useHover();
+  // Keep label visible when hovering over node, label itself, or when context menu is open
+  const isHovering = hover || innerHover || labelHover || contextMenuOpen;
   const [{ dragging: labelDragging }, dragLabelRef] = useDragNode(noRegroupDragSourceSpec);
+  const dragLabelRefs = useCombineRefs(dragLabelRef, labelHoverRef);
   const nodeRefs = useCombineRefs(innerHoverRef, dragNodeRef);
   const [filtered] = useSearchFilter(element.getLabel(), getResource(element)?.metadata?.labels);
-  const showLabel = useShowLabel(hover);
+  const showLabel = useShowLabel(hover || innerHover);
   const hasChildren = element.getChildren()?.length > 0;
   const { x, y, width, height } = element.getBounds();
   const typeIconClass = element.getData().data.chartIcon || 'icon-helm';
@@ -95,11 +99,7 @@ const HelmReleaseGroup: FC<HelmReleaseGroupProps> = ({
           })}
         >
           <rect
-            key={
-              hover || innerHover || contextMenuOpen || dragging || labelDragging
-                ? 'rect-hover'
-                : 'rect'
-            }
+            key={isHovering || dragging || labelDragging ? 'rect-hover' : 'rect'}
             ref={dndDropRef}
             className="odc-helm-release__bg"
             x={x}
@@ -109,7 +109,7 @@ const HelmReleaseGroup: FC<HelmReleaseGroupProps> = ({
             rx="5"
             ry="5"
             filter={createSvgIdUrl(
-              hover || innerHover || contextMenuOpen || dragging || labelDragging
+              isHovering || dragging || labelDragging
                 ? NODE_SHADOW_FILTER_ID_HOVER
                 : NODE_SHADOW_FILTER_ID,
             )}
@@ -122,7 +122,7 @@ const HelmReleaseGroup: FC<HelmReleaseGroupProps> = ({
         </g>
       </Layer>
       {decorators}
-      {showLabel && element.getLabel() && (
+      {(showLabel || labelHover || contextMenuOpen) && element.getLabel() && (
         <NodeLabel
           className="pf-topology__group__label odc-base-node__label"
           onContextMenu={onContextMenu}
@@ -135,7 +135,7 @@ const HelmReleaseGroup: FC<HelmReleaseGroupProps> = ({
           badge={badge}
           badgeColor={badgeColor}
           badgeClassName={badgeClassName}
-          dragRef={dragLabelRef}
+          dragRef={dragLabelRefs}
         >
           {element.getLabel()}
         </NodeLabel>

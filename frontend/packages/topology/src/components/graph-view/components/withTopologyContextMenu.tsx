@@ -1,5 +1,5 @@
 import type { ComponentProps, MouseEvent, ComponentType, FC } from 'react';
-import { useContext, useState, useCallback } from 'react';
+import { useContext, useState, useCallback, useMemo } from 'react';
 import { GraphElement, ElementContext, ContextMenu } from '@patternfly/react-topology';
 import { observer } from 'mobx-react';
 import { ActionContext, ActionServiceProvider } from '@console/shared';
@@ -34,6 +34,14 @@ const withContextMenu = <E extends GraphElement>(
       );
     }, []);
 
+    // Memoize the action context to prevent unnecessary re-renders of ActionServiceProvider
+    // Only recompute when the context menu is opened (reference changes from null to a value)
+    const memoizedActionContext = useMemo(
+      () => (reference ? actionContext(element as E) : null),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [!!reference],
+    );
+
     return (
       <>
         <WrappedComponent
@@ -41,8 +49,8 @@ const withContextMenu = <E extends GraphElement>(
           onContextMenu={onContextMenu}
           contextMenuOpen={!!reference}
         />
-        {reference ? (
-          <ActionServiceProvider context={actionContext(element as E)}>
+        {memoizedActionContext ? (
+          <ActionServiceProvider context={memoizedActionContext}>
             {({ options, loaded }) =>
               loaded ? (
                 <ContextMenu

@@ -9,8 +9,8 @@ import {
   WithDragNodeProps,
   WithSelectionProps,
   observer,
-  useCombineRefs,
   useHover,
+  useCombineRefs,
 } from '@patternfly/react-topology';
 import { useSearchFilter } from '../../../../filters';
 import { useShowLabel } from '../../../../filters/useShowLabel';
@@ -40,11 +40,13 @@ const Application: FC<ApplicationProps> = ({
   canDrop,
   dropTarget,
   dragRegroupable,
+  contextMenuOpen,
   ...others
 }) => {
   const [hover, hoverRef] = useHover();
   const refs = useCombineRefs(dragNodeRef, hoverRef);
   const [filtered] = useSearchFilter(element.getLabel());
+  const showLabel = useShowLabel(hover);
   const needsHintRef = useRef<boolean>(false);
   useEffect(() => {
     const needsHint = dropTarget && !canDrop && dragRegroupable;
@@ -55,7 +57,6 @@ const Application: FC<ApplicationProps> = ({
         .fireEvent(SHOW_GROUPING_HINT_EVENT, element, needsHint ? <RegroupHint /> : null);
     }
   }, [dropTarget, canDrop, element, dragRegroupable]);
-  const showLabel = useShowLabel(hover);
   const { kindAbbr, kindStr, kindColor } = getKindStringAndAbbreviation(ApplicationModel.kind);
   const badgeClassName = css('odc-resource-icon', {
     [`odc-resource-icon-${kindStr.toLowerCase()}`]: !kindColor,
@@ -76,6 +77,7 @@ const Application: FC<ApplicationProps> = ({
         badgeColor={kindColor}
         badgeClassName={badgeClassName}
         dragNodeRef={refs}
+        contextMenuOpen={contextMenuOpen}
         {...others}
       />
     );
@@ -84,7 +86,6 @@ const Application: FC<ApplicationProps> = ({
   return (
     <DefaultGroup
       className={groupClasses}
-      showLabel={showLabel}
       element={element}
       canDrop={canDrop}
       dropTarget={dropTarget}
@@ -92,6 +93,9 @@ const Application: FC<ApplicationProps> = ({
       badge={kindAbbr}
       badgeColor={kindColor}
       badgeClassName={badgeClassName}
+      showLabel={showLabel || contextMenuOpen}
+      showLabelOnHover
+      contextMenuOpen={contextMenuOpen}
       {...others}
     />
   );

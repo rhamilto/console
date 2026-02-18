@@ -10,7 +10,6 @@ import {
   WithDragNodeProps,
   useDragNode,
   Layer,
-  useHover,
   createSvgIdUrl,
   useCombineRefs,
   useAnchor,
@@ -19,6 +18,7 @@ import {
   NodeLabel,
 } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
+import { useHover } from '../../behavior';
 import {
   noRegroupDragSourceSpec,
   NodeShadows,
@@ -62,9 +62,13 @@ const OperatorBackedServiceGroup: FC<OperatorBackedServiceGroupProps> = ({
 }) => {
   const ref = useRef();
   const { t } = useTranslation();
-  const [hover, hoverRef] = useHover();
-  const [innerHover, innerHoverRef] = useHover();
+  const [hover, hoverRef] = useHover(0, 200);
+  const [innerHover, innerHoverRef] = useHover(0, 200);
+  const [labelHover, labelHoverRef] = useHover();
+  // Keep label visible when hovering over node, label itself, or when context menu is open
+  const isHovering = hover || innerHover || labelHover || contextMenuOpen;
   const [{ dragging: labelDragging }, dragLabelRef] = useDragNode(noRegroupDragSourceSpec);
+  const dragLabelRefs = useCombineRefs(dragLabelRef, labelHoverRef);
   const nodeRefs = useCombineRefs(innerHoverRef, dragNodeRef);
   const hasChildren = element.getChildren()?.length > 0;
   const { data } = element.getData();
@@ -106,11 +110,7 @@ const OperatorBackedServiceGroup: FC<OperatorBackedServiceGroupProps> = ({
               })}
             >
               <rect
-                key={
-                  hover || innerHover || contextMenuOpen || dragging || labelDragging
-                    ? 'rect-hover'
-                    : 'rect'
-                }
+                key={isHovering || dragging || labelDragging ? 'rect-hover' : 'rect'}
                 ref={dndDropRef}
                 className="odc-operator-backed-service__bg"
                 x={x}
@@ -120,7 +120,7 @@ const OperatorBackedServiceGroup: FC<OperatorBackedServiceGroupProps> = ({
                 rx="5"
                 ry="5"
                 filter={createSvgIdUrl(
-                  hover || innerHover || contextMenuOpen || dragging || labelDragging
+                  isHovering || dragging || labelDragging
                     ? NODE_SHADOW_FILTER_ID_HOVER
                     : NODE_SHADOW_FILTER_ID,
                 )}
@@ -134,7 +134,7 @@ const OperatorBackedServiceGroup: FC<OperatorBackedServiceGroupProps> = ({
           </g>
         </Tooltip>
       </Layer>
-      {showLabel && (data.kind || element.getLabel()) && (
+      {(showLabel || labelHover || contextMenuOpen) && (data.kind || element.getLabel()) && (
         <NodeLabel
           className="pf-topology__group__label odc-knative-service__label odc-base-node__label"
           onContextMenu={onContextMenu}
@@ -147,7 +147,7 @@ const OperatorBackedServiceGroup: FC<OperatorBackedServiceGroupProps> = ({
           badge={badge}
           badgeColor={badgeColor}
           badgeClassName={badgeClassName}
-          dragRef={dragLabelRef}
+          dragRef={dragLabelRefs}
         >
           {element.getLabel()}
         </NodeLabel>
