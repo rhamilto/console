@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 import { Content, ContentVariants } from '@patternfly/react-core';
 import { Formik } from 'formik';
-import * as _ from 'lodash';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
 import {
@@ -25,13 +24,13 @@ import {
   getRolesToUpdate,
 } from './project-access-form-submit-utils';
 import { getUserRoleBindings, Roles } from './project-access-form-utils';
-import { Verb, UserRoleBinding } from './project-access-form-utils-types';
+import { Verb, UserRoleBinding, RoleBinding } from './project-access-form-utils-types';
 import { validationSchema } from './project-access-form-validation-utils';
 import ProjectAccessForm from './ProjectAccessForm';
 
 export interface ProjectAccessProps {
   namespace: string;
-  roleBindings?: { data: []; loaded: boolean; loadError: {} };
+  roleBindings?: { data: RoleBinding[]; loaded: boolean; loadError?: Error };
   roles: { data: Roles; loaded: boolean };
   fullFormView?: boolean;
 }
@@ -43,7 +42,7 @@ const ProjectAccess: FC<ProjectAccessProps> = ({
   fullFormView,
 }) => {
   const { t } = useTranslation();
-  if ((!roleBindings.loaded && _.isEmpty(roleBindings.loadError)) || !roles.loaded) {
+  if ((!roleBindings?.loaded && !roleBindings?.loadError) || !roles.loaded) {
     return <LoadingBox />;
   }
 
@@ -143,7 +142,7 @@ const ProjectAccess: FC<ProjectAccessProps> = ({
           </>
         }
       />
-      {roleBindings.loadError ? (
+      {roleBindings?.loadError ? (
         <StatusBox loaded={roleBindings.loaded} loadError={roleBindings.loadError} />
       ) : (
         <Formik
