@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import type { Dispatch } from 'redux';
 import { setActiveApplication } from '@console/internal/actions/ui';
 import { getActiveNamespace, getActiveApplication } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import {
   ALL_NAMESPACES_KEY,
   ALL_APPLICATIONS_KEY,

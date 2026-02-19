@@ -41,15 +41,14 @@ import {
   RoleBindingModel,
   RoleModel,
 } from '@console/internal/models';
+import type { K8sResourceCommon, K8sResourceKind } from '@console/internal/module/k8s';
 import {
-  K8sResourceCommon,
   apiVersionForModel,
   apiVersionForReference,
   k8sCreate,
   k8sGet,
   k8sListPartialMetadata,
   k8sPatch,
-  K8sResourceKind,
   kindForReference,
   referenceFor,
   referenceForModel,
@@ -62,13 +61,8 @@ import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { ExternalLink } from '@console/shared/src/components/links/ExternalLink';
 import { CONSOLE_OPERATOR_CONFIG_NAME } from '@console/shared/src/constants';
 import { SubscriptionModel, OperatorGroupModel, PackageManifestModel } from '../../models';
-import {
-  OperatorGroupKind,
-  PackageManifestKind,
-  SubscriptionKind,
-  InstallPlanApproval,
-  InstallModeType,
-} from '../../types';
+import type { OperatorGroupKind, PackageManifestKind, SubscriptionKind } from '../../types';
+import { InstallPlanApproval, InstallModeType } from '../../types';
 import { isCatalogSourceTrusted } from '../../utils';
 import { ConsolePluginFormGroup } from '../../utils/console-plugin-form-group';
 import { ClusterServiceVersionLogo } from '../cluster-service-version-logo';

@@ -1,11 +1,10 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import {
-  isPerspective,
+import type {
   Perspective as PerspectiveExtension,
   PerspectiveType,
   AccessReviewResourceAttributes,
-  checkAccess,
 } from '@console/dynamic-plugin-sdk';
+import { isPerspective, checkAccess } from '@console/dynamic-plugin-sdk';
 import type { LoadedExtension } from '@console/dynamic-plugin-sdk/src/types';
 import { useExtensions } from '@console/plugin-sdk/src/api/useExtensions';
 import { USERSETTINGS_PREFIX } from '../constants';

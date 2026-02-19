@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import { DataListCell, Tooltip } from '@patternfly/react-core';
-import { Node } from '@patternfly/react-topology';
+import type { Node } from '@patternfly/react-topology';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+import type { OverviewItemAlerts } from '@console/shared';
 import {
   Status as TooltipStatus,
   useBuildConfigsWatcher,
@@ -13,7 +14,6 @@ import {
   useReplicationControllersWatcher,
   getReplicationControllerAlerts,
   useIsMobile,
-  OverviewItemAlerts,
 } from '@console/shared';
 import { getResource } from '../../../utils';
 import { useResourceQuotaAlert } from '../../workload/resource-alert';

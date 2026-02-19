@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { GaugeChart } from '@console/internal/components/graphs/gauge';
-import { ResourceQuotaKind } from '@console/internal/module/k8s';
+import type { ResourceQuotaKind } from '@console/internal/module/k8s';
 import { getLabelAndUsage } from './utils';
 
 import './resource-quota.scss';

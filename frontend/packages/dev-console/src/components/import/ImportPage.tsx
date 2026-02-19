@@ -1,18 +1,19 @@
 import type { FunctionComponent } from 'react';
 import { useMemo } from 'react';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
 import { ImageStreamModel, ProjectModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import DevPreviewBadge from '@console/shared/src/components/badges/DevPreviewBadge';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { PageHeading } from '@console/shared/src/components/heading/PageHeading';
 import { QUERY_PROPERTIES } from '../../const';
 import NamespacedPage, { NamespacedPageVariants } from '../NamespacedPage';
 import QueryFocusApplication from '../QueryFocusApplication';
-import { ImportTypes, ImportData } from './import-types';
+import type { ImportData } from './import-types';
+import { ImportTypes } from './import-types';
 import ImportForm from './ImportForm';
 
 const ImportFlows = (t: TFunction): { [name: string]: ImportData } => ({

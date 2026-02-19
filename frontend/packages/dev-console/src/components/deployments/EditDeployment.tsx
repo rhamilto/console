@@ -1,18 +1,19 @@
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { FormikBag, Formik } from 'formik';
+import type { FormikBag } from 'formik';
+import { Formik } from 'formik';
 import { safeLoad } from 'js-yaml';
 import { useTranslation } from 'react-i18next';
 import { k8sCreateResource, k8sUpdateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { history } from '@console/internal/components/utils';
 import { DeploymentConfigModel, DeploymentModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { getResourcesType } from '../edit-application/edit-application-utils';
 import { Resources } from '../import/import-types';
 import EditDeploymentForm from './DeploymentForm';
-import { EditDeploymentData, EditDeploymentFormikValues } from './utils/deployment-types';
+import type { EditDeploymentData, EditDeploymentFormikValues } from './utils/deployment-types';
 import { convertDeploymentToEditForm, convertEditFormToDeployment } from './utils/deployment-utils';
 import { validationSchema } from './utils/deployment-validation-utils';
 

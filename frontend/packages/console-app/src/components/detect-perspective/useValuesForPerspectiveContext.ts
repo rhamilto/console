@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { PerspectiveType } from '@console/dynamic-plugin-sdk';
+import type { PerspectiveType } from '@console/dynamic-plugin-sdk';
 import {
   usePerspectiveExtension,
   usePerspectives,

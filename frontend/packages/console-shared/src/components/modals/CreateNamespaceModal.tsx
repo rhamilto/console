@@ -1,4 +1,6 @@
-import { useState, Ref } from 'react';
+import type { Ref } from 'react';
+import { useState } from 'react';
+import type { MenuToggleElement, SelectProps } from '@patternfly/react-core';
 import {
   Button,
   Alert,
@@ -6,16 +8,14 @@ import {
   SelectOption,
   SelectList,
   MenuToggle,
-  MenuToggleElement,
   Content,
   ContentVariants,
-  SelectProps,
 } from '@patternfly/react-core';
 import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { CreateProjectModalProps } from '@console/dynamic-plugin-sdk/src';
-import { ModalComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
+import type { CreateProjectModalProps } from '@console/dynamic-plugin-sdk/src';
+import type { ModalComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
 import { FieldLevelHelp } from '@console/internal/components/utils/field-level-help';
 import { resourceObjPath } from '@console/internal/components/utils/resource-link';
 import { SelectorInput } from '@console/internal/components/utils/selector-input';

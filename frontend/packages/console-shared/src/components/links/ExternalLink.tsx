@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react';
 import { css } from '@patternfly/react-styles';
-import {
-  ExternalLinkButton,
-  ExternalLinkButtonProps,
-} from '@console/shared/src/components/links/ExternalLinkButton';
+import type { ExternalLinkButtonProps } from '@console/shared/src/components/links/ExternalLinkButton';
+import { ExternalLinkButton } from '@console/shared/src/components/links/ExternalLinkButton';
 
 type ExternalLinkProps = ExternalLinkButtonProps & {
   /** The URL to link to */

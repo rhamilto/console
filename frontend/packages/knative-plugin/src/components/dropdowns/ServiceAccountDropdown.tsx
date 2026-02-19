@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { ServiceAccountModel } from '@console/internal/models';
 import { getActiveNamespace } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { ResourceDropdownField } from '@console/shared';
-import { ResourceDropdownItems } from '@console/shared/src/components/dropdown/ResourceDropdown';
+import type { ResourceDropdownItems } from '@console/shared/src/components/dropdown/ResourceDropdown';
 
 interface ServiceAccountDropdownProps {
   name: string;

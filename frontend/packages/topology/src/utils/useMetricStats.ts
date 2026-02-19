@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import * as _ from 'lodash';
-import { MetricStats } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { MetricStats } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { usePodsWatcher } from '@console/shared/src';
 import { getPodMetricStats } from './metricStats';
 import { useOverviewMetrics } from './useOverviewMetrics';

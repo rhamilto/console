@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { GraphElement } from '@patternfly/react-topology';
+import type { GraphElement } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import * as UIActions from '@console/internal/actions/ui';
-import { SimpleTabNav, Tab } from '@console/internal/components/utils';
-import { RootState } from '@console/internal/redux';
+import type { Tab } from '@console/internal/components/utils';
+import { SimpleTabNav } from '@console/internal/components/utils';
+import type { RootState } from '@console/internal/redux';
 import { useQueryParams } from '@console/shared/src';
 import SideBarTabLoader from '../providers/SideBarTabLoader';
 

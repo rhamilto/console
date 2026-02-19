@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState, useMemo, useCallback } from 'react';
-import { JSONSchema7 } from 'json-schema';
+import type { JSONSchema7 } from 'json-schema';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom-v5-compat';
@@ -12,13 +12,8 @@ import {
 } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { CustomResourceDefinitionModel } from '@console/internal/models';
-import {
-  K8sResourceKind,
-  kindForReference,
-  nameForModel,
-  CustomResourceDefinitionKind,
-  definitionFor,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKind, CustomResourceDefinitionKind } from '@console/internal/module/k8s';
+import { kindForReference, nameForModel, definitionFor } from '@console/internal/module/k8s';
 import { getBadgeFromType } from '@console/shared/src/components/badges';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import {
@@ -31,10 +26,10 @@ import { SyncedEditor } from '@console/shared/src/components/synced-editor';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { useCreateResourceExtension } from '@console/shared/src/hooks/create-resource-hook';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
-import { RouteParams } from '@console/shared/src/types';
+import type { RouteParams } from '@console/shared/src/types';
 import { exampleForModel, providedAPIForModel } from '..';
 import { ClusterServiceVersionModel } from '../../models';
-import { ClusterServiceVersionKind, ProvidedAPI } from '../../types';
+import type { ClusterServiceVersionKind, ProvidedAPI } from '../../types';
 import { useClusterServiceVersion } from '../../utils/useClusterServiceVersion';
 import ModelStatusBox from '../model-status-box';
 import { DEFAULT_K8S_SCHEMA } from './const';

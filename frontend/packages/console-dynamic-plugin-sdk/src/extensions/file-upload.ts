@@ -1,4 +1,4 @@
-import { Extension, CodeRef } from '../types';
+import type { Extension, CodeRef } from '../types';
 
 /** This extension can be used to provide a handler for the file drop action on specific file extensions. */
 export type FileUpload = Extension<

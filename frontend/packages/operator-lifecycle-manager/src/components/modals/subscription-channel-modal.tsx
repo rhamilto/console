@@ -9,10 +9,11 @@ import {
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
 import { ResourceLink } from '@console/internal/components/utils';
-import { K8sKind, K8sResourceKind, referenceForModel } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { SubscriptionModel, ClusterServiceVersionModel } from '../../models';
-import { SubscriptionKind, PackageManifestKind } from '../../types';
+import type { SubscriptionKind, PackageManifestKind } from '../../types';
 import { DeprecatedOperatorWarningIcon } from '../deprecated-operator-warnings/deprecated-operator-warnings';
 
 export const SubscriptionChannelModal: FC<SubscriptionChannelModalProps> = ({

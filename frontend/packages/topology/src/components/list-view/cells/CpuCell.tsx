@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { memo } from 'react';
 import { DataListCell } from '@patternfly/react-core';
-import { Node } from '@patternfly/react-topology';
+import type { Node } from '@patternfly/react-topology';
 import { useTranslation } from 'react-i18next';
-import { CpuCellComponentProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
+import type { CpuCellComponentProps } from '@console/dynamic-plugin-sdk/src/extensions/topology-types';
 import { formatCores } from '@console/internal/components/utils';
 import { getTopologyResourceObject } from '../../../utils/topology-utils';
 import { useMetricStats } from '../../../utils/useMetricStats';

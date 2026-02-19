@@ -1,5 +1,5 @@
 import { cloneDeepOnlyCloneableValues } from '@openshift/dynamic-plugin-sdk';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import type { ConsoleTFunction } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
 import type { Extension } from '@console/dynamic-plugin-sdk/src/types';
 import { deepForOwn } from '@console/dynamic-plugin-sdk/src/utils/object';

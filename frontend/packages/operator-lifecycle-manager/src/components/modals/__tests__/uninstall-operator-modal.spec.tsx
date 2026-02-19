@@ -6,7 +6,8 @@ import { useOperands } from '@console/shared/src/hooks/useOperands';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import { testSubscription, dummyPackageManifest } from '../../../../mocks';
 import { ClusterServiceVersionModel, SubscriptionModel } from '../../../models';
-import { UninstallOperatorModal, UninstallOperatorModalProps } from '../uninstall-operator-modal';
+import type { UninstallOperatorModalProps } from '../uninstall-operator-modal';
+import { UninstallOperatorModal } from '../uninstall-operator-modal';
 
 jest.mock('@console/internal/components/utils/k8s-watch-hook', () => ({
   useK8sWatchResource: jest.fn(),

@@ -23,8 +23,8 @@ import { sortable, wrappable } from '@patternfly/react-table';
 import * as _ from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams, useLocation, Link } from 'react-router-dom-v5-compat';
+import type { WatchK8sResource } from '@console/dynamic-plugin-sdk';
 import {
-  WatchK8sResource,
   ResourceStatus,
   StatusIconAndText,
   useAccessReviewAllowed,
@@ -33,24 +33,17 @@ import {
 import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { Conditions, ConditionTypes } from '@console/internal/components/conditions';
 import { ResourceEventStream } from '@console/internal/components/events';
-import {
-  DetailsPage,
-  Table,
-  TableData,
-  MultiListPage,
-  RowFunctionArgs,
-  Flatten,
-} from '@console/internal/components/factory';
+import type { RowFunctionArgs, Flatten } from '@console/internal/components/factory';
+import { DetailsPage, Table, TableData, MultiListPage } from '@console/internal/components/factory';
+import type { FirehoseResult, Page } from '@console/internal/components/utils';
 import {
   AsyncComponent,
   DOC_URL_OPERATORFRAMEWORK_SDK,
   documentationURLs,
-  FirehoseResult,
   getDocumentationURL,
   isManaged,
   ConsoleEmptyState,
   navFactory,
-  Page,
   RequireCreatePermission,
   ResourceLink,
   resourceObjPath,
@@ -62,12 +55,8 @@ import {
 import { getBreadcrumbPath } from '@console/internal/components/utils/breadcrumbs';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ConsoleOperatorConfigModel } from '@console/internal/models';
-import {
-  referenceForModel,
-  referenceFor,
-  K8sResourceCommon,
-  K8sResourceKind,
-} from '@console/internal/module/k8s';
+import type { K8sResourceCommon, K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceForModel, referenceFor } from '@console/internal/module/k8s';
 import { ALL_NAMESPACES_KEY, Status, getNamespace } from '@console/shared';
 import { LazyActionMenu, ActionMenuVariant } from '@console/shared/src/components/actions';
 import { KEBAB_COLUMN_CLASS } from '@console/shared/src/components/actions/LazyActionMenu';
@@ -93,15 +82,14 @@ import {
   OperatorGroupModel,
 } from '../models';
 import { subscriptionForCSV, getSubscriptionStatus } from '../status/csv-status';
-import {
+import type {
   APIServiceDefinition,
   CatalogSourceKind,
   ClusterServiceVersionKind,
-  ClusterServiceVersionPhase,
   CRDDescription,
-  CSVConditionReason,
   SubscriptionKind,
 } from '../types';
+import { ClusterServiceVersionPhase, CSVConditionReason } from '../types';
 import { isCatalogSourceTrusted, upgradeRequiresApproval } from '../utils';
 import { isCopiedCSV, isStandaloneCSV } from '../utils/clusterserviceversions';
 import { useClusterServiceVersion } from '../utils/useClusterServiceVersion';
@@ -116,7 +104,8 @@ import {
   DeprecatedOperatorWarningAlert,
   findDeprecatedOperator,
 } from './deprecated-operator-warnings/deprecated-operator-warnings';
-import { ProvidedAPIsPage, ProvidedAPIPage, ProvidedAPIPageProps } from './operand';
+import type { ProvidedAPIPageProps } from './operand';
+import { ProvidedAPIsPage, ProvidedAPIPage } from './operand';
 import { operatorGroupFor, operatorNamespaceFor, targetNamespacesFor } from './operator-group';
 import { OLMAnnotation } from './operator-hub';
 import {
@@ -125,10 +114,10 @@ import {
   getInitializationResource,
 } from './operator-hub/operator-hub-utils';
 import { CreateInitializationResourceButton } from './operator-install-page';
+import type { SubscriptionDetailsProps } from './subscription';
 import {
   SourceMissingStatus,
   SubscriptionDetails,
-  SubscriptionDetailsProps,
   UpgradeApprovalLink,
   catalogSourceForSubscription,
 } from './subscription';

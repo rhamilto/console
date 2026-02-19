@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { GraphElement } from '@patternfly/react-topology';
-import { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src';
-import { DetailsTabSectionExtensionHook } from '@console/dynamic-plugin-sdk/src/extensions/topology-details';
+import type { GraphElement } from '@patternfly/react-topology';
+import type { K8sResourceCommon } from '@console/dynamic-plugin-sdk/src';
+import type { DetailsTabSectionExtensionHook } from '@console/dynamic-plugin-sdk/src/extensions/topology-details';
 import { CronJobModel } from '@console/internal/models';
 import { useJobsForCronJobWatcher } from '@console/shared';
 import { getResource } from '../../utils';

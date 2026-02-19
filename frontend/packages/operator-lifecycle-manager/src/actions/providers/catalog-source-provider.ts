@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { CommonActionCreator } from '@console/app/src/actions/hooks/types';
 import { useCommonActions } from '@console/app/src/actions/hooks/useCommonActions';
 import { useCommonResourceActions } from '@console/app/src/actions/hooks/useCommonResourceActions';
-import { Action } from '@console/dynamic-plugin-sdk/src';
+import type { Action } from '@console/dynamic-plugin-sdk/src';
 import { asAccessReview } from '@console/internal/components/utils/rbac';
 import { referenceFor } from '@console/internal/module/k8s';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { disableDefaultSourceModal } from '../../components/modals/disable-default-source-modal';
-import { OperatorHubKind } from '../../components/operator-hub';
+import type { OperatorHubKind } from '../../components/operator-hub';
 import { DEFAULT_SOURCE_NAMESPACE } from '../../const';
 import { OperatorHubModel } from '../../models';
-import { CatalogSourceKind } from '../../types';
+import type { CatalogSourceKind } from '../../types';
 import useOperatorHubConfig from '../../utils/useOperatorHubConfig';
 
 const useDisableSourceAction = (operatorHub: OperatorHubKind, sourceName: string): Action[] => {

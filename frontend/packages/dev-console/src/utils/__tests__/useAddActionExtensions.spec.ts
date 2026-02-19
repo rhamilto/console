@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { useResolvedExtensions, AddAction, ResolvedExtension } from '@console/dynamic-plugin-sdk';
+import type { AddAction, ResolvedExtension } from '@console/dynamic-plugin-sdk';
+import { useResolvedExtensions } from '@console/dynamic-plugin-sdk';
 import { useAddActionExtensions } from '../useAddActionExtensions';
 
 const useResolvedExtensionsMock = useResolvedExtensions as jest.Mock;

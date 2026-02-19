@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import { K8sKind } from '@console/internal/module/k8s';
+import type { K8sKind } from '@console/internal/module/k8s';
 import * as k8s from '@console/internal/module/k8s';
 import { renderWithProviders } from '../../../test-utils/unit-test-utils';
 import { SchemaFieldHelp } from '../SchemaFieldHelp';

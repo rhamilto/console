@@ -1,9 +1,10 @@
 import type { ReactNode, FC } from 'react';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { setUtilsConfig, UtilsConfig } from './configSetup';
+import type { UtilsConfig } from './configSetup';
+import { setUtilsConfig } from './configSetup';
 import { initApiDiscovery } from './k8s/api-discovery/api-discovery';
-import { InitApiDiscovery } from './k8s/api-discovery/api-discovery-types';
+import type { InitApiDiscovery } from './k8s/api-discovery/api-discovery-types';
 import { useReduxStore } from './useReduxStore';
 
 type AppInitSDKProps = {

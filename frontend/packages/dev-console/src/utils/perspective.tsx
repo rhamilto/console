@@ -1,8 +1,8 @@
 import { CodeIcon } from '@patternfly/react-icons/dist/esm/icons/code-icon';
 import { useSelector } from 'react-redux';
-import { Perspective, ResolvedExtension } from '@console/dynamic-plugin-sdk';
+import type { Perspective, ResolvedExtension } from '@console/dynamic-plugin-sdk';
 import { getFlagsObject, flagPending } from '@console/internal/reducers/features';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { FLAGS } from '@console/shared/src/constants/common';
 
 export const usePerspectiveDetection = () => {

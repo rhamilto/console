@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { DeploymentConfigDeprecationAlert } from '@console/internal/components/deployment-config';
 import { DeploymentConfigModel, DeploymentModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   FlexForm,
   FormBody,

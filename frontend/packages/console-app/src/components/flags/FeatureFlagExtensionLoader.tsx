@@ -1,18 +1,21 @@
 import type { FC } from 'react';
 import { useCallback, useRef, useEffect, useLayoutEffect } from 'react';
-import {
-  isFeatureFlagHookProvider,
+import type {
   FeatureFlagHookProvider,
-  isModelFeatureFlag,
   ModelFeatureFlag,
   FeatureFlag,
-  isFeatureFlag,
   SetFeatureFlag,
+} from '@console/dynamic-plugin-sdk';
+import {
+  isFeatureFlagHookProvider,
+  isModelFeatureFlag,
+  isFeatureFlag,
   useResolvedExtensions,
 } from '@console/dynamic-plugin-sdk';
 import type { ResolvedExtension } from '@console/dynamic-plugin-sdk/src/types';
 import { setFlag, updateModelFlags } from '@console/internal/actions/flags';
-import { OnChange, useCompareExtensions } from '@console/plugin-sdk/src/utils/useCompareExtensions';
+import type { OnChange } from '@console/plugin-sdk/src/utils/useCompareExtensions';
+import { useCompareExtensions } from '@console/plugin-sdk/src/utils/useCompareExtensions';
 import { useConsoleDispatch } from '@console/shared/src/hooks/useConsoleDispatch';
 import { useConsoleSelector } from '@console/shared/src/hooks/useConsoleSelector';
 import { FeatureFlagExtensionHookResolver } from './FeatureFlagExtensionHookResolver';

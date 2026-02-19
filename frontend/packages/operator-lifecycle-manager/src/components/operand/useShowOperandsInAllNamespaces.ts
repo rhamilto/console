@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as UIActions from '@console/internal/actions/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 
 type UseShowOperandsInAllNamespaces = () => [boolean, (value: boolean) => void];
 

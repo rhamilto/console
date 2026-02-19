@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import { useState, useEffect, useCallback, createContext } from 'react';
 import { useUserSettingsCompatibility } from '@console/shared';
 import { TOPOLOGY_DISPLAY_FILTERS_LOCAL_STORAGE_KEY } from '../redux/const';
-import { DisplayFilters } from '../topology-types';
+import type { DisplayFilters } from '../topology-types';
 import { DEFAULT_TOPOLOGY_FILTERS } from './const';
 
 const TOPOLOGY_DISPLAY_FILTERS_USER_SETTINGS_KEY = `devconsole.topology.filters`;

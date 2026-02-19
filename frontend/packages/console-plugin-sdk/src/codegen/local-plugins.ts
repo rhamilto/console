@@ -6,14 +6,15 @@ import {
   parseEncodedCodeRefValue,
 } from '@console/dynamic-plugin-sdk/src/coderefs/coderef-resolver';
 import { extensionsFile } from '@console/dynamic-plugin-sdk/src/constants';
-import { ConsoleExtensionsJSON } from '@console/dynamic-plugin-sdk/src/schema/console-extensions';
-import { EncodedCodeRef } from '@console/dynamic-plugin-sdk/src/types';
+import type { ConsoleExtensionsJSON } from '@console/dynamic-plugin-sdk/src/schema/console-extensions';
+import type { EncodedCodeRef } from '@console/dynamic-plugin-sdk/src/types';
 import { parseJSONC } from '@console/dynamic-plugin-sdk/src/utils/jsonc';
 import { guessModuleFilePath } from '@console/dynamic-plugin-sdk/src/validation/ExtensionValidator';
 import { ValidationResult } from '@console/dynamic-plugin-sdk/src/validation/ValidationResult';
 import { validateConsoleExtensionsFileSchema } from '@console/dynamic-plugin-sdk/src/webpack/ConsoleRemotePlugin';
 import { trimStartMultiLine } from '../utils/string';
-import { consolePkgScope, PluginPackage } from './plugin-resolver';
+import type { PluginPackage } from './plugin-resolver';
+import { consolePkgScope } from './plugin-resolver';
 
 export const getExtensionsFilePath = (pkg: PluginPackage) =>
   path.resolve(pkg._path, extensionsFile);

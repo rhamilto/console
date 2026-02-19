@@ -10,12 +10,8 @@ import {
   DaemonSetModel,
   StatefulSetModel,
 } from '@console/internal/models';
-import {
-  K8sResourceKind,
-  referenceForModel,
-  referenceFor,
-  modelFor,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceForModel, referenceFor, modelFor } from '@console/internal/module/k8s';
 import { ServiceModel as KnativeServiceModel } from '@console/knative-plugin/src/models';
 import { STORAGE_PREFIX, USERSETTINGS_PREFIX } from '../../constants';
 import { useUserSettingsCompatibility } from '../../hooks/useUserSettingsCompatibility';

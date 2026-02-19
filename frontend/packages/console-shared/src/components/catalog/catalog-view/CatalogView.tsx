@@ -2,8 +2,8 @@ import type { ReactNode, FC } from 'react';
 import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { CatalogCategory } from '@console/dynamic-plugin-sdk/src';
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
+import type { CatalogCategory } from '@console/dynamic-plugin-sdk/src';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
 import { isModalOpen } from '@console/internal/components/modals';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import PaneBody from '../../layout/PaneBody';
@@ -29,16 +29,15 @@ import {
   getFilterGroupCounts,
   getFilterSearchParam,
 } from '../utils/filter-utils';
-import {
+import type {
   CatalogFilterCounts,
   CatalogFilterGroupMap,
   CatalogFilters as FiltersType,
-  CatalogQueryParams,
-  CatalogSortOrder,
   CatalogStringMap,
   CatalogType,
   CatalogTypeCounts,
 } from '../utils/types';
+import { CatalogQueryParams, CatalogSortOrder } from '../utils/types';
 import CatalogCategories from './CatalogCategories';
 import CatalogEmptyState from './CatalogEmptyState';
 import CatalogFilters from './CatalogFilters';

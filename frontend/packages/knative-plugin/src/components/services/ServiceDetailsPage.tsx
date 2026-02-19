@@ -16,7 +16,8 @@ import {
   navFactory,
 } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { K8sResourceKind, referenceForModel, K8sKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind, K8sKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import {
   ActionMenu,
   ActionMenuVariant,
@@ -27,7 +28,8 @@ import PaneBody from '@console/shared/src/components/layout/PaneBody';
 import { ExternalLink } from '@console/shared/src/components/links/ExternalLink';
 import { RevisionModel, RouteModel } from '../../models';
 import { isServerlessFunction } from '../../topology/knative-topology-utils';
-import { RevisionKind, ServiceKind, ServiceTypeValue } from '../../types';
+import type { RevisionKind, ServiceKind } from '../../types';
+import { ServiceTypeValue } from '../../types';
 import { serverlessTab } from '../../utils/serverless-tab-utils';
 import { KnativeServiceTypeContext } from '../functions/ServiceTypeContext';
 import RevisionsOverviewList from '../overview/RevisionsOverviewList';

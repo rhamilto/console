@@ -1,7 +1,7 @@
 import type { FC, SyntheticEvent } from 'react';
 import { isValidElement } from 'react';
 import { SimpleListItem, Title, Content } from '@patternfly/react-core';
-import { ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
+import type { ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
 import { useToast } from '@console/shared/src';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { navigateTo, resolvedHref } from '../../utils/add-page-utils';

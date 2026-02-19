@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Alert } from '@console/dynamic-plugin-sdk';
-import { PrometheusRulesResponse } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { Alert } from '@console/dynamic-plugin-sdk';
+import type { PrometheusRulesResponse } from '@console/dynamic-plugin-sdk/src/lib-core';
 import {
   alertingErrored,
   alertingLoaded,

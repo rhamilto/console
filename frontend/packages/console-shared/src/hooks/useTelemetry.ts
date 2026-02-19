@@ -1,11 +1,10 @@
 import { useEffect, useCallback } from 'react';
-import {
-  useResolvedExtensions,
-  isTelemetryListener,
+import type {
   TelemetryListener,
   TelemetryEventListener,
   UserInfo,
 } from '@console/dynamic-plugin-sdk';
+import { useResolvedExtensions, isTelemetryListener } from '@console/dynamic-plugin-sdk';
 import type { UserKind } from '@console/internal/module/k8s/types';
 import {
   CLUSTER_TELEMETRY_ANALYTICS,

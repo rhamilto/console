@@ -11,7 +11,8 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { RadioGroup, RadioGroupItems } from '@console/internal/components/radio';
+import type { RadioGroupItems } from '@console/internal/components/radio';
+import { RadioGroup } from '@console/internal/components/radio';
 import { ButtonBar, history, NsDropdown } from '@console/internal/components/utils';
 import { k8sCreate } from '@console/internal/module/k8s';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';

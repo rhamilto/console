@@ -7,11 +7,12 @@ import {
   HelperText,
   HelperTextItem,
 } from '@patternfly/react-core';
-import { useFormikContext, FormikValues, useField } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext, useField } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { getFieldId, ResourceDropdownField } from '@console/shared';
 import { getDynamicChannelResourceList } from '../../../../utils/fetch-dynamic-eventsources-utils';
 import {

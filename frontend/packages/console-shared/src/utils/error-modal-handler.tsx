@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
-import { ErrorModal, ErrorModalProps } from '@console/internal/components/modals/error-modal';
+import type { ErrorModalProps } from '@console/internal/components/modals/error-modal';
+import { ErrorModal } from '@console/internal/components/modals/error-modal';
 
 // Module-level reference for non-React contexts
 // This is populated by SyncErrorModalLauncher and should not be set directly

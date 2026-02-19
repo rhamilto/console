@@ -1,10 +1,10 @@
-import {
+import type {
   ResolvedExtension,
-  UserPreferenceFieldType,
   UserPreferenceGroup,
   UserPreferenceItem,
 } from '@console/dynamic-plugin-sdk';
-import { ResolvedUserPreferenceItem, ResolvedUserPreferenceGroup } from '../types';
+import { UserPreferenceFieldType } from '@console/dynamic-plugin-sdk';
+import type { ResolvedUserPreferenceItem, ResolvedUserPreferenceGroup } from '../types';
 
 export const userPreferenceItemWithCustomComponent: ResolvedUserPreferenceItem = {
   id: 'console.preferredNamespace',

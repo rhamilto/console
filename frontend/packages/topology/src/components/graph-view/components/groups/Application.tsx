@@ -1,17 +1,14 @@
 import type { FC } from 'react';
 import { useRef, useEffect } from 'react';
 import { css } from '@patternfly/react-styles';
-import {
-  DefaultGroup,
+import type {
   Node,
   WithContextMenuProps,
   WithDndDropProps,
   WithDragNodeProps,
   WithSelectionProps,
-  observer,
-  useCombineRefs,
-  useHover,
 } from '@patternfly/react-topology';
+import { DefaultGroup, observer, useCombineRefs, useHover } from '@patternfly/react-topology';
 import { useSearchFilter } from '../../../../filters';
 import { useShowLabel } from '../../../../filters/useShowLabel';
 import { ApplicationModel } from '../../../../models';

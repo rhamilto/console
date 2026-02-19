@@ -42,7 +42,8 @@ import {
   sourceSort,
   validSubscriptionSort,
 } from './operator-hub-utils';
-import { InfrastructureFeature, OperatorHubItem, TokenizedAuthProvider } from './index';
+import type { OperatorHubItem, TokenizedAuthProvider } from './index';
+import { InfrastructureFeature } from './index';
 
 // Scoring and priority code no longer used and will be removed with Operator Hub catalog files cleanup effort
 const SCORE = {

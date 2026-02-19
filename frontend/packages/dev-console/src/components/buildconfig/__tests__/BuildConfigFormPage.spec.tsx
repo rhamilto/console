@@ -5,7 +5,7 @@ import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watc
 import { useUserSettings } from '@console/shared/src';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import BuildConfigFormPage from '../BuildConfigFormPage';
-import { BuildConfig } from '../types';
+import type { BuildConfig } from '../types';
 
 jest.mock('react-helmet-async', () => ({
   Helmet: () => null,

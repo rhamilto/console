@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 import { getGroupVersionKindForReference } from '@console/dynamic-plugin-sdk/src/utils/k8s';
-import {
-  K8sResourceKindReference,
-  kindForReference,
-  referenceForModel,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKindReference } from '@console/internal/module/k8s';
+import { kindForReference, referenceForModel } from '@console/internal/module/k8s';
 import { HelmChartRepositoryModel, ProjectHelmChartRepositoryModel } from '../../../models';
-import { HelmChartRepositoryFormData, HelmChartRepositoryType } from '../../../types/helm-types';
+import type {
+  HelmChartRepositoryFormData,
+  HelmChartRepositoryType,
+} from '../../../types/helm-types';
 
 export const convertToForm = (resource: HelmChartRepositoryType) => {
   return {

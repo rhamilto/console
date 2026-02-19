@@ -1,10 +1,14 @@
-import { ReactNode, ReactElement, CSSProperties } from 'react';
-import { Language } from '@patternfly/react-code-editor';
-import { ValidatedOptions, TextInputTypes, gridItemSpanValueShape } from '@patternfly/react-core';
-import { JSONSchema7 } from 'json-schema';
-import { ConsoleSelectProps } from '@console/internal/components/utils/console-select';
-import { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
-import { RowRendererProps } from './multi-column-field/MultiColumnFieldRow';
+import type { ReactNode, ReactElement, CSSProperties } from 'react';
+import type { Language } from '@patternfly/react-code-editor';
+import type {
+  ValidatedOptions,
+  TextInputTypes,
+  gridItemSpanValueShape,
+} from '@patternfly/react-core';
+import type { JSONSchema7 } from 'json-schema';
+import type { ConsoleSelectProps } from '@console/internal/components/utils/console-select';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { RowRendererProps } from './multi-column-field/MultiColumnFieldRow';
 
 export interface FieldProps {
   name: string;

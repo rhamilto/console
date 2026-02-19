@@ -7,12 +7,12 @@ import {
 import { Badge } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
 import { history } from '@console/internal/components/utils/router';
 import { isModifiedEvent } from '../../utils';
 import CatalogBadges from './CatalogBadges';
 import { getIconProps } from './utils/catalog-utils';
-import { CatalogType } from './utils/types';
+import type { CatalogType } from './utils/types';
 
 import './CatalogTile.scss';
 

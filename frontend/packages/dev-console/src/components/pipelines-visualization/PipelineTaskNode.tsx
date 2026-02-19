@@ -2,19 +2,17 @@ import type { FunctionComponent } from 'react';
 import { useRef, useMemo, memo } from 'react';
 import { Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
+import type { Node, WithContextMenuProps, WithSelectionProps } from '@patternfly/react-topology';
 import {
   DEFAULT_LAYER,
   DEFAULT_WHEN_OFFSET,
   Layer,
-  Node,
   ScaleDetailsLevel,
   TaskNode,
   TOP_LAYER,
   useDetailsLevel,
   useHover,
   WhenDecorator,
-  WithContextMenuProps,
-  WithSelectionProps,
 } from '@patternfly/react-topology';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom-v5-compat';
@@ -27,12 +25,8 @@ import { ComputedStatus } from '@console/shipwright-plugin/src/components/logs/l
 import { ClusterTaskModel, PipelineRunModel, TaskModel } from '../../models/pipelines';
 import { PipelineVisualizationStepList } from './PipelineVisualizationStepList';
 import { createStepStatus, pipelineRunFilterReducer } from './reducer';
-import {
-  NodeType,
-  FLAG_PIPELINES_OPERATOR_VERSION_1_17_OR_NEWER,
-  TaskKind,
-  StepStatus,
-} from './types';
+import type { TaskKind, StepStatus } from './types';
+import { NodeType, FLAG_PIPELINES_OPERATOR_VERSION_1_17_OR_NEWER } from './types';
 import './PipelineTaskNode.scss';
 
 export const getTooltipContent = (statusReason: ComputedStatus): string => {

@@ -1,7 +1,7 @@
-import { AddAction, AddActionGroup, ResolvedExtension } from '@console/dynamic-plugin-sdk';
+import type { AddAction, AddActionGroup, ResolvedExtension } from '@console/dynamic-plugin-sdk';
 import { history } from '@console/internal/components/utils';
 import { ALL_NAMESPACES_KEY } from '@console/shared';
-import { AddGroup } from '../components/types';
+import type { AddGroup } from '../components/types';
 
 export const getAddGroups = (
   addActions: ResolvedExtension<AddAction>[],

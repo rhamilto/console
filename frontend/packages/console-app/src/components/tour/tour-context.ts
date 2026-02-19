@@ -1,28 +1,18 @@
-import {
-  createContext,
-  useReducer,
-  useState,
-  Reducer,
-  Dispatch,
-  ReducerAction,
-  useEffect,
-  useCallback,
-} from 'react';
+import type { Reducer, Dispatch, ReducerAction } from 'react';
+import { createContext, useReducer, useState, useEffect, useCallback } from 'react';
 import { pick, union, isEqual } from 'lodash';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { useResolvedExtensions } from '@console/dynamic-plugin-sdk/src/api/useResolvedExtensions';
-import {
-  INTERNAL_DO_NOT_USE_isGuidedTour as isGuidedTour,
-  INTERNAL_DO_NOT_USE_GuidedTour as GuidedTour,
-} from '@console/dynamic-plugin-sdk/src/extensions/guided-tour';
+import type { INTERNAL_DO_NOT_USE_GuidedTour as GuidedTour } from '@console/dynamic-plugin-sdk/src/extensions/guided-tour';
+import { INTERNAL_DO_NOT_USE_isGuidedTour as isGuidedTour } from '@console/dynamic-plugin-sdk/src/extensions/guided-tour';
 import { getFlagsObject } from '@console/internal/reducers/features';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { useTranslatedExtensions } from '@console/plugin-sdk/src/utils/useTranslatedExtensions';
 import { useUserSettingsCompatibility } from '@console/shared/src/hooks/useUserSettingsCompatibility';
 import { TourActions, TOUR_LOCAL_STORAGE_KEY } from './const';
-import { TourDataType, Step } from './type';
+import type { TourDataType, Step } from './type';
 import { filterTourBasedonPermissionAndFlag } from './utils';
 
 type TourStateAction = { type: TourActions; payload?: { completed?: boolean } };

@@ -2,7 +2,8 @@ import { act, renderHook } from '@testing-library/react';
 import { checkAccess } from '@console/dynamic-plugin-sdk/src/app/components/utils/rbac';
 import { useExtensions } from '@console/plugin-sdk/src/api/useExtensions';
 import { usePerspectives } from '..';
-import { Perspective, PerspectiveVisibilityState } from '../perspective-utils';
+import type { Perspective } from '../perspective-utils';
+import { PerspectiveVisibilityState } from '../perspective-utils';
 
 const useExtensionsMock = useExtensions as jest.Mock;
 

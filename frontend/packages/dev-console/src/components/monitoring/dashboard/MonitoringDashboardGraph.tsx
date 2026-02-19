@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import { QueryBrowser } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { dashboardsSetEndTime, dashboardsSetTimespan } from '@console/internal/actions/observe';
-import { Humanize } from '@console/internal/components/utils';
-import { ByteDataTypes } from '@console/shared/src/graph-helper/data-utils';
+import type { Humanize } from '@console/internal/components/utils';
+import type { ByteDataTypes } from '@console/shared/src/graph-helper/data-utils';
 import './MonitoringDashboardGraph.scss';
 
 export enum GraphTypes {

@@ -1,7 +1,5 @@
-import {
-  ExternalLinkButton as PfExternalLinkButton,
-  ExternalLinkButtonProps,
-} from '@patternfly/react-component-groups';
+import type { ExternalLinkButtonProps } from '@patternfly/react-component-groups';
+import { ExternalLinkButton as PfExternalLinkButton } from '@patternfly/react-component-groups';
 import { useTranslation } from 'react-i18next';
 
 export type { ExternalLinkButtonProps } from '@patternfly/react-component-groups';

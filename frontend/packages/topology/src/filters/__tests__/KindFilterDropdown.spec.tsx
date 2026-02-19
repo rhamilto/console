@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DisplayFilters, TopologyDisplayFilterType } from '../../topology-types';
+import type { DisplayFilters } from '../../topology-types';
+import { TopologyDisplayFilterType } from '../../topology-types';
 import { DEFAULT_TOPOLOGY_FILTERS } from '../const';
 import KindFilterDropdown from '../KindFilterDropdown';
 

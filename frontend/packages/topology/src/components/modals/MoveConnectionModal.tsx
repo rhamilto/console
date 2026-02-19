@@ -1,5 +1,6 @@
 import type { FC, Ref } from 'react';
 import { useState, useCallback } from 'react';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   FormGroup,
   Title,
@@ -7,12 +8,12 @@ import {
   SelectList,
   SelectOption,
   MenuToggle,
-  MenuToggleElement,
 } from '@patternfly/react-core';
-import { Edge, Node } from '@patternfly/react-topology';
-import { Formik, FormikProps, FormikValues } from 'formik';
+import type { Edge, Node } from '@patternfly/react-topology';
+import type { FormikProps, FormikValues } from 'formik';
+import { Formik } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import {
   ModalTitle,
@@ -21,7 +22,7 @@ import {
   ModalWrapper,
 } from '@console/internal/components/factory/modal';
 import { ResourceIcon } from '@console/internal/components/utils';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   TYPE_EVENT_SOURCE_LINK,
   TYPE_KAFKA_CONNECTION_LINK,

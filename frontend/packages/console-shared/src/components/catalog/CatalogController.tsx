@@ -4,8 +4,12 @@ import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom-v5-compat';
 import { FLAG_TECH_PREVIEW } from '@console/app/src/consts';
-import { ResolvedExtension, CatalogItemType, CatalogCategory } from '@console/dynamic-plugin-sdk';
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
+import type {
+  ResolvedExtension,
+  CatalogItemType,
+  CatalogCategory,
+} from '@console/dynamic-plugin-sdk';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
 import { useQueryParamsMutator } from '@console/internal/components/utils/router';
 import { skeletonCatalog } from '@console/internal/components/utils/skeleton-catalog';
 import { StatusBox } from '@console/internal/components/utils/status-box';
@@ -21,14 +25,14 @@ import CatalogTile from './CatalogTile';
 import CatalogDetailsModal from './details/CatalogDetailsModal';
 import { getURLWithParams, useGetAllDisabledSubCatalogs } from './utils/catalog-utils';
 import { determineAvailableFilters } from './utils/filter-utils';
-import {
+import type {
   CatalogFilters,
-  CatalogQueryParams,
   CatalogService,
   CatalogStringMap,
   CatalogType,
   CatalogFilterGroupMap,
 } from './utils/types';
+import { CatalogQueryParams } from './utils/types';
 
 type CatalogControllerProps = CatalogService & {
   enableDetailsPanel?: boolean;

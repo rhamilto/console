@@ -1,11 +1,13 @@
 import type { FC } from 'react';
 import { useMemo, useCallback } from 'react';
-import { FormikValues, useFormikContext } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as _ from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import { ImportStrategy } from '@console/git-service/src/types';
 import { LoadingInline } from '@console/internal/components/utils';
-import { SelectInputOption, SingleDropdownField, useFlag } from '@console/shared';
+import type { SelectInputOption } from '@console/shared';
+import { SingleDropdownField, useFlag } from '@console/shared';
 import { FLAG_OPENSHIFT_BUILDCONFIG, FLAG_OPENSHIFT_PIPELINE } from '../../../../const';
 import {
   isPreferredStrategyAvailable,

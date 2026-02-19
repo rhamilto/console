@@ -15,9 +15,11 @@ import {
 } from '@console/internal/components/utils';
 import { fromNow } from '@console/internal/components/utils/datetime';
 import { BuildConfigModel } from '@console/internal/models';
-import { K8sResourceKind, referenceFor } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { BuildPhase, startBuild } from '@console/internal/module/k8s/builds';
-import { LogSnippet, Status, BuildConfigOverviewItem } from '@console/shared';
+import type { BuildConfigOverviewItem } from '@console/shared';
+import { LogSnippet, Status } from '@console/shared';
 import './BuildOverview.scss';
 
 const MAX_VISIBLE = 3;

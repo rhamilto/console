@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { useRoutesWatcher } from '@console/shared';
 import { ROUTE_DISABLED_ANNOTATION, ROUTE_URL_ANNOTATION } from '../const';
 import { getRoutesURL } from '../utils/topology-utils';

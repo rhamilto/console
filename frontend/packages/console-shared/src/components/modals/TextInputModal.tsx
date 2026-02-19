@@ -15,7 +15,7 @@ import {
 } from '@patternfly/react-core';
 import type { TextInputProps } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 
 export interface TextInputModalProps {
   title: string;

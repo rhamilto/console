@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as tsj from 'ts-json-schema-generator';
 import * as ts from 'typescript';
-import { ConsoleTypeDeclarations } from '../utils/type-resolver';
+import type { ConsoleTypeDeclarations } from '../utils/type-resolver';
 
 /**
  * Parse references to `CodeRef<T>` functions as references to `EncodedCodeRef` object literals.

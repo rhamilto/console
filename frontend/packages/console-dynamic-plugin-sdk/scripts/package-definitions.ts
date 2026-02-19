@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as glob from 'glob';
 import * as _ from 'lodash';
-import * as readPkg from 'read-pkg';
+import type { PackageJson } from 'read-pkg';
 import * as semver from 'semver';
 import {
   sharedPluginModules,
@@ -14,7 +14,7 @@ type GeneratedPackage = {
   /** Package output directory. */
   outDir: string;
   /** Package manifest. Note: `version` is updated via the publish script. */
-  manifest: readPkg.PackageJson;
+  manifest: PackageJson;
   /** Additional files or directories to copy to the package output directory. */
   filesToCopy: Record<string, string>;
 };
@@ -22,12 +22,12 @@ type GeneratedPackage = {
 type MissingDependencyCallback = (name: string) => void;
 
 type GetPackageDefinition = (
-  sdkPackage: readPkg.PackageJson,
-  rootPackage: readPkg.PackageJson,
+  sdkPackage: PackageJson,
+  rootPackage: PackageJson,
   missingDepCallback: MissingDependencyCallback,
 ) => GeneratedPackage;
 
-const commonManifestFields: Partial<readPkg.PackageJson> = {
+const commonManifestFields: Partial<PackageJson> = {
   license: 'Apache-2.0',
   homepage:
     'https://github.com/openshift/console/tree/master/frontend/packages/console-dynamic-plugin-sdk',
@@ -71,7 +71,7 @@ const getReferencedAssets = (outDir: string) => {
 };
 
 const parseDeps = (
-  pkg: readPkg.PackageJson,
+  pkg: PackageJson,
   depNames: string[],
   missingDepCallback: MissingDependencyCallback,
 ) => {
@@ -81,15 +81,12 @@ const parseDeps = (
 };
 
 const parseDepsAs = (
-  pkg: readPkg.PackageJson,
+  pkg: PackageJson,
   deps: { [depName: string]: string },
   missingDepCallback: MissingDependencyCallback,
 ) => _.mapKeys(parseDeps(pkg, Object.keys(deps), missingDepCallback), (value, key) => deps[key]);
 
-const parseSharedModuleDeps = (
-  pkg: readPkg.PackageJson,
-  missingDepCallback: MissingDependencyCallback,
-) =>
+const parseSharedModuleDeps = (pkg: PackageJson, missingDepCallback: MissingDependencyCallback) =>
   parseDeps(
     pkg,
     sharedPluginModules.filter(
@@ -102,7 +99,7 @@ const parseSharedModuleDeps = (
   );
 
 const getMinDepVersion = (
-  pkg: readPkg.PackageJson,
+  pkg: PackageJson,
   depName: string,
   missingDepCallback: MissingDependencyCallback,
 ) => {

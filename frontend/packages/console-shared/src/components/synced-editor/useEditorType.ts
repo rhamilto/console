@@ -4,7 +4,7 @@ import {
   usePreferredCreateEditMethod,
 } from '@console/app/src/components/user-preferences/synced-editor/usePreferredCreateEditMethod';
 import { useUserSettings } from '../../hooks/useUserSettings';
-import { EditorType } from './editor-toggle';
+import type { EditorType } from './editor-toggle';
 
 export const useEditorType = (
   lastViewUserSettingKey: string,

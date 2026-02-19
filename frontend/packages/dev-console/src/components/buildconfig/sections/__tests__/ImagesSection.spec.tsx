@@ -2,13 +2,15 @@ import type { FC, ReactNode } from 'react';
 import { FormGroup } from '@patternfly/react-core';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import * as _ from 'lodash';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
 import { DropdownField } from '@console/shared/src';
 import { BuildStrategyType } from '../../types';
-import ImagesSection, { ImagesSectionFormData } from '../ImagesSection';
+import type { ImagesSectionFormData } from '../ImagesSection';
+import ImagesSection from '../ImagesSection';
 
 const mockImageStream = (props) => (
   <FormGroup fieldId="image-stream-dropdowns" label={props.label} data-test={props.dataTest}>

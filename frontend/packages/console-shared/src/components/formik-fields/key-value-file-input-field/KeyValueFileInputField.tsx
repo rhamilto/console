@@ -12,11 +12,12 @@ import {
 } from '@patternfly/react-core';
 import { MinusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/minus-circle-icon';
 import { PlusCircleIcon } from '@patternfly/react-icons/dist/esm/icons/plus-circle-icon';
-import { FieldArray, FormikValues, useField, useFormikContext } from 'formik';
+import type { FormikValues } from 'formik';
+import { FieldArray, useField, useFormikContext } from 'formik';
 import { get, uniqueId } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { DroppableFileInputField, InputField, useFormikValidationFix } from '@console/shared/src';
-import { FieldProps } from '../field-types';
+import type { FieldProps } from '../field-types';
 import { getFieldId } from '../field-utils';
 
 import './KeyValueFileInputField.scss';

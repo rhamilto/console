@@ -1,13 +1,12 @@
 import type { ReactNode } from 'react';
 import { useMemo, useCallback } from 'react';
-import {
-  useResolvedExtensions,
+import type {
   NodeStatus,
-  isNodeStatus,
   WatchK8sResource,
   WatchK8sResults,
   NodeKind,
 } from '@console/dynamic-plugin-sdk';
+import { useResolvedExtensions, isNodeStatus } from '@console/dynamic-plugin-sdk';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
 
 type PopoverContent = {

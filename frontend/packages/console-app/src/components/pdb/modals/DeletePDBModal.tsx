@@ -4,10 +4,10 @@ import { Form } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import { t_global_icon_color_status_warning_default as warningColor } from '@patternfly/react-tokens';
 import { useTranslation, Trans } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   ModalBody,
-  ModalComponentProps,
   ModalSubmitFooter,
   ModalTitle,
   ModalWrapper,
@@ -15,7 +15,7 @@ import {
 import { LoadingInline } from '@console/internal/components/utils/status-box';
 import { k8sKill } from '@console/internal/module/k8s';
 import { PodDisruptionBudgetModel } from '../../../models';
-import { PodDisruptionBudgetKind } from '../types';
+import type { PodDisruptionBudgetKind } from '../types';
 
 const DeletePDBModal: FC<DeletePDBModalProps> = ({ close, pdb, workloadName }) => {
   const [submitError, setSubmitError] = useState<string>(null);

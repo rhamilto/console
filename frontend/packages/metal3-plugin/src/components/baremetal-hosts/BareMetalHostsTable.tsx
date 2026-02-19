@@ -1,9 +1,10 @@
 import type { FC, ComponentProps } from 'react';
 import { sortable } from '@patternfly/react-table';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { DASH } from '@console/dynamic-plugin-sdk/src/app/constants';
-import { TableData, Table, RowFunctionArgs } from '@console/internal/components/factory';
+import type { RowFunctionArgs } from '@console/internal/components/factory';
+import { TableData, Table } from '@console/internal/components/factory';
 import { ResourceLink } from '@console/internal/components/utils';
 import { referenceForModel } from '@console/internal/module/k8s';
 import LazyActionMenu, {
@@ -15,7 +16,7 @@ import { BMO_ENABLED_FLAG } from '../../features';
 import { useMaintenanceCapability } from '../../hooks/useMaintenanceCapability';
 import { BareMetalHostModel } from '../../models';
 import { getHostBMCAddress, getHostVendorInfo } from '../../selectors';
-import { BareMetalHostBundle } from '../types';
+import type { BareMetalHostBundle } from '../types';
 import BareMetalHostRole from './BareMetalHostRole';
 import BareMetalHostSecondaryStatus from './BareMetalHostSecondaryStatus';
 import BareMetalHostStatus from './BareMetalHostStatus';

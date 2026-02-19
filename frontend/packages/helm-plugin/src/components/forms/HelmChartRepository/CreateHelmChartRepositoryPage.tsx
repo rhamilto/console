@@ -4,11 +4,8 @@ import { useParams } from 'react-router-dom-v5-compat';
 import NamespacedPage, {
   NamespacedPageVariants,
 } from '@console/dev-console/src/components/NamespacedPage';
-import {
-  K8sResourceKindReference,
-  useAccessReview,
-  useActivePerspective,
-} from '@console/dynamic-plugin-sdk/src';
+import type { K8sResourceKindReference } from '@console/dynamic-plugin-sdk/src';
+import { useAccessReview, useActivePerspective } from '@console/dynamic-plugin-sdk/src';
 import {
   HelmChartRepositoryModel,
   ProjectHelmChartRepositoryModel,

@@ -1,14 +1,15 @@
 import type { FC, KeyboardEvent, FormEvent } from 'react';
 import { useState, useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   createModalLauncher,
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
-  ModalComponentProps,
 } from '@console/internal/components/factory/modal';
-import { k8sKill, K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sKill } from '@console/internal/module/k8s';
 import { YellowExclamationTriangleIcon } from '@console/shared';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 

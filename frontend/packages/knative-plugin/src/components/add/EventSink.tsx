@@ -6,12 +6,8 @@ import { useSelector } from 'react-redux';
 import { useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { k8sCreateResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { history } from '@console/internal/components/utils';
-import {
-  K8sResourceKind,
-  modelFor,
-  referenceFor,
-  getGroupVersionKind,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { modelFor, referenceFor, getGroupVersionKind } from '@console/internal/module/k8s';
 import { getActiveApplication } from '@console/internal/reducers/ui';
 import { ALL_APPLICATIONS_KEY, usePerspectives } from '@console/shared';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
@@ -29,7 +25,11 @@ import { craftResourceKey } from '../pub-sub/pub-sub-utils';
 import { EVENT_SOURCES_APP } from './const';
 import { eventSinkValidationSchema } from './eventSink-validation-utils';
 import EventSinkForm from './EventSinkForm';
-import { KnEventCatalogMetaData, EventSinkFormData, EventSinkSyncFormData } from './import-types';
+import type {
+  KnEventCatalogMetaData,
+  EventSinkFormData,
+  EventSinkSyncFormData,
+} from './import-types';
 import KnEventMetaDescription from './KnEventMetaDescription';
 
 interface EventSinkProps {

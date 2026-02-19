@@ -1,8 +1,10 @@
 import type { FC, ReactNode } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
-import NameSection, { NameSectionFormData } from '../NameSection';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
+import type { NameSectionFormData } from '../NameSection';
+import NameSection from '../NameSection';
 
 interface WrapperProps extends FormikConfig<NameSectionFormData> {
   children?: ReactNode;

@@ -5,10 +5,10 @@ import { ErrorPage404 } from '@console/internal/components/error';
 import { withStartGuide } from '@console/internal/components/start-guide';
 import { LoadingBox } from '@console/internal/components/utils';
 import { connectToPlural } from '@console/internal/kinds';
+import type { K8sKind } from '@console/internal/module/k8s';
 import {
   apiVersionForReference,
   isGroupVersionKind,
-  K8sKind,
   kindForReference,
 } from '@console/internal/module/k8s';
 import { getBadgeFromType } from '@console/shared/src';

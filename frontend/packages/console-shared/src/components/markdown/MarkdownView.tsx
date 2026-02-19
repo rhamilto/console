@@ -4,7 +4,8 @@ import { useMemo, useRef, useCallback, useEffect, useState } from 'react';
 import { css } from '@patternfly/react-styles';
 import * as _ from 'lodash';
 import * as sanitizeHtml from 'sanitize-html';
-import { Converter, ShowdownOptions, ShowdownExtension } from 'showdown';
+import type { ShowdownOptions, ShowdownExtension } from 'showdown';
+import { Converter } from 'showdown';
 import { useForceRender, useResizeObserver } from '../../hooks';
 
 import './MarkdownView.scss';

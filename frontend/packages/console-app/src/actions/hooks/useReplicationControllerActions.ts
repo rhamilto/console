@@ -1,15 +1,16 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Action } from '@console/dynamic-plugin-sdk';
+import type { Action } from '@console/dynamic-plugin-sdk';
 import { k8sPatchResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { useDeepCompareMemoize } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useDeepCompareMemoize';
 import { rollbackModal } from '@console/internal/components/modals';
 import { asAccessReview } from '@console/internal/components/utils/rbac';
 import { DeploymentConfigModel } from '@console/internal/models';
-import { ReplicationControllerKind, K8sModel } from '@console/internal/module/k8s';
+import type { ReplicationControllerKind, K8sModel } from '@console/internal/module/k8s';
 import { getOwnerNameByKind } from '@console/shared/src';
 import { useWarningModal } from '@console/shared/src/hooks/useWarningModal';
-import { ReplicationControllerActionCreator, ActionObject } from './types';
+import type { ActionObject } from './types';
+import { ReplicationControllerActionCreator } from './types';
 
 const INACTIVE_STATUSES = ['New', 'Pending', 'Running'];
 

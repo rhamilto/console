@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { memo } from 'react';
-import { Nav, NavProps, PageSidebar, PageSidebarBody } from '@patternfly/react-core';
+import type { NavProps } from '@patternfly/react-core';
+import { Nav, PageSidebar, PageSidebarBody } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import NavHeader from './NavHeader';
 import PerspectiveNav from './PerspectiveNav';

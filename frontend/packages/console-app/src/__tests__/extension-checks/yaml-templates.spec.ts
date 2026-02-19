@@ -1,11 +1,10 @@
-import { Map as ImmutableMap } from 'immutable';
+import type { Map as ImmutableMap } from 'immutable';
 import * as _ from 'lodash';
-import {
-  YAMLTemplate,
-  isYAMLTemplate,
-} from '@console/dynamic-plugin-sdk/src/extensions/yaml-templates';
+import type { YAMLTemplate } from '@console/dynamic-plugin-sdk/src/extensions/yaml-templates';
+import { isYAMLTemplate } from '@console/dynamic-plugin-sdk/src/extensions/yaml-templates';
 import { baseTemplates } from '@console/internal/models/yaml-templates';
-import { referenceForExtensionModel, GroupVersionKind } from '@console/internal/module/k8s';
+import type { GroupVersionKind } from '@console/internal/module/k8s';
+import { referenceForExtensionModel } from '@console/internal/module/k8s';
 import { useExtensions } from '@console/plugin-sdk/src/api/useExtensions';
 import { renderHookWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 

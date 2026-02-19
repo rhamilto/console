@@ -1,8 +1,10 @@
 import type { ComponentProps, MouseEvent, ComponentType, FC } from 'react';
 import { useContext, useState, useCallback } from 'react';
-import { GraphElement, ElementContext, ContextMenu } from '@patternfly/react-topology';
+import type { GraphElement } from '@patternfly/react-topology';
+import { ElementContext, ContextMenu } from '@patternfly/react-topology';
 import { observer } from 'mobx-react';
-import { ActionContext, ActionServiceProvider } from '@console/shared';
+import type { ActionContext } from '@console/shared';
+import { ActionServiceProvider } from '@console/shared';
 import { createContextMenuItems } from '../../../actions';
 
 type Reference = ComponentProps<typeof ContextMenu>['reference'];

@@ -39,16 +39,18 @@ import {
   StorageClassModel,
   NamespaceModel,
 } from '@console/internal/models';
-import {
-  referenceForModel,
-  k8sCreate,
-  referenceFor,
+import type {
   VolumeSnapshotClassKind,
   StorageClassResourceKind,
   PersistentVolumeClaimKind,
   VolumeSnapshotKind,
-  apiVersionForModel,
   ListKind,
+} from '@console/internal/module/k8s';
+import {
+  referenceForModel,
+  k8sCreate,
+  referenceFor,
+  apiVersionForModel,
 } from '@console/internal/module/k8s';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { PageHeading } from '@console/shared/src/components/heading/PageHeading';

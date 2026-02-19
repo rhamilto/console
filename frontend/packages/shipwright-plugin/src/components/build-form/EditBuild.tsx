@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Formik, FormikHelpers } from 'formik';
+import type { FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { history, resourcePathFromModel } from '@console/internal/components/utils';
@@ -8,10 +9,10 @@ import { k8sCreate, k8sUpdate } from '@console/internal/module/k8s';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeJSToYAML, safeYAMLToJS } from '@console/shared/src/utils/yaml';
 import { BuildModel } from '../../models';
-import { Build } from '../../types';
+import type { Build } from '../../types';
 import BuildForm from './BuildForm';
 import { convertBuildToFormData, convertFormDataToBuild } from './form-utils';
-import { BuildFormikValues } from './types';
+import type { BuildFormikValues } from './types';
 import { validationSchema } from './validation';
 
 type EditBuildProps = {

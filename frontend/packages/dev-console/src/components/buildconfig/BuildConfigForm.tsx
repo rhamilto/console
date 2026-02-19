@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { FormikProps } from 'formik';
+import type { FormikProps } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,8 +17,9 @@ import { EditorType } from '@console/shared/src/components/synced-editor/editor-
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import BuildConfigFormEditor from './BuildConfigFormEditor';
 import { convertBuildConfigToFormData, convertFormDataToYAML } from './form-utils';
-import { BuildConfigFormikValues } from './form-utils/types';
-import { BuildConfig, BuildConfigModel } from './types';
+import type { BuildConfigFormikValues } from './form-utils/types';
+import type { BuildConfig } from './types';
+import { BuildConfigModel } from './types';
 
 const BuildConfigForm: FC<
   FormikProps<BuildConfigFormikValues> & {

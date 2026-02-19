@@ -1,10 +1,11 @@
-import { TFunction } from 'i18next';
-import { Action, K8sKind } from '@console/dynamic-plugin-sdk';
+import type { TFunction } from 'i18next';
+import type { Action, K8sKind } from '@console/dynamic-plugin-sdk';
 import { coFetchJSON } from '@console/internal/co-fetch';
-import { K8sResourceKind, referenceFor } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { deleteResourceModal } from '@console/shared';
 import { ProjectHelmChartRepositoryModel } from '../models';
-import { HelmActionsScope } from './types';
+import type { HelmActionsScope } from './types';
 
 export const getHelmDeleteAction = (
   {

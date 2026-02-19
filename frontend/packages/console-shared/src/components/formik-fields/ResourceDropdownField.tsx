@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 import { FormGroup, FormHelperText, HelperText, HelperTextItem } from '@patternfly/react-core';
-import { useField, useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { Firehose } from '@console/internal/components/utils/firehose';
 import type { FirehoseResource } from '@console/internal/components/utils/types';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { useFormikValidationFix } from '../../hooks/formik-validation-fix';
-import { ResourceDropdown, ResourceDropdownItems } from '../dropdown/ResourceDropdown';
-import { DropdownFieldProps } from './field-types';
+import type { ResourceDropdownItems } from '../dropdown/ResourceDropdown';
+import { ResourceDropdown } from '../dropdown/ResourceDropdown';
+import type { DropdownFieldProps } from './field-types';
 import { getFieldId } from './field-utils';
 
 export interface ResourceDropdownFieldProps extends DropdownFieldProps {

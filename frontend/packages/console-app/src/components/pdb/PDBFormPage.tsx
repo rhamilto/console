@@ -5,7 +5,8 @@ import { useParams, useLocation } from 'react-router-dom-v5-compat';
 import { CreateYAML } from '@console/internal/components/create-yaml';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { LoadingBox } from '@console/internal/components/utils/status-box';
-import { K8sPodControllerKind, getGroupVersionKind } from '@console/internal/module/k8s';
+import type { K8sPodControllerKind } from '@console/internal/module/k8s';
+import { getGroupVersionKind } from '@console/internal/module/k8s';
 import { PageHeading } from '@console/shared/src/components/heading/PageHeading';
 import { SyncedEditor } from '@console/shared/src/components/synced-editor';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
@@ -13,7 +14,7 @@ import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { PodDisruptionBudgetModel } from '../../models';
 import { pdbToK8sResource, mergeInitialYAMLWithExistingResource } from './pdb-models';
 import PDBForm from './PDBForm';
-import { PodDisruptionBudgetKind } from './types';
+import type { PodDisruptionBudgetKind } from './types';
 import { getPDBResource } from './utils/get-pdb-resources';
 
 const LAST_VIEWED_EDITOR_TYPE_USERSETTING_KEY = 'console.pdbForm.editor.lastView';

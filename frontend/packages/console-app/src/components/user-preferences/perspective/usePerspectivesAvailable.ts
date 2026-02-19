@@ -1,4 +1,4 @@
-import { SetFeatureFlag } from '@console/dynamic-plugin-sdk/src';
+import type { SetFeatureFlag } from '@console/dynamic-plugin-sdk/src';
 import { usePerspectives } from '@console/shared/src';
 
 export const usePerspectivesAvailable = (setFeatureFlag: SetFeatureFlag) => {

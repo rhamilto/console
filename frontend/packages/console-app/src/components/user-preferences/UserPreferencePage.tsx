@@ -1,21 +1,13 @@
 import { useMemo, useState, useEffect, createRef } from 'react';
 import type { FC, ReactElement, JSXElementConstructor, MouseEvent } from 'react';
-import {
-  Tabs,
-  Tab,
-  TabProps,
-  TabTitleText,
-  TabContent,
-  TabContentProps,
-  PageSection,
-} from '@patternfly/react-core';
+import type { TabProps, TabContentProps } from '@patternfly/react-core';
+import { Tabs, Tab, TabTitleText, TabContent, PageSection } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom-v5-compat';
+import type { UserPreferenceGroup, UserPreferenceItem } from '@console/dynamic-plugin-sdk';
 import {
   useResolvedExtensions,
-  UserPreferenceGroup,
   isUserPreferenceGroup,
-  UserPreferenceItem,
   isUserPreferenceItem,
 } from '@console/dynamic-plugin-sdk';
 import { history } from '@console/internal/components/utils/router';
@@ -28,7 +20,7 @@ import { useQueryParams } from '@console/shared/src/hooks/useQueryParams';
 import { orderExtensionBasedOnInsertBeforeAndAfter } from '@console/shared/src/utils/order-extensions';
 import { isModifiedEvent } from '@console/shared/src/utils/utils';
 import { USER_PREFERENCES_BASE_URL } from './const';
-import {
+import type {
   UserPreferenceTabGroup,
   ResolvedUserPreferenceItem,
   ResolvedUserPreferenceGroup,

@@ -4,12 +4,11 @@ import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import {
+import type {
   CreateProjectModal as CreateProjectModalExtension,
   CreateProjectModalProps,
-  isCreateProjectModal,
-  useResolvedExtensions,
 } from '@console/dynamic-plugin-sdk/src';
+import { isCreateProjectModal, useResolvedExtensions } from '@console/dynamic-plugin-sdk/src';
 import { setFlag } from '@console/internal/actions/flags';
 import {
   documentationURLs,
@@ -22,7 +21,7 @@ import { ProjectRequestModel } from '@console/internal/models';
 import { k8sCreate, referenceFor } from '@console/internal/module/k8s';
 import { ExternalLink } from '@console/shared/src/components/links/ExternalLink';
 import { FLAGS } from '@console/shared/src/constants/common';
-import { ModalComponent } from 'packages/console-dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
+import type { ModalComponent } from 'packages/console-dynamic-plugin-sdk/src/app/modal-support/ModalProvider';
 
 const DefaultCreateProjectModal: ModalComponent<CreateProjectModalProps> = ({
   closeModal,

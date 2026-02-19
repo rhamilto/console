@@ -4,7 +4,7 @@ import { MagicIcon } from '@patternfly/react-icons';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { action } from 'typesafe-actions';
-import { CodeEditorToolbarProps } from '@console/dynamic-plugin-sdk';
+import type { CodeEditorToolbarProps } from '@console/dynamic-plugin-sdk';
 import { ActionType } from '@console/internal/reducers/ols';
 import { useOLSConfig } from '@console/shared/src/hooks/ols-hook';
 import { useIsFullscreen } from '@console/shared/src/hooks/useFullscreen';

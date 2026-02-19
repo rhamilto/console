@@ -1,8 +1,8 @@
 import type { ReactNode, FC } from 'react';
 import { isValidElement } from 'react';
 import { Card, SimpleList, Title } from '@patternfly/react-core';
-import { ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
-import { CodeRef } from '@console/dynamic-plugin-sdk/src/types';
+import type { ResolvedExtension, AddAction } from '@console/dynamic-plugin-sdk';
+import type { CodeRef } from '@console/dynamic-plugin-sdk/src/types';
 import { getImageForIconClass } from '@console/internal/components/catalog/catalog-item-icon';
 import { isValidUrl } from '@console/shared';
 import AddCardItem from './AddCardItem';

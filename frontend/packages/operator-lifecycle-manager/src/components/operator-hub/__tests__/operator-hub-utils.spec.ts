@@ -1,9 +1,9 @@
-import {
+import type {
   AuthenticationKind,
   CloudCredentialKind,
   InfrastructureKind,
 } from '@console/internal/module/k8s';
-import { PackageManifestKind } from '../../../types';
+import type { PackageManifestKind } from '../../../types';
 import { InfrastructureFeature, OLMAnnotation, ValidSubscriptionValue } from '../index';
 import {
   defaultPackageSourceMap,

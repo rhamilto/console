@@ -6,13 +6,13 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { LoadingBox, history } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { ImageStreamModel } from '@console/internal/models';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { PageHeading } from '@console/shared/src/components/heading/PageHeading';
 import { SAMPLE_APPLICATION_GROUP } from '../../const';
+import type { NormalizedBuilderImages } from '../../utils/imagestream-utils';
 import {
   normalizeBuilderImages,
-  NormalizedBuilderImages,
   getSampleRepo,
   getSampleRef,
   getSampleContextDir,
@@ -22,7 +22,8 @@ import { PipelineType } from '../pipeline-section/import-types';
 import { defaultRepositoryFormValues } from '../pipeline-section/pipeline/utils';
 import { getBaseInitialValues } from './form-initial-values';
 import { createOrUpdateResources } from './import-submit-utils';
-import { BaseFormData, BuildOptions, GitImportFormData } from './import-types';
+import type { BaseFormData, GitImportFormData } from './import-types';
+import { BuildOptions } from './import-types';
 import { detectGitType, validationSchema } from './import-validation-utils';
 import ImportSampleForm from './ImportSampleForm';
 

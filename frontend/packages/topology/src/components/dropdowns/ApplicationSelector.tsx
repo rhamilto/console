@@ -8,7 +8,8 @@ import {
   TextInputTypes,
   ValidatedOptions,
 } from '@patternfly/react-core';
-import { useFormikContext, FormikValues, useField } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext, useField } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { InputField, getFieldId, useFormikValidationFix } from '@console/shared';

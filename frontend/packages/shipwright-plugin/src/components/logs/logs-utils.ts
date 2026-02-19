@@ -10,15 +10,10 @@ import {
   LineBuffer,
 } from '@console/internal/components/utils';
 import { PodModel } from '@console/internal/models';
-import {
-  PodKind,
-  ContainerSpec,
-  ContainerStatus,
-  resourceURL,
-  k8sGet,
-} from '@console/internal/module/k8s';
+import type { PodKind, ContainerSpec, ContainerStatus } from '@console/internal/module/k8s';
+import { resourceURL, k8sGet } from '@console/internal/module/k8s';
 import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
-import { TaskRunKind } from '../../types';
+import type { TaskRunKind } from '../../types';
 import { ComputedStatus, SucceedConditionReason } from './log-snippet-types';
 import { getTaskRunLog } from './tekton-results';
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { PageHeader, PageHeaderLinkProps } from '@patternfly/react-component-groups';
+import type { PageHeaderLinkProps } from '@patternfly/react-component-groups';
+import { PageHeader } from '@patternfly/react-component-groups';
 import { ActionList, ActionListGroup, ActionListItem } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import { FavoriteButton } from '@console/app/src/components/favorite/FavoriteButton';

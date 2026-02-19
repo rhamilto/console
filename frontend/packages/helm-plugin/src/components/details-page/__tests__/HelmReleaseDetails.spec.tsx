@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import * as Router from 'react-router-dom-v5-compat';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import { mockHelmReleases } from '../../__tests__/helm-release-mock-data';
-import HelmReleaseDetails, { LoadedHelmReleaseDetails } from '../HelmReleaseDetails';
+import type HelmReleaseDetails from '../HelmReleaseDetails';
+import { LoadedHelmReleaseDetails } from '../HelmReleaseDetails';
 
 let helmReleaseDetailsProps: ComponentProps<typeof HelmReleaseDetails>;
 let loadedHelmReleaseDetailsProps: ComponentProps<typeof LoadedHelmReleaseDetails>;

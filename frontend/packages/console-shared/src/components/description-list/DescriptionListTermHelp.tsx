@@ -1,10 +1,12 @@
+import type {
+  DescriptionListTermHelpTextProps,
+  DescriptionListTermHelpTextButtonProps,
+  PopoverProps,
+} from '@patternfly/react-core';
 import {
   DescriptionListTermHelpText,
-  DescriptionListTermHelpTextProps,
   DescriptionListTermHelpTextButton,
-  DescriptionListTermHelpTextButtonProps,
   Popover,
-  PopoverProps,
 } from '@patternfly/react-core';
 
 type AnyProps = {

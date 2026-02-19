@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { Accordion, ActionGroup, Button, Alert } from '@patternfly/react-core';
-import Form, { FormProps } from '@rjsf/core';
+import type { FormProps } from '@rjsf/core';
+import Form from '@rjsf/core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { ErrorBoundaryFallbackProps } from '@console/dynamic-plugin-sdk';
+import type { ErrorBoundaryFallbackProps } from '@console/dynamic-plugin-sdk';
 import { history } from '@console/internal/components/utils/router';
 import { ErrorBoundary } from '@console/shared/src/components/error';
 import { K8S_UI_SCHEMA } from './const';

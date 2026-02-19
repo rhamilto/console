@@ -3,7 +3,7 @@ import { FormGroup } from '@patternfly/react-core';
 import { useField } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import { useTranslation } from 'react-i18next';
-import { FirehoseResource } from '@console/internal/components/utils';
+import type { FirehoseResource } from '@console/internal/components/utils';
 import { SecretModel } from '@console/internal/models';
 import {
   DropdownField,
@@ -12,7 +12,7 @@ import {
   CheckboxField,
 } from '@console/shared';
 import FormSection from '../../import/section/FormSection';
-import { ImageOptionType } from './ImagesSection';
+import type { ImageOptionType } from './ImagesSection';
 
 export type TriggersSectionFormData = {
   formData: {

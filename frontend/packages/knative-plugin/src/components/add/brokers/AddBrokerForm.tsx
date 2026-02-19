@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { Alert, AlertActionCloseButton, Grid, GridItem } from '@patternfly/react-core';
-import { FormikProps } from 'formik';
+import type { FormikProps } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import AppSection from '@console/dev-console/src/components/import/app/AppSection';
 import { LoadingInline, useAccessReview2 } from '@console/internal/components/utils';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   FlexForm,
   FormBody,
@@ -20,7 +20,7 @@ import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { CREATE_APPLICATION_KEY } from '@console/topology/src/const';
 import { EventingBrokerModel } from '../../../models';
 import { LABEL_PART_OF } from '../const';
-import { AddBrokerFormYamlValues } from '../import-types';
+import type { AddBrokerFormYamlValues } from '../import-types';
 import { convertFormToBrokerYaml } from './add-broker-utils';
 
 interface AddBrokerFormProps {

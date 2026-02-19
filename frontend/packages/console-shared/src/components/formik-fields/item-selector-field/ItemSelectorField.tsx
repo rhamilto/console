@@ -12,7 +12,8 @@ import {
   HelperText,
   HelperTextItem,
 } from '@patternfly/react-core';
-import { useField, useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';

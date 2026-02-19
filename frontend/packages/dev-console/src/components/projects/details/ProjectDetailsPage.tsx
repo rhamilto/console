@@ -5,7 +5,8 @@ import { ProjectDashboard } from '@console/internal/components/dashboard/project
 import { DetailsPage } from '@console/internal/components/factory';
 import { NamespaceDetails } from '@console/internal/components/namespace';
 import { withStartGuide } from '@console/internal/components/start-guide';
-import { history, useAccessReview, Page } from '@console/internal/components/utils';
+import type { Page } from '@console/internal/components/utils';
+import { history, useAccessReview } from '@console/internal/components/utils';
 import { ProjectModel, RoleBindingModel } from '@console/internal/models';
 import { referenceForModel } from '@console/internal/module/k8s';
 import LazyActionMenu from '@console/shared/src/components/actions/LazyActionMenu';

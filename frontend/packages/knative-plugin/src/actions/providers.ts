@@ -1,5 +1,6 @@
 import { useMemo, useContext } from 'react';
-import { GraphElement, Graph, Node, Edge, isEdge, isGraph } from '@patternfly/react-topology';
+import type { GraphElement, Graph, Node, Edge } from '@patternfly/react-topology';
+import { isEdge, isGraph } from '@patternfly/react-topology';
 import { getHealthChecksAction } from '@console/app/src/actions/creators/health-checks-factory';
 import { DeploymentActionCreator, CommonActionCreator } from '@console/app/src/actions/hooks/types';
 import { useCommonActions } from '@console/app/src/actions/hooks/useCommonActions';
@@ -7,13 +8,9 @@ import { useCommonResourceActions } from '@console/app/src/actions/hooks/useComm
 import { useDeploymentActions } from '@console/app/src/actions/hooks/useDeploymentActions';
 import { disabledActionsFilter } from '@console/dev-console/src/actions/add-resources';
 import { getDisabledAddActions } from '@console/dev-console/src/utils/useAddActionExtensions';
-import { Action } from '@console/dynamic-plugin-sdk';
-import {
-  K8sResourceKind,
-  referenceFor,
-  referenceForModel,
-  modelFor,
-} from '@console/internal/module/k8s';
+import type { Action } from '@console/dynamic-plugin-sdk';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { referenceFor, referenceForModel, modelFor } from '@console/internal/module/k8s';
 import { isCatalogTypeEnabled, useActiveNamespace } from '@console/shared';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { useMoveConnectorAction } from '@console/topology/src/actions/edgeActions';

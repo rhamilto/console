@@ -1,5 +1,5 @@
-import { useCallback, FormEvent } from 'react';
-import type { FC } from 'react';
+import { useCallback } from 'react';
+import type { FC, FormEvent } from 'react';
 import { Button, Flex, FlexItem, Label, Popover, Switch } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import { useTranslation } from 'react-i18next';

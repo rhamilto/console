@@ -8,7 +8,7 @@ import * as remotePluginModule from '@console/dynamic-plugin-sdk/src/webpack/Con
 import { trimStartMultiLine } from '../../utils/string';
 import { getTemplatePackage } from '../../utils/test-utils';
 import * as localPluginsModule from '../local-plugins';
-import { PluginPackage } from '../plugin-resolver';
+import type { PluginPackage } from '../plugin-resolver';
 
 jest.mock('@console/dynamic-plugin-sdk/src/utils/jsonc', () => ({
   ...jest.requireActual('@console/dynamic-plugin-sdk/src/utils/jsonc'),

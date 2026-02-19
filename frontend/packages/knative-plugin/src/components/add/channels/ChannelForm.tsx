@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { Alert, AlertActionCloseButton } from '@patternfly/react-core';
-import { FormikProps, FormikValues, useFormikContext } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { LoadingInline } from '@console/internal/components/utils';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   FormFooter,
   FlexForm,
@@ -24,7 +25,7 @@ import {
   channelYamltoFormData,
   getCreateChannelData,
 } from '../../../utils/create-channel-utils';
-import { AddChannelFormData, ChannelListProps, YamlFormSyncData } from '../import-types';
+import type { AddChannelFormData, ChannelListProps, YamlFormSyncData } from '../import-types';
 import ChannelSelector from './form-fields/ChannelSelector';
 import FormViewSection from './sections/FormViewSection';
 

@@ -11,15 +11,15 @@ import {
 } from '@patternfly/react-tokens';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-import { ConsoleTFunction } from '@console/dynamic-plugin-sdk';
+import type { ConsoleTFunction } from '@console/dynamic-plugin-sdk';
 import {
   StatusPopupItem,
   StatusPopupSection,
   useK8sWatchResource,
 } from '@console/dynamic-plugin-sdk/src/api/core-api';
-import { ClusterOperator } from '@console/internal/module/k8s';
+import type { ClusterOperator } from '@console/internal/module/k8s';
 import { CONSOLE_PREFIX_CLUSTER_OPERATOR, getCondition } from '../resources';
-import { K8sResourceConditionStatus } from '../resources/k8sResource';
+import type { K8sResourceConditionStatus } from '../resources/k8sResource';
 
 let ohlCounter = 0;
 const OperatorHealthLevel: { [key: string]: number } = {

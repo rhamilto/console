@@ -1,29 +1,30 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {
-  DynamicRemotePlugin,
+import type {
   EncodedExtension,
   WebpackSharedConfig,
   WebpackSharedObject,
 } from '@openshift/dynamic-plugin-sdk-webpack';
+import { DynamicRemotePlugin } from '@openshift/dynamic-plugin-sdk-webpack';
 import * as glob from 'glob';
 import * as _ from 'lodash';
 import * as readPkg from 'read-pkg';
 import * as semver from 'semver';
-import type * as webpack from 'webpack';
-import { ConsolePluginBuildMetadata, ConsolePluginPackageJSON } from '../build-types';
+import type { Compiler, WebpackPluginInstance } from 'webpack';
+import type { ConsolePluginBuildMetadata, ConsolePluginPackageJSON } from '../build-types';
 import { extensionsFile, REMOTE_ENTRY_CALLBACK } from '../constants';
 import {
   sharedPluginModules,
   getSharedModuleMetadata,
 } from '../shared-modules/shared-modules-meta';
-import { DynamicModuleMap, getDynamicModuleMap } from '../utils/dynamic-module-parser';
+import type { DynamicModuleMap } from '../utils/dynamic-module-parser';
+import { getDynamicModuleMap } from '../utils/dynamic-module-parser';
 import { parseJSONC } from '../utils/jsonc';
 import { loadSchema } from '../utils/schema';
 import { ExtensionValidator } from '../validation/ExtensionValidator';
 import { SchemaValidator } from '../validation/SchemaValidator';
 import { ValidationResult } from '../validation/ValidationResult';
-import { DynamicModuleImportLoaderOptions } from './loaders/dynamic-module-import-loader';
+import type { DynamicModuleImportLoaderOptions } from './loaders/dynamic-module-import-loader';
 
 const dynamicModuleImportLoader =
   '@openshift-console/dynamic-plugin-sdk-webpack/lib/webpack/loaders/dynamic-module-import-loader';
@@ -286,7 +287,7 @@ export type ConsoleRemotePluginOptions = Partial<{
  * @see {@link sharedPluginModules}
  * @see {@link getSharedModuleMetadata}
  */
-export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
+export class ConsoleRemotePlugin implements WebpackPluginInstance {
   private readonly adaptedOptions: Required<ConsoleRemotePluginOptions>;
 
   private readonly baseDir = process.cwd();
@@ -350,7 +351,7 @@ export class ConsoleRemotePlugin implements webpack.WebpackPluginInstance {
     );
   }
 
-  apply(compiler: webpack.Compiler) {
+  apply(compiler: Compiler) {
     const {
       pluginMetadata,
       extensions,

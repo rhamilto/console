@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import { Formik, FormikHelpers } from 'formik';
+import type { FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import { safeLoad } from 'js-yaml';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -9,18 +10,14 @@ import { HELM_CHART_CATALOG_TYPE_ID } from '@console/helm-plugin/src/const';
 import { ErrorPage404 } from '@console/internal/components/error';
 import { history, StatusBox } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import {
-  K8sResourceKindReference,
-  kindForReference,
-  modelFor,
-  referenceFor,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKindReference } from '@console/internal/module/k8s';
+import { kindForReference, modelFor, referenceFor } from '@console/internal/module/k8s';
 import { isCatalogTypeEnabled, useActiveNamespace, useQueryParams } from '@console/shared';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { HelmChartRepositoryModel, ProjectHelmChartRepositoryModel } from '../../../models';
-import { HelmChartRepositoryData, HelmChartRepositoryType } from '../../../types/helm-types';
+import type { HelmChartRepositoryData, HelmChartRepositoryType } from '../../../types/helm-types';
 import CreateHelmChartRepositoryForm from './CreateHelmChartRepositoryForm';
 import {
   getDefaultResource,

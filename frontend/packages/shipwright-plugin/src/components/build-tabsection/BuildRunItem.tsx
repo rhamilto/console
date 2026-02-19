@@ -6,7 +6,7 @@ import { resourcePath } from '@console/internal/components/utils';
 import { fromNow } from '@console/internal/components/utils/datetime';
 import { referenceForModel } from '@console/internal/module/k8s';
 import { BuildRunModel, BuildRunModelV1Alpha1 } from '../../models';
-import { BuildRun } from '../../types';
+import type { BuildRun } from '../../types';
 import { isV1Alpha1Resource } from '../../utils';
 import BuildRunStatus from '../buildrun-status/BuildRunStatus';
 

@@ -9,16 +9,12 @@ import {
   ModalBody,
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
-import {
-  K8sKind,
-  K8sResourceKind,
-  modelFor,
-  referenceFor,
-  referenceForModel,
-} from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { modelFor, referenceFor, referenceForModel } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { SubscriptionModel, InstallPlanModel } from '../../models';
-import { SubscriptionKind, InstallPlanApproval, InstallPlanKind } from '../../types';
+import type { SubscriptionKind, InstallPlanKind } from '../../types';
+import { InstallPlanApproval } from '../../types';
 
 const getApprovalStrategy = (obj: InstallPlanKind | SubscriptionKind): InstallPlanApproval =>
   (obj as SubscriptionKind)?.spec?.installPlanApproval ??

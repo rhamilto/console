@@ -1,5 +1,5 @@
-import { ExtensionK8sGroupKindModel, ExtensionK8sModel } from '../api/common-types';
-import { Extension, CodeRef } from '../types';
+import type { ExtensionK8sGroupKindModel, ExtensionK8sModel } from '../api/common-types';
+import type { Extension, CodeRef } from '../types';
 
 type ResourcePageProperties = {
   /** The model for which this resource page links to. */

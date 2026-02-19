@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { usePVCActions } from '@console/app/src/actions/hooks/usePVCActions';
-import { Action } from '@console/dynamic-plugin-sdk';
-import { referenceFor, PersistentVolumeClaimKind } from '@console/internal/module/k8s';
+import type { Action } from '@console/dynamic-plugin-sdk';
+import type { PersistentVolumeClaimKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { FLAGS } from '@console/shared/src/constants/common';
 import { useFlag } from '@console/shared/src/hooks/flag';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';

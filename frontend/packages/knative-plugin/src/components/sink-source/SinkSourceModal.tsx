@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import * as _ from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';

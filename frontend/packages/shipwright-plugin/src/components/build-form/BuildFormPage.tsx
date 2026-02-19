@@ -5,7 +5,7 @@ import { StatusBox } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
 import { BuildModel } from '../../models';
-import { Build } from '../../types';
+import type { Build } from '../../types';
 import EditBuild from './EditBuild';
 
 const BuildFormPage: FC = () => {

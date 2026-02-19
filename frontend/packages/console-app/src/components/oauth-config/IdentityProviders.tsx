@@ -5,13 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useModal } from '@console/dynamic-plugin-sdk/src/app/modal-support/useModal';
 import { useK8sModel } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useK8sModel';
 import { getGroupVersionKindForResource } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-ref';
-import {
-  RemoveIdentityProviderModal,
-  RemoveIdentityProvider,
-} from '@console/internal/components/modals/remove-idp-modal';
+import type { RemoveIdentityProvider } from '@console/internal/components/modals/remove-idp-modal';
+import { RemoveIdentityProviderModal } from '@console/internal/components/modals/remove-idp-modal';
 import { Kebab } from '@console/internal/components/utils/kebab';
 import { EmptyBox } from '@console/internal/components/utils/status-box';
-import { IdentityProvider, OAuthKind } from '@console/internal/module/k8s';
+import type { IdentityProvider, OAuthKind } from '@console/internal/module/k8s';
 
 export const IdentityProviders: FC<IdentityProvidersProps> = ({ identityProviders, obj }) => {
   const { t } = useTranslation();

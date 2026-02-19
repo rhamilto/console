@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom-v5-compat';
-import { PackageManifestKind } from '../types';
+import type { PackageManifestKind } from '../types';
 
 /**
  * Returns the currently selected channel based on URL query parameters,

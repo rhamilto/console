@@ -3,9 +3,10 @@ import * as _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { HIDE_USER_WORKLOAD_NOTIFICATIONS_USER_SETTINGS_KEY } from '@console/app/src/consts';
 import { useNamespacedNotificationAlertsPoller } from '@console/app/src/hooks/useNamespacedNotificationAlertsPoller';
-import { LabelSelector, ObjectMetadata } from '@console/internal/module/k8s';
-import { NotificationAlerts } from '@console/internal/reducers/observe';
-import { RootState } from '@console/internal/redux';
+import type { ObjectMetadata } from '@console/internal/module/k8s';
+import { LabelSelector } from '@console/internal/module/k8s';
+import type { NotificationAlerts } from '@console/internal/reducers/observe';
+import type { RootState } from '@console/internal/redux';
 import { SYSTEM_ALERT_RULE_LABEL } from '../constants/monitoring';
 import { useUserSettings } from './useUserSettings';
 

@@ -1,24 +1,22 @@
 import { useMemo } from 'react';
 import i18next from 'i18next';
-import { Action } from '@console/dynamic-plugin-sdk';
+import type { Action } from '@console/dynamic-plugin-sdk';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
 import { HorizontalPodAutoscalerModel } from '@console/internal/models';
-import {
+import type {
   K8sResourceKind,
   K8sKind,
-  referenceForModel,
   K8sResourceCommon,
   HorizontalPodAutoscalerKind,
 } from '@console/internal/module/k8s';
-import {
-  ClusterServiceVersionModel,
-  ClusterServiceVersionKind,
-} from '@console/operator-lifecycle-manager';
+import { referenceForModel } from '@console/internal/module/k8s';
+import type { ClusterServiceVersionKind } from '@console/operator-lifecycle-manager';
+import { ClusterServiceVersionModel } from '@console/operator-lifecycle-manager';
 import deleteHPAModal from '@console/shared/src/components/hpa/DeleteHPAModal';
 import { isHelmResource } from '@console/shared/src/utils/helm-utils';
 import { doesHpaMatch } from '@console/shared/src/utils/hpa-utils';
 import { isOperatorBackedService } from '@console/shared/src/utils/operator-utils';
-import { ResourceActionFactory } from './types';
+import type { ResourceActionFactory } from './types';
 
 const hpaRoute = (
   { metadata: { name = '', namespace = '' } = {} }: K8sResourceCommon,

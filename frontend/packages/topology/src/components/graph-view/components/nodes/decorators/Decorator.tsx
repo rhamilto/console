@@ -1,4 +1,4 @@
-import { FC, ReactNode, Ref, MouseEvent as ReactMouseEvent } from 'react';
+import type { FC, ReactNode, Ref, MouseEvent as ReactMouseEvent } from 'react';
 import { Decorator as PfDecorator } from '@patternfly/react-topology';
 import { Link } from 'react-router-dom-v5-compat';
 

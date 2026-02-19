@@ -7,9 +7,9 @@ import { saveAs } from 'file-saver';
 import { useTranslation } from 'react-i18next';
 import { LoadingInline } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
-import { PodKind, WatchK8sResource } from '@console/internal/module/k8s';
+import type { PodKind, WatchK8sResource } from '@console/internal/module/k8s';
 import { useFullscreen } from '@console/shared/src/hooks/useFullscreen';
-import { TaskRunKind } from '../../types';
+import type { TaskRunKind } from '../../types';
 import { MultiStreamLogs } from './MultiStreamLogs';
 import { TektonTaskRunLog } from './TektonTaskRunLog';
 

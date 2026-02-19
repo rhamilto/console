@@ -9,7 +9,7 @@ import {
   ModalFooter,
 } from '@console/internal/components/factory/modal';
 import { ResourceLink, CopyToClipboard } from '@console/internal/components/utils';
-import { StepResource } from '../../types';
+import type { StepResource } from '../../types';
 import { referenceForStepResource } from '../index';
 
 const InstallPlanPreview: FC<InstallPlanPreviewModalProps> = ({ cancel, stepResource }) => {

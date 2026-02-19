@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { Formik, FormikHelpers } from 'formik';
+import type { FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { history, resourcePathFromModel } from '@console/internal/components/utils';
 import { k8sCreate, k8sUpdate } from '@console/internal/module/k8s';
@@ -12,8 +13,9 @@ import {
   convertBuildConfigToFormData,
   convertFormDataToBuildConfig,
 } from './form-utils';
-import { BuildConfigFormikValues } from './form-utils/types';
-import { BuildConfig, BuildConfigModel } from './types';
+import type { BuildConfigFormikValues } from './form-utils/types';
+import type { BuildConfig } from './types';
+import { BuildConfigModel } from './types';
 
 export interface EditBuildConfigProps {
   heading: string;

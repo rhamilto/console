@@ -5,15 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { history } from '@console/internal/components/utils';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
-  K8sResourceKind,
   modelFor,
   referenceFor,
   k8sCreate,
   getGroupVersionKind,
 } from '@console/internal/module/k8s';
 import { getActiveApplication } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { ALL_APPLICATIONS_KEY, usePerspectives } from '@console/shared';
 import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
@@ -33,12 +33,12 @@ import { craftResourceKey } from '../pub-sub/pub-sub-utils';
 import { EVENT_SOURCES_APP } from './const';
 import { eventSourceValidationSchema } from './eventSource-validation-utils';
 import EventSourceForm from './EventSourceForm';
-import {
+import type {
   EventSourceSyncFormData,
-  SinkType,
   KnEventCatalogMetaData,
   EventSourceFormData,
 } from './import-types';
+import { SinkType } from './import-types';
 import KnEventMetaDescription from './KnEventMetaDescription';
 
 interface EventSourceProps {

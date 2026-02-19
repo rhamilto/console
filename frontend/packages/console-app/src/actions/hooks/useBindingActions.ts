@@ -2,17 +2,14 @@ import { useCallback, useMemo } from 'react';
 import { ButtonVariant } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { Action, K8sVerb } from '@console/dynamic-plugin-sdk';
+import type { Action, K8sVerb } from '@console/dynamic-plugin-sdk';
 import { k8sPatchResource } from '@console/dynamic-plugin-sdk/src/utils/k8s';
 import { useDeepCompareMemoize } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useDeepCompareMemoize';
 import * as UIActions from '@console/internal/actions/ui';
 import { asAccessReview } from '@console/internal/components/utils/rbac';
 import { resourceObjPath } from '@console/internal/components/utils/resource-link';
-import {
-  RoleBindingKind,
-  ClusterRoleBindingKind,
-  referenceFor,
-} from '@console/internal/module/k8s';
+import type { RoleBindingKind, ClusterRoleBindingKind } from '@console/internal/module/k8s';
+import { referenceFor } from '@console/internal/module/k8s';
 import { useConsoleDispatch } from '@console/shared/src/hooks/useConsoleDispatch';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';
 import { useWarningModal } from '@console/shared/src/hooks/useWarningModal';

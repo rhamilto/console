@@ -11,8 +11,9 @@ import {
   ModalBody,
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
-import { k8sUpdate, referenceFor, K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
-import { RootState } from '@console/internal/redux';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sUpdate, referenceFor } from '@console/internal/module/k8s';
+import type { RootState } from '@console/internal/redux';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 
 export const ResourceRequirements: FC<ResourceRequirementsProps> = (props) => {

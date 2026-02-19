@@ -1,8 +1,10 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
-import TriggersSection, { TriggersSectionFormData } from '../TriggersSection';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
+import type { TriggersSectionFormData } from '../TriggersSection';
+import TriggersSection from '../TriggersSection';
 
 interface WrapperProps extends FormikConfig<TriggersSectionFormData> {
   children?: ReactNode;

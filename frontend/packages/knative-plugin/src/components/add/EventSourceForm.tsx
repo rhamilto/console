@@ -1,9 +1,9 @@
 import type { ReactNode, FC } from 'react';
 import { Alert, AlertActionCloseButton, Grid, GridItem } from '@patternfly/react-core';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
   FormFooter,
   SyncedEditorField,
@@ -18,7 +18,7 @@ import {
   sanitizeSourceToForm,
 } from '../../utils/create-eventsources-utils';
 import EventSourceSection from './event-sources/EventSourceSection';
-import { EventSourceSyncFormData } from './import-types';
+import type { EventSourceSyncFormData } from './import-types';
 
 interface OwnProps {
   namespace: string;

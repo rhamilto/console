@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { K8S_VERB_DELETE, K8S_VERB_UPDATE } from '@console/dynamic-plugin-sdk/src/api/constants';
-import { Action, useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
-import {
-  DeleteModalProps,
-  DeleteModalOverlay,
-} from '@console/internal/components/modals/delete-modal';
+import type { Action } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { DeleteModalProps } from '@console/internal/components/modals/delete-modal';
+import { DeleteModalOverlay } from '@console/internal/components/modals/delete-modal';
 import { asAccessReview } from '@console/internal/components/utils/rbac';
 import { referenceFor } from '@console/internal/module/k8s';
 import { useK8sModel } from '@console/shared/src/hooks/useK8sModel';

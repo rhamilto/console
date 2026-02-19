@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 import { useState, useEffect } from 'react';
 import { FormGroup, FormHelperText, HelperText, HelperTextItem } from '@patternfly/react-core';
-import { useFormikContext, FormikValues, useField } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext, useField } from 'formik';
 import { connect } from 'react-redux';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import { ErrorModal } from '@console/internal/components/modals/error-modal';
@@ -9,7 +10,7 @@ import { ValueFromPair } from '@console/internal/components/utils/value-from-pai
 import { SecretModel } from '@console/internal/models';
 import { k8sGet } from '@console/internal/module/k8s';
 import { getActiveNamespace } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { getFieldId, useFormikValidationFix } from '@console/shared';
 
 interface SecretKeySelectorProps {

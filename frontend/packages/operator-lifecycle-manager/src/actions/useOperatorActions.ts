@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { K8S_VERB_DELETE } from '@console/dynamic-plugin-sdk/src/api/constants';
-import { Action } from '@console/dynamic-plugin-sdk/src/extensions/actions';
+import type { Action } from '@console/dynamic-plugin-sdk/src/extensions/actions';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { k8sGet, k8sKill, k8sPatch } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-resource';
 import { DeleteModalOverlay } from '@console/internal/components/modals/delete-modal';

@@ -1,6 +1,6 @@
 import { ACM_PERSPECTIVE_ID } from '@console/app/src/consts';
-import { Perspective } from '../../extensions/perspectives';
-import { LoadedExtension } from '../../types';
+import type { Perspective } from '../../extensions/perspectives';
+import type { LoadedExtension } from '../../types';
 
 export const acmPerspectiveExtension: LoadedExtension<Perspective> = {
   type: 'console.perspective',

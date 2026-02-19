@@ -3,7 +3,7 @@ import { CatalogItemHeader } from '@patternfly/react-catalog-view-extension';
 import { Split, SplitItem, Divider, Stack, StackItem } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions';
 import { Modal } from '../../modal';
 import CatalogBadges from '../CatalogBadges';
 import { useCtaLink } from '../hooks/useCtaLink';

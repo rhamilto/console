@@ -1,10 +1,12 @@
 import type { ComponentType, FC } from 'react';
 import { useCallback } from 'react';
-import { DropdownItemProps, KeyTypes, MenuItem, Tooltip } from '@patternfly/react-core';
+import type { DropdownItemProps } from '@patternfly/react-core';
+import { KeyTypes, MenuItem, Tooltip } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
-import { Action, ImpersonateKind, impersonateStateToProps } from '@console/dynamic-plugin-sdk';
+import type { Action, ImpersonateKind } from '@console/dynamic-plugin-sdk';
+import { impersonateStateToProps } from '@console/dynamic-plugin-sdk';
 import { useAccessReview } from '@console/internal/components/utils/rbac';
 import { history } from '@console/internal/components/utils/router';
 

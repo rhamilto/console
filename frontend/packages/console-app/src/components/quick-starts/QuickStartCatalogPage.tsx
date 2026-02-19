@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import { useContext, useEffect } from 'react';
+import type { QuickStartContextValues } from '@patternfly/quickstarts';
 import {
   QuickStartCatalogPage as PfQuickStartCatalogPage,
   QuickStartContext,
-  QuickStartContextValues,
 } from '@patternfly/quickstarts';
 import { useTranslation } from 'react-i18next';
 import { getQueryArgument } from '@console/internal/components/utils/router';

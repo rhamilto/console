@@ -1,13 +1,13 @@
 import type { FC } from 'react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import { useTranslation } from 'react-i18next';
+import type { ModalComponentProps } from '@console/internal/components/factory/modal';
 import {
   ModalTitle,
   ModalBody,
   ModalSubmitFooter,
-  ModalComponentProps,
 } from '@console/internal/components/factory/modal';
-import { RevisionItems } from '../../utils/traffic-splitting-utils';
+import type { RevisionItems } from '../../utils/traffic-splitting-utils';
 import TrafficSplittingFields from './TrafficSplittingFields';
 
 interface TrafficSplittingModalProps {

@@ -1,10 +1,12 @@
 import type { FC } from 'react';
-import { Formik, FormikValues, FormikHelpers } from 'formik';
+import type { FormikValues, FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom-v5-compat';
 import { history, LoadingBox } from '@console/internal/components/utils';
 import { useK8sGet } from '@console/internal/components/utils/k8s-get-hook';
-import { K8sResourceKind, k8sCreate } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sCreate } from '@console/internal/module/k8s';
 import { getRandomChars } from '@console/shared/src/utils';
 import { safeJSToYAML } from '@console/shared/src/utils/yaml';
 import { EVENT_TYPE_NAME_PARAM, EVENT_TYPE_NAMESPACE_PARAM } from '../../../const';

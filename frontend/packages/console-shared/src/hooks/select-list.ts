@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { OnSelect } from '@patternfly/react-table';
-import { K8sResourceCommon } from '@console/internal/module/k8s';
+import type { OnSelect } from '@patternfly/react-table';
+import type { K8sResourceCommon } from '@console/internal/module/k8s';
 
 export const useSelectList = <R extends K8sResourceCommon>(
   data: R[],

@@ -1,21 +1,14 @@
 import type { FC } from 'react';
 import { memo, useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { DataList } from '@patternfly/react-core';
-import {
-  observer,
-  isGraph,
-  Node,
-  isNode,
-  Visualization,
-  GraphElement,
-  Model,
-} from '@patternfly/react-topology';
+import type { Node, GraphElement, Model } from '@patternfly/react-topology';
+import { observer, isGraph, isNode, Visualization } from '@patternfly/react-topology';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
-import { Alert } from '@console/dynamic-plugin-sdk';
+import type { Alert } from '@console/dynamic-plugin-sdk';
 import { alertingLoaded } from '@console/internal/actions/observe';
 import * as UIActions from '@console/internal/actions/ui';
-import { OverviewMetrics } from '@console/internal/components/overview/metricUtils';
+import type { OverviewMetrics } from '@console/internal/components/overview/metricUtils';
 import { useQueryParams } from '@console/shared';
 import { withFallback, ErrorBoundaryFallbackPage } from '@console/shared/src/components/error';
 import { TYPE_APPLICATION_GROUP } from '../../const';

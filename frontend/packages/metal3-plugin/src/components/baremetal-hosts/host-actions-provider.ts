@@ -2,13 +2,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommonActionCreator } from '@console/app/src/actions/hooks/types';
 import { useCommonActions } from '@console/app/src/actions/hooks/useCommonActions';
-import {
-  Action,
-  K8sKind,
-  Patch,
-  useK8sModel,
-  useOverlay,
-} from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { Action, K8sKind, Patch } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { useK8sModel, useOverlay } from '@console/dynamic-plugin-sdk/src/lib-core';
 import { DeleteModalOverlay } from '@console/internal/components/modals/delete-modal';
 import { asAccessReview } from '@console/internal/components/utils';
 import { MachineModel, MachineSetModel } from '@console/internal/models';
@@ -38,7 +33,7 @@ import {
   isHostScheduledForRestart,
 } from '../../selectors/baremetal-hosts';
 import { getMachineMachineSetOwner } from '../../selectors/machine';
-import { BareMetalHostKind } from '../../types/host';
+import type { BareMetalHostKind } from '../../types/host';
 import { usePowerOffHostModalLauncher } from '../modals/PowerOffHostModal';
 import { useRestartHostModalLauncher } from '../modals/RestartHostModal';
 import { useStartNodeMaintenanceModalLauncher } from '../modals/StartNodeMaintenanceModal';

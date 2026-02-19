@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import * as fuzzy from 'fuzzysearch';
 import { Trans, useTranslation } from 'react-i18next';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';
@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalSubmitFooter,
 } from '@console/internal/components/factory/modal';
-import { FirehoseResource } from '@console/internal/components/utils';
+import type { FirehoseResource } from '@console/internal/components/utils';
 import { ResourceDropdownField } from '@console/shared';
 import { craftResourceKey } from '../pub-sub/pub-sub-utils';
 

@@ -1,7 +1,7 @@
-import { SetFeatureFlag } from '@console/dynamic-plugin-sdk';
+import type { SetFeatureFlag } from '@console/dynamic-plugin-sdk';
+import type { Perspective } from '@console/shared/src/hooks/perspective-utils';
 import {
   hasReviewAccess,
-  Perspective,
   PerspectiveVisibilityState,
 } from '@console/shared/src/hooks/perspective-utils';
 import { FLAG_DEVELOPER_PERSPECTIVE } from '../../consts';

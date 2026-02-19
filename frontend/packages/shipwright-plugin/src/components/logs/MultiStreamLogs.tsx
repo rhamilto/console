@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { LoadingInline, LOG_SOURCE_WAITING } from '@console/internal/components/utils';
-import { ContainerStatus, PodKind, ContainerSpec } from '@console/internal/module/k8s';
+import type { ContainerStatus, PodKind, ContainerSpec } from '@console/internal/module/k8s';
 import { useScrollDirection, ScrollDirection } from '@console/shared';
 import Logs from './Logs';
 import { containerToLogSourceStatus, getRenderContainers } from './logs-utils';

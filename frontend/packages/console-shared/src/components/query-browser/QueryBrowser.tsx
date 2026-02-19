@@ -10,6 +10,7 @@ import {
   ChartStack,
   ChartVoronoiContainer,
 } from '@patternfly/react-charts/victory';
+import type { MenuToggleElement } from '@patternfly/react-core';
 import {
   Alert,
   Button,
@@ -21,7 +22,6 @@ import {
   EmptyStateBody,
   EmptyStateVariant,
   MenuToggle,
-  MenuToggleElement,
   InputGroup,
   TextInput,
   InputGroupItem,
@@ -32,15 +32,15 @@ import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { VictoryPortal } from 'victory-core';
-import {
+import type {
   FormatSeriesTitle,
-  PrometheusEndpoint,
   PrometheusLabels,
   PrometheusResponse,
   PrometheusResult,
   PrometheusValue,
   QueryBrowserProps,
 } from '@console/dynamic-plugin-sdk';
+import { PrometheusEndpoint } from '@console/dynamic-plugin-sdk';
 import {
   queryBrowserDeleteAllSeries,
   queryBrowserPatchQuery,
@@ -50,7 +50,7 @@ import { GraphEmpty } from '@console/internal/components/graphs/graph-empty';
 import { getPrometheusURL } from '@console/internal/components/graphs/helpers';
 import { formatNumber } from '@console/internal/components/monitoring/format';
 import { useBoolean } from '@console/internal/components/monitoring/hooks/useBoolean';
-import { PrometheusAPIError } from '@console/internal/components/monitoring/types';
+import type { PrometheusAPIError } from '@console/internal/components/monitoring/types';
 import {
   dateFormatterNoYear,
   dateTimeFormatterWithSeconds,
@@ -61,7 +61,7 @@ import { useRefWidth } from '@console/internal/components/utils/ref-width-hook';
 import { useSafeFetch } from '@console/internal/components/utils/safe-fetch-hook';
 import { LoadingInline } from '@console/internal/components/utils/status-box';
 import { humanizeNumberSI } from '@console/internal/components/utils/units';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import {
   formatPrometheusDuration,
   parsePrometheusDuration,

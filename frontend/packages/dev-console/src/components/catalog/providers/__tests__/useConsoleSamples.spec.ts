@@ -1,5 +1,5 @@
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src';
-import { ConsoleSample } from '../../../../types';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src';
+import type { ConsoleSample } from '../../../../types';
 import { normalizeConsoleSamples } from '../useConsoleSamples';
 import { gitImportSample, containerImportSample } from './useConsoleSamples.data';
 

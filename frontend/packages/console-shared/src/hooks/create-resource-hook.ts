@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { isCreateResource, CreateResource, GroupVersionKind } from '@console/dynamic-plugin-sdk';
-import { Extension, LoadedExtension } from '@console/dynamic-plugin-sdk/src/types';
+import type { CreateResource, GroupVersionKind } from '@console/dynamic-plugin-sdk';
+import { isCreateResource } from '@console/dynamic-plugin-sdk';
+import type { Extension, LoadedExtension } from '@console/dynamic-plugin-sdk/src/types';
 import { referenceForExtensionModel } from '@console/internal/module/k8s';
 import { useExtensions } from '@console/plugin-sdk/src/api/useExtensions';
 

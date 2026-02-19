@@ -3,35 +3,38 @@ import { useState, useMemo, memo, useEffect } from 'react';
 import { FormHelperText, FormSection, Icon, Tooltip } from '@patternfly/react-core';
 import { DualListSelector } from '@patternfly/react-core/deprecated';
 import * as fuzzy from 'fuzzysearch';
-import { Map as ImmutableMap, Set as ImmutableSet } from 'immutable';
+import type { Map as ImmutableMap } from 'immutable';
+import { Set as ImmutableSet } from 'immutable';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import {
+import type {
   DiscoveryResources,
   ExtensionK8sModel,
   K8sKind,
   K8sModel,
-  ResourceIcon,
 } from '@console/dynamic-plugin-sdk/src/lib-core';
+import { ResourceIcon } from '@console/dynamic-plugin-sdk/src/lib-core';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import {
-  K8sResourceKind,
   modelFor,
   referenceForGroupVersionKind,
   referenceForModel,
 } from '@console/internal/module/k8s';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { YellowExclamationTriangleIcon, useTelemetry } from '@console/shared';
+import type { SaveStatusProps } from '@console/shared/src/components/cluster-configuration';
 import {
   useDebounceCallback,
   useConsoleOperatorConfig,
   LoadError,
   SaveStatus,
-  SaveStatusProps,
   patchConsoleOperatorConfig,
 } from '@console/shared/src/components/cluster-configuration';
-import {
+import type {
   Perspective,
   PerspectivePinnedResource,
+} from '@console/shared/src/hooks/perspective-utils';
+import {
   PerspectiveVisibilityState,
   usePerspectives,
 } from '@console/shared/src/hooks/perspective-utils';

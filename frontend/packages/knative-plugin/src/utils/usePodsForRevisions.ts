@@ -2,14 +2,11 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import * as _ from 'lodash';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
 import { DeploymentModel } from '@console/internal/models';
-import {
-  apiVersionForModel,
-  K8sResourceCommon,
-  K8sResourceKind,
-} from '@console/internal/module/k8s';
+import type { K8sResourceCommon, K8sResourceKind } from '@console/internal/module/k8s';
+import { apiVersionForModel } from '@console/internal/module/k8s';
+import type { PodControllerOverviewItem } from '@console/shared';
 import {
   getReplicaSetsForResource,
-  PodControllerOverviewItem,
   useDeepCompareMemoize,
   useDebounceCallback,
 } from '@console/shared';

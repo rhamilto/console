@@ -6,17 +6,16 @@ import { sortable } from '@patternfly/react-table';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation } from 'react-router-dom-v5-compat';
-import { K8sResourceKind, PopoverStatus, StatusIconAndText } from '@console/dynamic-plugin-sdk';
+import type { K8sResourceKind } from '@console/dynamic-plugin-sdk';
+import { PopoverStatus, StatusIconAndText } from '@console/dynamic-plugin-sdk';
 import { CreateYAML } from '@console/internal/components/create-yaml';
-import {
-  DetailsPage,
-  Table,
-  TableData,
+import type {
   TableProps,
-  MultiListPage,
   MultiListPageProps,
   RowFunctionArgs,
 } from '@console/internal/components/factory';
+import { DetailsPage, Table, TableData, MultiListPage } from '@console/internal/components/factory';
+import type { FirehoseResult } from '@console/internal/components/utils';
 import {
   Firehose,
   LoadingBox,
@@ -27,11 +26,11 @@ import {
   asAccessReview,
   ResourceSummary,
   DetailsItem,
-  FirehoseResult,
 } from '@console/internal/components/utils';
 import i18n from '@console/internal/i18n';
 import { ConfigMapModel } from '@console/internal/models';
-import { referenceForModel, K8sKind, k8sPatch, K8sModel } from '@console/internal/module/k8s';
+import type { K8sKind, K8sModel } from '@console/internal/module/k8s';
+import { referenceForModel, k8sPatch } from '@console/internal/module/k8s';
 import LazyActionMenu, {
   KEBAB_COLUMN_CLASS,
 } from '@console/shared/src/components/actions/LazyActionMenu';
@@ -46,9 +45,9 @@ import {
   OperatorGroupModel,
   OperatorHubModel,
 } from '../models';
-import { CatalogSourceKind, PackageManifestKind, OperatorGroupKind } from '../types';
+import type { CatalogSourceKind, PackageManifestKind, OperatorGroupKind } from '../types';
 import { requireOperatorGroup } from './operator-group';
-import { OperatorHubKind } from './operator-hub';
+import type { OperatorHubKind } from './operator-hub';
 import { PackageManifestsPage } from './package-manifest';
 import { RegistryPollIntervalDetailItem } from './registry-poll-interval-details';
 

@@ -2,7 +2,7 @@ import type { ReactNode, FC } from 'react';
 import { Button, ButtonVariant, Content, Title } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions/catalog';
+import type { CatalogItem } from '@console/dynamic-plugin-sdk/src/extensions/catalog';
 import { useQueryParamsMutator } from '@console/internal/components/utils/router';
 import { useTelemetry } from '../../hooks/useTelemetry';
 import CatalogBadges from '../catalog/CatalogBadges';

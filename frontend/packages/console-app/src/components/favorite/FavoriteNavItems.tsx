@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { useUserSettingsCompatibility } from '@console/shared/src/hooks/useUserSettingsCompatibility';
 import { FAVORITES_CONFIG_MAP_KEY, FAVORITES_LOCAL_STORAGE_KEY } from '../../consts';
-import { FavoritesType } from '../../types';
+import type { FavoritesType } from '../../types';
 import { FavoriteNavItem } from './FavoriteNavItem';
 
 import './FavoriteNavItems.scss';

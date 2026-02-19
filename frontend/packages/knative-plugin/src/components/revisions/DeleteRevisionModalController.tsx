@@ -1,32 +1,29 @@
 import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import { ActionGroup, Button } from '@patternfly/react-core';
-import { Formik, FormikHelpers, FormikValues } from 'formik';
+import type { FormikHelpers, FormikValues } from 'formik';
+import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
+import type { ModalComponentProps } from '@console/internal/components/factory';
 import {
   ModalBody,
-  ModalComponentProps,
   ModalFooter,
   ModalTitle,
   ModalWrapper,
 } from '@console/internal/components/factory';
 import { history, resourceListPathFromModel } from '@console/internal/components/utils';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
-import {
-  k8sKill,
-  k8sPatch,
-  K8sResourceKind,
-  referenceForModel,
-} from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import { k8sKill, k8sPatch, referenceForModel } from '@console/internal/module/k8s';
 import { RedExclamationCircleIcon } from '@console/shared';
 import { KNATIVE_SERVING_LABEL } from '../../const';
 import { ConfigurationModel, RevisionModel, ServiceModel } from '../../models';
 import { getKnativeRevisionsData } from '../../topology/knative-topology-utils';
-import { Traffic } from '../../types';
+import type { Traffic } from '../../types';
 import { getRevisionItems, trafficDataForPatch } from '../../utils/traffic-splitting-utils';
-import { TrafficSplittingType } from '../traffic-splitting/TrafficSplitting';
+import type { TrafficSplittingType } from '../traffic-splitting/TrafficSplitting';
 import DeleteRevisionModal from './DeleteRevisionModal';
 
 type DeleteRevisionModalControllerProps = {

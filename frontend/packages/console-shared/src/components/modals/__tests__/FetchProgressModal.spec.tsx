@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { coFetch } from '@console/internal/co-fetch';
-import { FetchProgressModal, FetchProgressModalProps } from '../FetchProgressModal';
+import type { FetchProgressModalProps } from '../FetchProgressModal';
+import { FetchProgressModal } from '../FetchProgressModal';
 
 const addToastMock = jest.fn();
 

@@ -1,11 +1,13 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { TextInputTypes } from '@patternfly/react-core';
-import { useFormikContext, FormikValues, useField } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext, useField } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { ProjectModel } from '@console/internal/models';
-import { connectToFlags, WithFlagsProps } from '@console/internal/reducers/connectToFlags';
+import type { WithFlagsProps } from '@console/internal/reducers/connectToFlags';
+import { connectToFlags } from '@console/internal/reducers/connectToFlags';
 import { InputField, ResourceDropdownField, useFormikValidationFix, FLAGS } from '@console/shared';
 import { CREATE_NAMESPACE_KEY } from './cloud-shell-setup-utils';
 import './NamespaceSection.scss';

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { HorizontalPodAutoscalerModel } from '@console/internal/models';
-import { HorizontalPodAutoscalerKind } from '@console/internal/module/k8s';
+import type { HorizontalPodAutoscalerKind } from '@console/internal/module/k8s';
 import { doesHpaMatch } from '../utils/hpa-utils';
 
 export const useRelatedHPA = (

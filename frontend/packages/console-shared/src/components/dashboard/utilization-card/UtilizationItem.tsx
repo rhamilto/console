@@ -3,17 +3,18 @@ import { memo, useEffect } from 'react';
 import { Flex, FlexItem, Title } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { Humanize, TopConsumerPopoverProps, LIMIT_STATE } from '@console/dynamic-plugin-sdk';
-import { UtilizationItemProps } from '@console/dynamic-plugin-sdk/src/api/internal-types';
-import { ColoredIconProps } from '@console/dynamic-plugin-sdk/src/app/components/status/icons';
-import { DataPoint } from '@console/internal/components/graphs';
+import type { Humanize, TopConsumerPopoverProps } from '@console/dynamic-plugin-sdk';
+import { LIMIT_STATE } from '@console/dynamic-plugin-sdk';
+import type { UtilizationItemProps } from '@console/dynamic-plugin-sdk/src/api/internal-types';
+import type { ColoredIconProps } from '@console/dynamic-plugin-sdk/src/app/components/status/icons';
+import type { DataPoint } from '@console/internal/components/graphs';
 import {
   AreaChart,
   AreaChartStatus,
   chartStatusColors,
 } from '@console/internal/components/graphs/area';
 import { mapLimitsRequests } from '@console/internal/components/graphs/utils';
-import { ByteDataTypes } from '../../../graph-helper/data-utils';
+import type { ByteDataTypes } from '../../../graph-helper/data-utils';
 import { useUtilizationDuration } from '../../../hooks';
 import { YellowExclamationTriangleIcon, RedExclamationCircleIcon } from '../../status';
 

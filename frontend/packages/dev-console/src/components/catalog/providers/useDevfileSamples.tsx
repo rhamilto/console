@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-import { TFunction } from 'i18next';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { CatalogItem, ExtensionHook } from '@console/dynamic-plugin-sdk';
+import type { CatalogItem, ExtensionHook } from '@console/dynamic-plugin-sdk';
 import { coFetchJSON } from '@console/internal/co-fetch';
-import { APIError, useActiveNamespace } from '@console/shared';
-import { DevfileSample } from '../../import/devfile/devfile-types';
+import type { APIError } from '@console/shared';
+import { useActiveNamespace } from '@console/shared';
+import type { DevfileSample } from '../../import/devfile/devfile-types';
 
 const normalizeDevfileSamples = (
   devfileSamples: DevfileSample[],

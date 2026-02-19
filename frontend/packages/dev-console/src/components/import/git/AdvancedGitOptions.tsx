@@ -1,6 +1,7 @@
 import type { FC, SyntheticEvent } from 'react';
 import { TextInputTypes } from '@patternfly/react-core';
-import { useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { ExpandCollapse } from '@console/internal/components/utils';
 import { InputField, useDebounceCallback } from '@console/shared';

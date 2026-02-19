@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 import * as ts from 'typescript';
 import { parseJSONC } from '../src/utils/jsonc';
 import { resolvePath, relativePath } from './utils/path';
-import { ExtensionTypeInfo, getConsoleTypeResolver } from './utils/type-resolver';
+import type { ExtensionTypeInfo } from './utils/type-resolver';
+import { getConsoleTypeResolver } from './utils/type-resolver';
 import { getProgramFromFile, printJSDocComments } from './utils/typescript';
 
 const printComments = (docComments: string[] | string) =>

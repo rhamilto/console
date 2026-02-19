@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
-import { useFormikContext, FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
+import { useFormikContext } from 'formik';
 import { useDeepCompareMemoize } from './deep-compare-memoize';
 
 export const useFormikValidationFix = (value: any) => {

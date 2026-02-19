@@ -5,10 +5,8 @@ import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-ut
 import { testSubscription, testInstallPlan } from '../../../../mocks';
 import { SubscriptionModel, InstallPlanModel } from '../../../models';
 import { InstallPlanApproval } from '../../../types';
-import {
-  InstallPlanApprovalModal,
-  InstallPlanApprovalModalProps,
-} from '../installplan-approval-modal';
+import type { InstallPlanApprovalModalProps } from '../installplan-approval-modal';
+import { InstallPlanApprovalModal } from '../installplan-approval-modal';
 
 jest.mock('@console/internal/module/k8s', () => ({
   ...jest.requireActual('@console/internal/module/k8s'),

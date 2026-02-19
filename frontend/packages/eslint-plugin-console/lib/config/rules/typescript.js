@@ -156,6 +156,9 @@ module.exports = {
   // Disallow the use of parameter properties in class constructors
   '@typescript-eslint/no-require-imports': 'error',
 
+  // Force consistent usage of type imports
+  '@typescript-eslint/consistent-type-imports': 'error',
+
   // Disallow aliasing this
   '@typescript-eslint/no-this-alias': ['error', { allowDestructuring: true }],
 

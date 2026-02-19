@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import { Icon } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom-v5-compat';
-import {
+import type {
   InventoryItemTitleProps,
   InventoryItemBodyProps,
   InventoryItemStatusProps,

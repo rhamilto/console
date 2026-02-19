@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 import { screen, fireEvent } from '@testing-library/react';
-import { FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
 import { formikFormProps } from '@console/shared/src/test-utils/formik-props-utils';
 import { renderWithProviders } from '@console/shared/src/test-utils/unit-test-utils';
 import ResourceLimitsModal from '../ResourceLimitsModal';

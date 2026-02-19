@@ -1,10 +1,12 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
-import HooksSection, { HooksSectionFormData } from '../HooksSection';
+import type { HooksSectionFormData } from '../HooksSection';
+import HooksSection from '../HooksSection';
 
 jest.mock('../EditorField', () =>
   jest.requireActual('@console/shared/src/components/formik-fields/TextAreaField'),

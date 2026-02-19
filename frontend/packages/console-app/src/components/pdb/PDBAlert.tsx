@@ -7,7 +7,7 @@ import { useK8sWatchResource } from '@console/dynamic-plugin-sdk/src/api/core-ap
 import { resourcePathFromModel } from '@console/internal/components/utils/resource-link';
 import { useTelemetry } from '@console/shared/src/hooks/useTelemetry';
 import { PodDisruptionBudgetModel } from '../../models';
-import { PodDisruptionBudgetKind } from './types';
+import type { PodDisruptionBudgetKind } from './types';
 import { checkPodDisruptionBudgets } from './utils/get-pdb-resources';
 
 export interface PDBAlertProps {

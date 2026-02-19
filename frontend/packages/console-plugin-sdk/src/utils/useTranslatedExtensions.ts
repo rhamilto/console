@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Extension, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
+import type { Extension, LoadedExtension } from '@openshift/dynamic-plugin-sdk';
 import { translateExtension } from './extension-i18n';
 import useTranslationExt from './useTranslationExt';
 

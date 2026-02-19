@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 import { useMemo, useState, useEffect } from 'react';
-import { Formik, FormikHelpers } from 'formik';
+import type { FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import { WatchK8sResource } from '@console/dynamic-plugin-sdk';
+import type { WatchK8sResource } from '@console/dynamic-plugin-sdk';
 import {
   history,
   resourcePathFromModel,
@@ -13,7 +14,8 @@ import {
 } from '@console/internal/components/utils';
 import { useK8sWatchResource } from '@console/internal/components/utils/k8s-watch-hook';
 import { SecretModel } from '@console/internal/models';
-import { referenceForModel, SecretKind } from '@console/internal/module/k8s';
+import type { SecretKind } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { getName } from '@console/shared';
 import { usePrevious } from '@console/shared/src/hooks/previous';
 import { createBareMetalHost, updateBareMetalHost } from '../../../k8s/requests/bare-metal-host';
@@ -26,11 +28,11 @@ import {
   isHostOnline,
 } from '../../../selectors';
 import { getSecretPassword, getSecretUsername } from '../../../selectors/secret';
-import { BareMetalHostKind } from '../../../types';
+import type { BareMetalHostKind } from '../../../types';
 import { MAC_REGEX, BMC_ADDRESS_REGEX } from '../../../validations/regex';
 import { nameValidationSchema } from '../../../validations/validations';
 import AddBareMetalHostForm from './AddBareMetalHostForm';
-import { AddBareMetalHostFormValues } from './types';
+import type { AddBareMetalHostFormValues } from './types';
 
 const getInitialValues = (
   host: BareMetalHostKind,

@@ -1,8 +1,8 @@
 import type { ReactNode, FC } from 'react';
 import { useContext, useMemo } from 'react';
 import { TextInputTypes, Grid, GridItem, Button, Alert } from '@patternfly/react-core';
-import { FormikProps } from 'formik';
-import { JSONSchema7 } from 'json-schema';
+import type { FormikProps } from 'formik';
+import type { JSONSchema7 } from 'json-schema';
 import * as _ from 'lodash';
 import { Trans, useTranslation } from 'react-i18next';
 import FormSection from '@console/dev-console/src/components/import/section/FormSection';
@@ -18,8 +18,9 @@ import {
   FlexForm,
 } from '@console/shared';
 import { getJSONSchemaOrder, prune } from '@console/shared/src/components/dynamic-form/utils';
-import { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
-import { HelmActionType, HelmChart, HelmActionConfigType } from '../../../types/helm-types';
+import type { EditorType } from '@console/shared/src/components/synced-editor/editor-toggle';
+import type { HelmChart, HelmActionConfigType } from '../../../types/helm-types';
+import { HelmActionType } from '../../../types/helm-types';
 import { helmActionString } from '../../../utils/helm-utils';
 import HelmChartVersionDropdown from './HelmChartVersionDropdown';
 import { useHelmReadmeModalLauncher } from './HelmReadmeModal';

@@ -1,10 +1,7 @@
 import type { ReactElement } from 'react';
-import {
-  Modifiers,
+import type {
   Edge,
   GraphElement,
-  isEdge,
-  isNode,
   Node,
   Graph,
   DragSourceSpec,
@@ -12,17 +9,22 @@ import {
   DropTargetSpec,
   DropTargetMonitor,
   DragSpecOperationType,
+  DragEvent,
+  DragOperationWithType,
+} from '@patternfly/react-topology';
+import {
+  Modifiers,
+  isEdge,
+  isNode,
   CREATE_CONNECTOR_DROP_TYPE,
   CREATE_CONNECTOR_OPERATION,
   isGraph,
   withDndDrop,
-  DragEvent,
-  DragOperationWithType,
 } from '@patternfly/react-topology';
 import i18next from 'i18next';
 import { action } from 'mobx';
-import { K8sResourceKind } from '@console/internal/module/k8s';
-import { ActionContext } from '@console/shared';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
+import type { ActionContext } from '@console/shared';
 import { launchErrorModal } from '@console/shared/src/utils/error-modal-handler';
 import { createConnection, moveNodeToGroup } from '../../../utils';
 import { isWorkloadRegroupable, graphContextMenu, groupContextMenu } from './nodeContextMenu';

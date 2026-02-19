@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { createPath, Location } from 'react-router-dom-v5-compat';
+import type { Location } from 'react-router-dom-v5-compat';
+import { createPath } from 'react-router-dom-v5-compat';
 import { getBreadcrumbPath } from '@console/internal/components/utils/breadcrumbs';
-import { K8sKind } from '@console/internal/module/k8s';
+import type { K8sKind } from '@console/internal/module/k8s';
 import { getActiveNamespace } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { ALL_NAMESPACES_KEY } from '../constants/common';
 
 export const useTabbedTableBreadcrumbsFor = (

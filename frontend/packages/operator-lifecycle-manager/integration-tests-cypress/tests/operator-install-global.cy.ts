@@ -1,5 +1,6 @@
 import { checkErrors } from '../../../integration-tests-cypress/support';
-import { operator, GlobalInstalledNamespace, TestOperandProps } from '../views/operator.view';
+import type { TestOperandProps } from '../views/operator.view';
+import { operator, GlobalInstalledNamespace } from '../views/operator.view';
 
 const testOperator = {
   name: 'Data Grid',

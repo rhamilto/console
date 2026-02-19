@@ -1,12 +1,12 @@
 import type { FC, ReactNode } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Formik, FormikConfig } from 'formik';
+import type { FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import { Provider } from 'react-redux';
 import store from '@console/internal/redux';
-import EnvironmentVariablesSection, {
-  EnvironmentVariablesSectionFormData,
-} from '../EnvironmentVariablesSection';
+import type { EnvironmentVariablesSectionFormData } from '../EnvironmentVariablesSection';
+import EnvironmentVariablesSection from '../EnvironmentVariablesSection';
 
 interface WrapperProps extends FormikConfig<EnvironmentVariablesSectionFormData> {
   children?: ReactNode;

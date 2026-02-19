@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Action } from '@console/dynamic-plugin-sdk';
+import type { Action } from '@console/dynamic-plugin-sdk';
 import { useDeepCompareMemoize } from '@console/dynamic-plugin-sdk/src/utils/k8s/hooks/useDeepCompareMemoize';
 import { rollbackModal } from '@console/internal/components/modals';
 import { DeploymentModel } from '@console/internal/models';
-import { ReplicaSetKind, K8sModel } from '@console/internal/module/k8s';
+import type { ReplicaSetKind, K8sModel } from '@console/internal/module/k8s';
 import { getOwnerNameByKind } from '@console/shared/src';
 import { ReplicaSetActionCreator } from './types';
 

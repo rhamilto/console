@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
 import { Title } from '@patternfly/react-core';
-import { Formik, FormikProps, FormikValues } from 'formik';
+import type { FormikProps, FormikValues } from 'formik';
+import { Formik } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
-import { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
+import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal-support/OverlayProvider';
 import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import {
   ModalTitle,
@@ -11,7 +12,7 @@ import {
   ModalSubmitFooter,
   ModalWrapper,
 } from '@console/internal/components/factory/modal';
-import { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sKind, K8sResourceKind } from '@console/internal/module/k8s';
 import { usePromiseHandler } from '@console/shared/src/hooks/promise-handler';
 import { UNASSIGNED_KEY } from '../../const';
 import { updateResourceApplication } from '../../utils/application-utils';

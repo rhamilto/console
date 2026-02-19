@@ -2,15 +2,14 @@ import i18next from 'i18next';
 import { resourceObjPath } from '@console/internal/components/utils/resource-link';
 import { history } from '@console/internal/components/utils/router';
 import { JobModel } from '@console/internal/models';
-import {
+import type {
   K8sKind,
-  k8sCreate,
   CronJobKind,
   JobKind,
-  referenceFor,
   K8sResourceCommon,
 } from '@console/internal/module/k8s';
-import { ResourceActionFactory } from './types';
+import { k8sCreate, referenceFor } from '@console/internal/module/k8s';
+import type { ResourceActionFactory } from './types';
 
 const startJob = (obj: CronJobKind): Promise<JobKind> => {
   const reqPayload = {

@@ -5,12 +5,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom-v5-compat';
 import { OPERATOR_BACKED_SERVICE_CATALOG_TYPE_ID } from '@console/dev-console/src/const';
 import { Firehose, skeletonCatalog, StatusBox } from '@console/internal/components/utils';
-import {
-  referenceForModel,
+import type {
   CloudCredentialKind,
   InfrastructureKind,
   AuthenticationKind,
 } from '@console/internal/module/k8s';
+import { referenceForModel } from '@console/internal/module/k8s';
 import { fromRequirements } from '@console/internal/module/k8s/selector';
 import { isCatalogTypeEnabled, useIsSoftwareCatalogEnabled } from '@console/shared';
 import { DocumentTitle } from '@console/shared/src/components/document-title/DocumentTitle';
@@ -32,7 +32,7 @@ import {
   OperatorGroupModel,
   SubscriptionModel,
 } from '../../models';
-import {
+import type {
   ClusterServiceVersionKind,
   PackageManifestKind,
   OperatorGroupKind,
@@ -48,7 +48,8 @@ import {
   isAzureWIFCluster,
   isGCPWIFCluster,
 } from './operator-hub-utils';
-import { OperatorHubItem, InstalledState, OLMAnnotation, CSVAnnotations } from './index';
+import type { OperatorHubItem, CSVAnnotations } from './index';
+import { InstalledState, OLMAnnotation } from './index';
 
 const clusterServiceVersionFor = (
   clusterServiceVersions: ClusterServiceVersionKind[],

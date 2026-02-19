@@ -2,13 +2,13 @@ import { createContext, useState, useMemo, useCallback, useEffect } from 'react'
 import { AlertVariant } from '@patternfly/react-core';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { WatchK8sResource } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
+import type { WatchK8sResource } from '@console/dynamic-plugin-sdk/src/extensions/console-types';
 import { getGroupVersionKindForModel } from '@console/dynamic-plugin-sdk/src/utils/k8s/k8s-ref';
 import { useK8sWatchResources } from '@console/internal/components/utils/k8s-watch-hook';
-import { K8sResourceKind } from '@console/internal/module/k8s';
+import type { K8sResourceKind } from '@console/internal/module/k8s';
 import { USERSETTINGS_PREFIX, useToast, useUserSettings } from '@console/shared/src';
 import { ExportModel } from '../../models';
-import { ExportAppUserSettings } from './types';
+import type { ExportAppUserSettings } from './types';
 
 export const ExportAppContext = createContext({});
 

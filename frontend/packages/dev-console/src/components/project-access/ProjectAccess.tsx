@@ -23,8 +23,10 @@ import {
   getRolesWithMultipleSubjects,
   getRolesToUpdate,
 } from './project-access-form-submit-utils';
-import { getUserRoleBindings, Roles } from './project-access-form-utils';
-import { Verb, UserRoleBinding, RoleBinding } from './project-access-form-utils-types';
+import type { Roles } from './project-access-form-utils';
+import { getUserRoleBindings } from './project-access-form-utils';
+import { Verb } from './project-access-form-utils-types';
+import type { UserRoleBinding, RoleBinding } from './project-access-form-utils-types';
 import { validationSchema } from './project-access-form-validation-utils';
 import ProjectAccessForm from './ProjectAccessForm';
 

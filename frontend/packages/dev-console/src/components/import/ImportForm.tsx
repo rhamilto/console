@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { ValidatedOptions, AlertVariant } from '@patternfly/react-core';
-import { Formik, FormikProps } from 'formik';
+import type { FormikProps } from 'formik';
+import { Formik } from 'formik';
 import * as _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -8,21 +9,20 @@ import { useActivePerspective } from '@console/dynamic-plugin-sdk';
 import { GitProvider, ImportStrategy } from '@console/git-service/src';
 import { history, AsyncComponent, StatusBox } from '@console/internal/components/utils';
 import { RouteModel } from '@console/internal/models';
-import { RouteKind, K8sResourceKind } from '@console/internal/module/k8s';
+import type { RouteKind, K8sResourceKind } from '@console/internal/module/k8s';
 import { getActiveApplication } from '@console/internal/reducers/ui';
-import { RootState } from '@console/internal/redux';
+import type { RootState } from '@console/internal/redux';
 import { ALL_APPLICATIONS_KEY, usePerspectives, useTelemetry } from '@console/shared';
 import { useToast } from '@console/shared/src/components/toast';
 import { useResourceConnectionHandler } from '@console/shared/src/hooks/useResourceConnectionHandler';
 import { startBuild as startShipwrightBuild } from '@console/shipwright-plugin/src/api';
 import { BuildModel as ShipwrightBuildModel } from '@console/shipwright-plugin/src/models';
-import {
-  Build as ShipwrightBuildKind,
-  ClusterBuildStrategy as ShipwrightClusterBuildStrategy,
-} from '@console/shipwright-plugin/src/types';
+import type { Build as ShipwrightBuildKind } from '@console/shipwright-plugin/src/types';
+import { ClusterBuildStrategy as ShipwrightClusterBuildStrategy } from '@console/shipwright-plugin/src/types';
 import { UNASSIGNED_KEY } from '@console/topology/src/const';
 import { sanitizeApplicationValue } from '@console/topology/src/utils/application-utils';
-import { NormalizedBuilderImages, normalizeBuilderImages } from '../../utils/imagestream-utils';
+import type { NormalizedBuilderImages } from '../../utils/imagestream-utils';
+import { normalizeBuilderImages } from '../../utils/imagestream-utils';
 import { PipelineType } from '../pipeline-section/import-types';
 import { usePacInfo } from '../pipeline-section/pipeline/pac-hook';
 import {
@@ -36,14 +36,8 @@ import {
   getTelemetryImport,
   handleRedirect,
 } from './import-submit-utils';
-import {
-  GitImportFormData,
-  ImportData,
-  Resources,
-  BaseFormData,
-  ImportTypes,
-  BuildOptions,
-} from './import-types';
+import type { GitImportFormData, ImportData, BaseFormData } from './import-types';
+import { Resources, ImportTypes, BuildOptions } from './import-types';
 import { validationSchema } from './import-validation-utils';
 import { useDefaultBuildOption } from './section/useDefaultBuildOption';
 import { useUpdateKnScalingDefaultValues } from './serverless/useUpdateKnScalingDefaultValues';
