@@ -402,3 +402,64 @@ func TestInstallChartAsync(t *testing.T) {
 		})
 	}
 }
+
+func TestInstallChartFromURL(t *testing.T) {
+	tests := []struct {
+		releaseName   string
+		chartPath     string
+		chartName     string
+		chartVersion  string
+		plainHTTP     bool
+		skipTLSVerify bool
+	}{
+		{
+			releaseName:   "valid-chart-path",
+			chartPath:     "http://localhost:9181/charts/influxdb-3.0.2.tgz",
+			chartName:     "influxdb",
+			chartVersion:  "3.0.2",
+			plainHTTP:     true,
+			skipTLSVerify: true,
+		},
+		{
+			releaseName:   "valid-chart-path",
+			chartPath:     "oci://localhost:5000/helm-charts/mychart:0.1.0",
+			chartName:     "mychart",
+			chartVersion:  "0.1.0",
+			plainHTTP:     true,
+			skipTLSVerify: true,
+		},
+		{
+			releaseName:   "invalid-chart-path",
+			chartPath:     "http://localhost:9181/charts/influxdb/filename",
+			chartName:     "influxdb",
+			chartVersion:  "3.0.1",
+			plainHTTP:     true,
+			skipTLSVerify: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.releaseName, func(t *testing.T) {
+			store := storage.Init(driver.NewMemory())
+			actionConfig := &action.Configuration{
+				RESTClientGetter: FakeConfig{},
+				Releases:         store,
+				KubeClient:       &kubefake.PrintingKubeClient{Out: ioutil.Discard},
+				Capabilities:     chartutil.DefaultCapabilities,
+				Log:              func(format string, v ...interface{}) {},
+			}
+			err := GetOCIRegistry(actionConfig, tt.skipTLSVerify, tt.plainHTTP)
+			require.NoError(t, err)
+
+			rel, err := InstallChartFromURL("test-namespace", tt.releaseName, tt.chartPath, nil, actionConfig, tt.chartVersion)
+			if tt.releaseName == "valid-chart-path" {
+				require.NoError(t, err)
+				require.Equal(t, tt.releaseName, rel.Name)
+				require.Equal(t, tt.chartVersion, rel.Chart.Metadata.Version)
+				require.Equal(t, tt.chartPath, rel.Chart.Metadata.Annotations["chart_url"])
+
+			} else if tt.releaseName == "invalid-chart-path" {
+				require.Error(t, err)
+			}
+		})
+	}
+}
