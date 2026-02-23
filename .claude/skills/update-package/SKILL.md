@@ -92,7 +92,7 @@ Update the specified package to its reasonably latest stable version or to the v
 
 ## Example: Interactive Flow
 ```text
-User: /console-assist update @patternfly/react-core
+User: /update-package @patternfly/react-core
 Assistant: Current version: 6.2.2, Latest: 6.3.0
 
 Before I proceed, do you have:
