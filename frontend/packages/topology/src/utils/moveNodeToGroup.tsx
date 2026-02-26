@@ -48,28 +48,34 @@ export const moveNodeToGroup = (
       document.activeElement.blur();
     }
 
-    return launchWarningModal({
-      title: i18next.t(titleKey),
-      children: message,
-      confirmButtonLabel: i18next.t(btnTextKey),
-      titleIconVariant: null,
-    })
-      .then(() =>
-        updateTopologyResourceApplication(node, targetGroup ? targetGroup.getLabel() : null),
-      )
-      .catch((err) => {
-        // Only show error modal if it's not a user cancellation
-        if (err.message && err.message !== 'User cancelled') {
-          const error = err.message;
-          if (onError) {
-            onError(error);
-          } else {
-            launchErrorModal({ error });
-          }
-        }
-        // Always re-throw to signal the operation failed (whether cancelled or errored)
-        throw err;
-      });
+    return new Promise<void>((resolve, reject) => {
+      launchWarningModal(
+        {
+          title: i18next.t(titleKey),
+          children: message,
+          confirmButtonLabel: i18next.t(btnTextKey),
+          titleIconVariant: null,
+        },
+        () => {
+          // User confirmed - proceed with move/remove
+          updateTopologyResourceApplication(node, targetGroup ? targetGroup.getLabel() : null)
+            .then(() => resolve())
+            .catch((err) => {
+              const error = err.message;
+              if (onError) {
+                onError(error);
+              } else {
+                launchErrorModal({ error });
+              }
+              reject(err);
+            });
+        },
+        () => {
+          // User cancelled - reject to signal operation was cancelled
+          reject(new Error('User cancelled'));
+        },
+      );
+    });
   }
 
   return updateTopologyResourceApplication(node, targetGroup.getLabel()).catch((err) => {

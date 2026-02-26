@@ -66,49 +66,54 @@ export const useWarningModalLauncher = (): ((props: ControlledWarningModalProps)
 
 /**
  * Launch a warning modal from non-React contexts (callbacks, promises, utilities).
- * The SyncWarningModalLauncher component must be mounted in the app root.
+ * The SyncModalLaunchers component must be mounted in the app root.
  *
  * @deprecated Use React component modals within component code instead.
  * For new code, write modals directly within React components using useWarningModal.
  * This function should only be used for legacy non-React contexts like promise callbacks.
  *
  * @param props - Warning modal properties (title, children, confirmButtonLabel, etc.)
- * @returns Promise that resolves (undefined) when confirmed, rejects with Error('User cancelled') when canceled/closed
+ * @param onConfirm - Optional callback invoked when user confirms the action
+ * @param onCancel - Optional callback invoked when user cancels or closes the modal
  *
  * @example
  * ```tsx
- * // In a promise callback or utility function
- * launchWarningModal({
- *   title: 'Delete Resource',
- *   children: 'Are you sure you want to delete this resource?',
- *   confirmButtonLabel: 'Delete',
- * }).then(() => {
- *   // User confirmed - proceed with action
- *   deleteResource();
- * }).catch((error) => {
- *   // User canceled - error.message === 'User cancelled'
- *   console.log('Action cancelled by user');
- * });
+ * // In a utility function or non-React context
+ * launchWarningModal(
+ *   {
+ *     title: 'Delete Resource',
+ *     children: 'Are you sure you want to delete this resource?',
+ *     confirmButtonLabel: 'Delete',
+ *   },
+ *   () => {
+ *     // User confirmed - proceed with action
+ *     deleteResource();
+ *   },
+ *   () => {
+ *     // User canceled
+ *     console.log('Action cancelled by user');
+ *   }
+ * );
  * ```
  */
 export const launchWarningModal = (
   props: Omit<ControlledWarningModalProps, 'onConfirm' | 'onClose'>,
-): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (moduleWarningModalLauncher) {
-      moduleWarningModalLauncher({
-        ...props,
-        onConfirm: () => {
-          resolve();
-        },
-        onClose: () => {
-          reject(new Error('User cancelled'));
-        },
-      });
-    } else {
-      throw new Error(
-        'Warning modal launcher not initialized. Ensure SyncWarningModalLauncher is mounted after OverlayProvider.',
-      );
-    }
-  });
+  onConfirm?: () => void,
+  onCancel?: () => void,
+): void => {
+  if (moduleWarningModalLauncher) {
+    moduleWarningModalLauncher({
+      ...props,
+      onConfirm: () => {
+        onConfirm?.();
+      },
+      onClose: () => {
+        onCancel?.();
+      },
+    });
+  } else {
+    throw new Error(
+      'Warning modal launcher not initialized. Ensure SyncModalLaunchers is mounted after OverlayProvider.',
+    );
+  }
 };

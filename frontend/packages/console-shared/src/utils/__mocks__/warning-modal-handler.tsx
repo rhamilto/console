@@ -3,7 +3,10 @@
  * Used in Jest tests to avoid rendering actual modals
  */
 
-export const mockLaunchWarningModal = jest.fn(() => Promise.resolve());
+export const mockLaunchWarningModal = jest.fn((props, onConfirm) => {
+  // Immediately call onConfirm by default to simulate user confirming
+  onConfirm?.();
+});
 
 export const useSyncWarningModalLauncher = jest.fn();
 
