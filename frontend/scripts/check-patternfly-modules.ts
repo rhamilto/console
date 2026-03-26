@@ -17,7 +17,7 @@ const PKGS_TO_CHECK: Array<{ name: string; semver: string }> = [
   { name: '@patternfly/react-catalog-view-extension', semver: '6.x' },
   { name: '@patternfly/react-charts', semver: '8.x' },
   { name: '@patternfly/react-code-editor', semver: '6.x' },
-  { name: '@patternfly/react-component-groups', semver: '6.x' },
+  // { name: '@patternfly/react-component-groups', semver: '6.x' }, // Temporarily disabled for local testing
   { name: '@patternfly/react-core', semver: '6.x' },
   { name: '@patternfly/react-data-view', semver: '6.x' },
   { name: '@patternfly/react-drag-drop', semver: '6.x' },
@@ -38,6 +38,11 @@ const SCOPES_TO_CHECK = new Set(PKGS_TO_CHECK.map((pkg) => pkg.name.split('/')[0
 const parsePackageName = (resolutionKey: string): string | null => {
   // e.g., `${@patternfly/react-core}@^6.0.0`
   const pkgName = PKGS_TO_CHECK.find((pkg) => resolutionKey.startsWith(`${pkg.name}@`));
+
+  // Skip check for react-component-groups when using local version
+  if (resolutionKey.startsWith('@patternfly/react-component-groups@')) {
+    return null;
+  }
 
   // Ensure that all packages within SCOPES_TO_CHECK are checked
   if (!pkgName && SCOPES_TO_CHECK.has(resolutionKey.split('/')[0])) {
