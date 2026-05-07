@@ -37,6 +37,7 @@ export const useConsoleDataViewData = <
   columnManagementID,
   customRowData,
   isResizable = true,
+  selection,
 }: {
   columns: TableColumn<TData>[];
   filteredData: TData[];
@@ -46,6 +47,11 @@ export const useConsoleDataViewData = <
   columnManagementID?: string;
   customRowData?: TCustomRowData;
   isResizable?: boolean;
+  selection?: {
+    selectedItems: Set<string>;
+    onSelectAll?: (isSelecting: boolean, filteredItems: TData[]) => void;
+    getItemId: (item: TData) => string;
+  };
 }) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -87,43 +93,68 @@ export const useConsoleDataViewData = <
     columnManagementID,
   });
 
-  const dataViewColumns = useMemo<ConsoleDataViewColumn<TData>[]>(
-    () =>
-      activeColumns.map(({ id, title, sort, props, resizableProps }, index) => {
-        // Filter out custom Console props that aren't valid PatternFly ThProps
-        const { isActionCell, ...validThProps } = props || {};
+  const dataViewColumns = useMemo<ConsoleDataViewColumn<TData>[]>(() => {
+    // Calculate selection state across all filtered items (for indeterminate state)
+    const selectedCount = selection
+      ? filteredData.filter((item) => selection.selectedItems.has(selection.getItemId(item))).length
+      : 0;
+    const totalCount = filteredData.length;
+    const someSelected = selectedCount > 0 && selectedCount < totalCount;
 
-        const headerProps: ThProps = {
-          ...validThProps,
-          dataLabel: title,
+    return activeColumns.map(({ id, title, sort, props, resizableProps }, index) => {
+      // Filter out custom Console props that aren't valid PatternFly ThProps
+      const { isActionCell, ...validThProps } = props || {};
+
+      const headerProps: ThProps = {
+        ...validThProps,
+        dataLabel: title,
+      };
+
+      if (sort) {
+        headerProps.sort = {
+          columnIndex: index,
+          sortBy: {
+            index: 0,
+            direction: SortByDirection.asc,
+            defaultDirection: SortByDirection.asc,
+          },
         };
+      }
 
-        if (sort) {
-          headerProps.sort = {
-            columnIndex: index,
-            sortBy: {
-              index: 0,
-              direction: SortByDirection.asc,
-              defaultDirection: SortByDirection.asc,
-            },
-          };
-        }
-
-        return {
-          id,
-          title,
-          sortFunction: sort,
-          props: headerProps,
-          resizableProps: isResizable ? resizableProps : undefined,
-          cell: title ? (
-            <span>{title}</span>
-          ) : (
-            <span className="pf-v6-u-screen-reader">{t('public~Actions')}</span>
-          ),
+      // Add select-all checkbox to selection column header
+      // Note: onSelect handler is updated later with visibleItems via dataViewColumnsWithSortApplied
+      // The checkbox state is determined by visible items only, not all items
+      if (id === 'select' && selection?.onSelectAll) {
+        // Initial state - will be updated with actual visible items state in dataViewColumnsWithSortApplied
+        headerProps.select = {
+          onSelect: (_event: any, isSelecting: boolean) => {
+            // This will be replaced with the actual handler in dataViewColumnsWithSortApplied
+            selection.onSelectAll(isSelecting, filteredData);
+          },
+          isSelected: false, // Will be updated based on visible items
+          isDisabled: totalCount === 0,
+          // Pass indeterminate state through props (custom extension until PF supports it)
+          // See: https://github.com/patternfly/patternfly-react/issues/12404
+          props: {
+            isIndeterminate: someSelected,
+          },
         };
-      }),
-    [activeColumns, t, isResizable],
-  );
+      }
+
+      return {
+        id,
+        title,
+        sortFunction: sort,
+        props: headerProps,
+        resizableProps: isResizable ? resizableProps : undefined,
+        cell: title ? (
+          <span>{title}</span>
+        ) : (
+          <span className="pf-v6-u-screen-reader">{t('public~Actions')}</span>
+        ),
+      };
+    });
+  }, [activeColumns, t, isResizable, selection, filteredData]);
 
   const { sortBy, onSort } = useConsoleDataViewSort<TData>({
     columns: dataViewColumns,
@@ -162,37 +193,108 @@ export const useConsoleDataViewData = <
       (pagination.page - 1) * pagination.perPage + pagination.perPage,
     );
 
+  const visibleItems = transformedData.map((item) => item.obj);
   const dataViewRows = getDataViewRows(transformedData, dataViewColumns);
 
-  // This code fixes a sorting issue but should be revisited to add more clarity
+  // This code fixes a sorting issue and updates select-all to use visible items
   const dataViewColumnsWithSortApplied = useMemo(
     () =>
       dataViewColumns.map((column) => {
-        const shouldApplySort =
-          isDataViewConfigurableColumn(column) &&
-          column.sortFunction !== undefined &&
-          column.props.sort;
+        if (!isDataViewConfigurableColumn(column)) {
+          return column;
+        }
 
-        return shouldApplySort
-          ? {
-              ...column,
-              props: {
-                ...column.props,
-                sort: {
-                  ...column.props.sort,
-                  sortBy: {
-                    ...column.props.sort.sortBy,
-                    index: sortBy.index,
-                    direction: sortBy.direction,
-                  },
-                  onSort,
+        const shouldApplySort = column.sortFunction !== undefined && column.props.sort;
+        const shouldUpdateSelect =
+          column.id === 'select' && column.props.select && selection?.onSelectAll;
+
+        if (shouldApplySort && shouldUpdateSelect) {
+          // Calculate if all visible items are selected
+          const allVisibleSelected =
+            visibleItems.length > 0 &&
+            visibleItems.every((item) => selection.selectedItems.has(selection.getItemId(item)));
+
+          // Both sort and select need updating
+          return {
+            ...column,
+            props: {
+              ...column.props,
+              sort: {
+                ...column.props.sort,
+                sortBy: {
+                  ...column.props.sort.sortBy,
+                  index: sortBy.index,
+                  direction: sortBy.direction,
+                },
+                onSort,
+              },
+              select: {
+                ...column.props.select,
+                // Checkbox is checked only when ALL visible items are selected
+                // Indeterminate state is handled via DOM manipulation in ConsoleDataView
+                isSelected: allVisibleSelected,
+                onSelect: (_event: any, isSelecting: boolean) => {
+                  // When unchecked or indeterminate, clicking selects all visible items
+                  // When checked, clicking deselects all visible items
+                  selection.onSelectAll(isSelecting, visibleItems);
                 },
               },
-            }
-          : column;
+            },
+          };
+        }
+
+        if (shouldApplySort) {
+          return {
+            ...column,
+            props: {
+              ...column.props,
+              sort: {
+                ...column.props.sort,
+                sortBy: {
+                  ...column.props.sort.sortBy,
+                  index: sortBy.index,
+                  direction: sortBy.direction,
+                },
+                onSort,
+              },
+            },
+          };
+        }
+
+        if (shouldUpdateSelect) {
+          // Calculate if all visible items are selected
+          const allVisibleSelected =
+            visibleItems.length > 0 &&
+            visibleItems.every((item) => selection.selectedItems.has(selection.getItemId(item)));
+
+          return {
+            ...column,
+            props: {
+              ...column.props,
+              select: {
+                ...column.props.select,
+                // Checkbox is checked only when ALL visible items are selected
+                // Indeterminate state is handled via DOM manipulation in ConsoleDataView
+                isSelected: allVisibleSelected,
+                onSelect: (_event: any, isSelecting: boolean) => {
+                  // When unchecked or indeterminate, clicking selects all visible items
+                  // When checked, clicking deselects all visible items
+                  selection.onSelectAll(isSelecting, visibleItems);
+                },
+              },
+            },
+          };
+        }
+
+        return column;
       }),
-    [dataViewColumns, sortBy.index, sortBy.direction, onSort],
+    [dataViewColumns, sortBy.index, sortBy.direction, onSort, selection, visibleItems],
   );
 
-  return { dataViewRows, dataViewColumns: dataViewColumnsWithSortApplied, pagination };
+  return {
+    dataViewRows,
+    dataViewColumns: dataViewColumnsWithSortApplied,
+    pagination,
+    visibleItems,
+  };
 };
