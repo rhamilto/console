@@ -621,9 +621,9 @@ The `useDataViewSelection` hook automatically removes selections for items that 
 
 ## Related Documentation
 
-- [INDETERMINATE_CHECKBOX.md](./INDETERMINATE_CHECKBOX.md) - Details on the indeterminate checkbox pattern
 - [ConsoleDataView](./ConsoleDataView.tsx) - Main data view component
 - [dataViewSelectionHelpers.ts](./dataViewSelectionHelpers.ts) - Selection helper functions
+- [useDataViewSelection.ts](./useDataViewSelection.ts) - Selection state management hook
 
 ## Real-World Examples
 

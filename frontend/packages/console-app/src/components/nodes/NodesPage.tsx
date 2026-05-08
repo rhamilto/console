@@ -665,9 +665,7 @@ const NodeList: FC<NodeListProps> = ({
 }) => {
   const { t } = useTranslation();
   const { columns, resetAllColumnWidths } = useNodesColumns(vmsEnabled, nodeMgmtV1Enabled);
-  const nodeMetrics = useConsoleSelector<NodeMetrics>(({ UI }) => {
-    return UI.getIn(['metrics', 'node']);
-  });
+  const nodeMetrics = useConsoleSelector<NodeMetrics>(({ UI }) => UI.getIn(['metrics', 'node']));
   const columnManagementID = referenceForModel(NodeModel);
   const statusExtensions = useNodeStatusExtensions();
 
@@ -691,6 +689,21 @@ const NodeList: FC<NodeListProps> = ({
     selectedNodes: filteredSelectedNodes,
     onComplete: clearSelection,
   });
+
+  const getDataViewRows = useCallback(
+    (rowData: any, tableColumns: any) =>
+      getNodeDataViewRows(
+        (rowData as unknown) as RowProps<NodeRowItem, GetNodeStatusExtensions>[],
+        tableColumns,
+        nodeMetrics,
+        statusExtensions,
+        {
+          selectedItems: selectedIds,
+          onSelect: onSelectItem,
+        },
+      ),
+    [nodeMetrics, statusExtensions, selectedIds, onSelectItem],
+  );
 
   const columnLayout = useMemo(
     () => ({
@@ -904,18 +917,7 @@ const NodeList: FC<NodeListProps> = ({
         initialFilters={initialFilters}
         additionalFilterNodes={additionalFilterNodes}
         matchesAdditionalFilters={matchesAdditionalFilters}
-        getDataViewRows={(rowData, tableColumns) =>
-          getNodeDataViewRows(
-            (rowData as unknown) as RowProps<NodeRowItem, GetNodeStatusExtensions>[],
-            tableColumns,
-            nodeMetrics,
-            statusExtensions,
-            {
-              selectedItems: selectedIds,
-              onSelect: onSelectItem,
-            },
-          )
-        }
+        getDataViewRows={getDataViewRows}
         hideNameLabelFilters={hideNameLabelFilters}
         hideLabelFilter={hideLabelFilter}
         hideColumnManagement={hideColumnManagement}
@@ -1035,7 +1037,7 @@ export const NodesPage: FC<NodesPageProps> = ({ selector }) => {
         filterVirtualMachineInstancesByNode(vmis, node.metadata.name),
       ]),
     );
-  }, [isKubevirtPluginActive, nodes, nodesLoadError, nodesLoaded, vmis, vmisLoadError, vmisLoaded]);
+  }, [isKubevirtPluginActive, nodes, nodesLoaded, nodesLoadError, vmis, vmisLoaded, vmisLoadError]);
 
   useEffect(() => {
     const updateMetrics = async () => {

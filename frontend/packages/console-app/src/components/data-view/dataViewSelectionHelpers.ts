@@ -73,7 +73,8 @@ export const createSelectionCell = ({
       onSelect: (_event: any, isSelecting: boolean) => {
         onSelect(itemId, isSelecting);
       },
-      isSelected,
+      // Ensure isSelected is always a boolean to prevent controlled/uncontrolled warnings
+      isSelected: Boolean(isSelected),
       isDisabled: disabled,
     },
   },

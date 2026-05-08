@@ -94,12 +94,8 @@ export const useConsoleDataViewData = <
   });
 
   const dataViewColumns = useMemo<ConsoleDataViewColumn<TData>[]>(() => {
-    // Calculate selection state across all filtered items (for indeterminate state)
-    const selectedCount = selection
-      ? filteredData.filter((item) => selection.selectedItems.has(selection.getItemId(item))).length
-      : 0;
+    // Calculate selection state across all filtered items
     const totalCount = filteredData.length;
-    const someSelected = selectedCount > 0 && selectedCount < totalCount;
 
     return activeColumns.map(({ id, title, sort, props, resizableProps }, index) => {
       // Filter out custom Console props that aren't valid PatternFly ThProps
@@ -133,11 +129,8 @@ export const useConsoleDataViewData = <
           },
           isSelected: false, // Will be updated based on visible items
           isDisabled: totalCount === 0,
-          // Pass indeterminate state through props (custom extension until PF supports it)
-          // See: https://github.com/patternfly/patternfly-react/issues/12404
-          props: {
-            isIndeterminate: someSelected,
-          },
+          // NOTE: isIndeterminate is set via DOM manipulation in ConsoleDataView to avoid
+          // React controlled/uncontrolled warnings when the prop value changes
         };
       }
 
@@ -230,14 +223,11 @@ export const useConsoleDataViewData = <
               },
               select: {
                 ...column.props.select,
-                // Checkbox is checked only when ALL visible items are selected
-                // Indeterminate state is handled via DOM manipulation in ConsoleDataView
-                isSelected: allVisibleSelected,
                 onSelect: (_event: any, isSelecting: boolean) => {
-                  // When unchecked or indeterminate, clicking selects all visible items
-                  // When checked, clicking deselects all visible items
                   selection.onSelectAll(isSelecting, visibleItems);
                 },
+                isSelected: Boolean(allVisibleSelected),
+                // NOTE: isIndeterminate is set via DOM manipulation in ConsoleDataView
               },
             },
           };
@@ -273,14 +263,11 @@ export const useConsoleDataViewData = <
               ...column.props,
               select: {
                 ...column.props.select,
-                // Checkbox is checked only when ALL visible items are selected
-                // Indeterminate state is handled via DOM manipulation in ConsoleDataView
-                isSelected: allVisibleSelected,
                 onSelect: (_event: any, isSelecting: boolean) => {
-                  // When unchecked or indeterminate, clicking selects all visible items
-                  // When checked, clicking deselects all visible items
                   selection.onSelectAll(isSelecting, visibleItems);
                 },
+                isSelected: Boolean(allVisibleSelected),
+                // NOTE: isIndeterminate is set via DOM manipulation in ConsoleDataView
               },
             },
           };

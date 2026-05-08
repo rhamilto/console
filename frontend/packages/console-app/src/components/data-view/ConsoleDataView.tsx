@@ -37,7 +37,6 @@ import { DataViewLabelFilter } from './DataViewLabelFilter';
 import { DataViewTextFilter } from './DataViewTextFilter';
 import { useConsoleDataViewData } from './useConsoleDataViewData';
 import { useConsoleDataViewFilters } from './useConsoleDataViewFilters';
-import { useIndeterminateCheckbox } from './useIndeterminateCheckbox';
 
 export const initialFiltersDefault: ResourceFilters = { name: '', label: '' };
 
@@ -208,11 +207,6 @@ export const ConsoleDataView = <
     return { show: shouldShow, allSelected, isIndeterminate };
   }, [selection, loaded, filteredData, visibleItems]);
 
-  // Set indeterminate state on the select-all checkbox via DOM manipulation
-  // This is a workaround until PatternFly adds native support for isSelected: null
-  // See: https://github.com/patternfly/patternfly-react/issues/12404
-  useIndeterminateCheckbox(bannerState.isIndeterminate);
-
   const handleSelectAllMatching = useCallback(() => {
     if (selection?.onSelectAll) {
       selection.onSelectAll(true, filteredData);
@@ -224,6 +218,19 @@ export const ConsoleDataView = <
       selection.onSelectAll(false, filteredData);
     }
   }, [selection, filteredData]);
+
+  // Set indeterminate state via DOM manipulation since PatternFly's controlled prop
+  // causes React controlled/uncontrolled warnings when toggling
+  useEffect(() => {
+    if (selection && loaded && filteredData.length > 0) {
+      const checkbox = document.querySelector(
+        '[data-label=""] input[type="checkbox"]',
+      ) as HTMLInputElement;
+      if (checkbox) {
+        checkbox.indeterminate = bannerState.isIndeterminate;
+      }
+    }
+  }, [selection, loaded, filteredData.length, bannerState.isIndeterminate]);
 
   const dataViewFilterNodes = useMemo<React.ReactNode[]>(() => {
     const basicFilters: ReactNode[] = [];
