@@ -1,11 +1,12 @@
 import { useMemo, useCallback } from 'react';
 import { DropdownItem } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
+import { useOverlay } from '@console/dynamic-plugin-sdk/src/app/modal-support/useOverlay';
 import type { NodeKind } from '@console/internal/module/k8s';
 import { ResponsiveActionDropdown } from '@console/shared/src/components/dropdown/ResponsiveActionDropdown';
 import { usePromiseHandler } from '@console/shared/src/hooks/usePromiseHandler';
-import { isNodeUnschedulable } from '@console/shared/src/selectors/node';
-import { makeNodeSchedulable, makeNodeUnschedulable } from '../../k8s/requests/nodes';
+import { LazyConfigureUnschedulableModalOverlay } from './modals';
+import { markNodesSchedulable, getSchedulingCounts } from './nodeSchedulingActions';
 
 type UseCustomNodeActionsOptions = {
   selectedNodes: NodeKind[];
@@ -23,71 +24,29 @@ export const useCustomNodeActions = ({
 }: UseCustomNodeActionsOptions) => {
   const { t } = useTranslation();
   const [handlePromise, inProgress] = usePromiseHandler();
+  const launchModal = useOverlay();
 
-  const { schedulableCount, unschedulableCount } = useMemo(() => {
-    let schedulable = 0;
-    let unschedulable = 0;
-    selectedNodes.forEach((node) => {
-      if (isNodeUnschedulable(node)) {
-        unschedulable++;
-      } else {
-        schedulable++;
-      }
-    });
-    return { schedulableCount: schedulable, unschedulableCount: unschedulable };
-  }, [selectedNodes]);
+  const { schedulableCount, unschedulableCount } = useMemo(
+    () => getSchedulingCounts(selectedNodes),
+    [selectedNodes],
+  );
 
   const handleMarkSchedulable = useCallback(() => {
-    const promises = selectedNodes
-      .filter((node) => isNodeUnschedulable(node))
-      .map((node) => makeNodeSchedulable(node));
-
-    handlePromise(
-      Promise.allSettled(promises).then((results) => {
-        const failures = results.filter((r) => r.status === 'rejected');
-        if (failures.length > 0) {
-          throw new Error(
-            t(
-              'console-app~Failed to mark {{failureCount}} of {{totalCount}} nodes as schedulable',
-              { failureCount: failures.length, totalCount: results.length },
-            ),
-          );
-        }
-      }),
-    )
+    handlePromise(markNodesSchedulable(selectedNodes))
       .then(() => {
         onComplete();
       })
       .catch(() => {
         // Errors are handled by usePromiseHandler
       });
-  }, [selectedNodes, handlePromise, t, onComplete]);
+  }, [selectedNodes, handlePromise, onComplete]);
 
   const handleMarkUnschedulable = useCallback(() => {
-    const promises = selectedNodes
-      .filter((node) => !isNodeUnschedulable(node))
-      .map((node) => makeNodeUnschedulable(node));
-
-    handlePromise(
-      Promise.allSettled(promises).then((results) => {
-        const failures = results.filter((r) => r.status === 'rejected');
-        if (failures.length > 0) {
-          throw new Error(
-            t(
-              'console-app~Failed to mark {{failureCount}} of {{totalCount}} nodes as unschedulable',
-              { failureCount: failures.length, totalCount: results.length },
-            ),
-          );
-        }
-      }),
-    )
-      .then(() => {
-        onComplete();
-      })
-      .catch(() => {
-        // Errors are handled by usePromiseHandler
-      });
-  }, [selectedNodes, handlePromise, t, onComplete]);
+    launchModal(LazyConfigureUnschedulableModalOverlay, {
+      nodes: selectedNodes,
+      onComplete,
+    });
+  }, [selectedNodes, launchModal, onComplete]);
 
   return useMemo(() => {
     const dropdownItems: JSX.Element[] = [];
