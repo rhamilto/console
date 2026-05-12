@@ -14,6 +14,7 @@ import type { OverlayComponent } from '@console/dynamic-plugin-sdk/src/app/modal
 import type { NodeKind } from '@console/internal/module/k8s';
 import { ModalFooterWithAlerts } from '@console/shared/src/components/modals/ModalFooterWithAlerts';
 import { usePromiseHandler } from '@console/shared/src/hooks/usePromiseHandler';
+import { isNodeUnschedulable } from '@console/shared/src/selectors/node';
 import type { ModalComponentProps } from '@console/shared/src/types/modal';
 import { markNodesUnschedulable } from '../nodeSchedulingActions';
 
@@ -47,6 +48,11 @@ const ConfigureUnschedulableModal: FC<ConfigureUnschedulableModalProps> = ({
     return [];
   }, [resource, nodes]);
 
+  // Filter nodes that will actually be affected (not already unschedulable)
+  const nodesToMark = useMemo(() => targetNodes.filter((node) => !isNodeUnschedulable(node)), [
+    targetNodes,
+  ]);
+
   const isBulk = targetNodes.length > 1;
 
   const handleSubmit = (): void => {
@@ -68,11 +74,8 @@ const ConfigureUnschedulableModal: FC<ConfigureUnschedulableModalProps> = ({
       <ModalBody>
         {isBulk && (
           <Content component={ContentVariants.p}>
-            <Trans
-              ns="console-app"
-              i18nKey="Mark <1>{{count}}</1> selected nodes as unschedulable?"
-            >
-              Mark <strong>{{ count: targetNodes.length }}</strong> selected nodes as unschedulable?
+            <Trans ns="console-app" i18nKey="Mark <1>{{count}}</1> nodes as unschedulable?">
+              Mark <strong>{{ count: nodesToMark.length }}</strong> nodes as unschedulable?
             </Trans>
           </Content>
         )}
