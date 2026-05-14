@@ -136,6 +136,8 @@ module.exports = {
       rules: {
         'no-console': 'off',
         'no-empty-pattern': 'off',
+        // Disable React Testing Library rules for Playwright tests
+        'testing-library/prefer-screen-queries': 'off',
       },
     },
   ],
