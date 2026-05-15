@@ -19,6 +19,7 @@ export const TextFilter: FC<TextFilterProps> = (props) => {
       <TextInput
         {...otherInputProps}
         className="co-text-filter__text-input"
+        data-test="item-filter"
         data-test-id="item-filter"
         aria-label={placeholderText}
         placeholder={placeholderText}

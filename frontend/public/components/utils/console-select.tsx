@@ -83,7 +83,7 @@ const ConsoleSelectItem: FC<{
 }> = ({ itemKey, content, selected, isBookmarked }) => (
   <SelectOption
     data-test-dropdown-menu={itemKey}
-    data-test="console-select-item"
+    data-test={`console-select-item-${itemKey}`}
     id={`${itemKey}-link`}
     isFavorited={isBookmarked}
     isSelected={selected}
